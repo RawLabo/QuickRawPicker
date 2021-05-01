@@ -1,0 +1,3 @@
+[submodule "Library/LibRaw"]
+	path = Library/LibRaw
+	url = https://github.com/qdwang/LibRaw.git
