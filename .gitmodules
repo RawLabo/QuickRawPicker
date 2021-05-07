@@ -1,6 +1,3 @@
-[submodule "Library/LibRaw"]
-	path = Library/LibRaw
-	url = https://github.com/qdwang/LibRaw.git
 [submodule "Library\\QRPBridge\\godot-headers"]
 	path = Library\\QRPBridge\\godot-headers
 	url = https://github.com/godotengine/godot-headers.git
