@@ -1,7 +1,7 @@
 #include <gdnative_api_struct.gen.h>
 #include <string.h>
 #include <stdio.h>
-#include "../LibRaw/libraw/libraw.h"
+#include <libraw/libraw.h>
 #include <exiv2/exiv2.hpp>
 
 const godot_gdnative_core_api_struct* api = NULL;
