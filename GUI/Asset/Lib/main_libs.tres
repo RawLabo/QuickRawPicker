@@ -2,6 +2,4 @@
 
 [resource]
 entry/Windows.64 = "res://Asset/Lib/Bin/QRPBridge.dll"
-entry/X11.64 = "res://Asset/Lib/Bin/QRPBridge.so"
 dependency/Windows.64 = [  ]
-dependency/X11.64 = [  ]

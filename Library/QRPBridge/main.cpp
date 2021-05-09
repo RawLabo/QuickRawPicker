@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <libraw/libraw.h>
-#include <exiv2/exiv2.hpp>
 
 const godot_gdnative_core_api_struct* api = NULL;
 const godot_gdnative_ext_nativescript_api_struct* nativescript_api = NULL;
@@ -21,7 +20,7 @@ inline void string2var(const char* data, godot_variant* var) {
 	api->godot_string_new(&tmp);
 	api->godot_string_parse_utf8(&tmp, data);
 	api->godot_variant_new_string(var, &tmp);
-	
+
 	api->godot_string_destroy(&tmp);
 }
 
@@ -36,29 +35,7 @@ inline const char* var2char_ptr(godot_variant* var) {
 	return ret;
 }
 
-void get_exif(const char* path, godot_array* ret) {
-	Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
-	image->readMetadata();
-
-	Exiv2::ExifData& exif_data = image->exifData();
-
-	Exiv2::ExifData::const_iterator tags[] = { 
-		Exiv2::fNumber(exif_data),
-		Exiv2::isoSpeed(exif_data),
-		Exiv2::exposureTime(exif_data)
-	};
-
-	for (auto& item : tags) {
-		godot_variant box;
-		string2var(item->value().toString().c_str(), &box);
-		api->godot_array_append(ret, &box);
-
-		// clean up
-		api->godot_variant_destroy(&box);
-	}
-}
-
-void get_image(const char* path, godot_variant* width, godot_variant* height, godot_variant* data) {
+void get_image(const char* path, godot_variant* info, godot_variant* data) {
 	LibRaw *lr_ptr = new LibRaw();
 
 	lr_ptr->imgdata.params.fbdd_noiserd = 0;
@@ -71,6 +48,7 @@ void get_image(const char* path, godot_variant* width, godot_variant* height, go
 
 	libraw_processed_image_t* image = lr_ptr->dcraw_make_mem_image();
 
+	// img data fetch
 	godot_pool_byte_array tmp;
 	api->godot_pool_byte_array_new(&tmp);
 	api->godot_pool_byte_array_resize(&tmp, image->data_size);
@@ -79,13 +57,39 @@ void get_image(const char* path, godot_variant* width, godot_variant* height, go
 
 	memcpy(tmp_ptr, &image->data, image->data_size);
 
-	api->godot_variant_new_int(width, image->width);
-	api->godot_variant_new_int(height, image->height);
+	// info fetch
+	godot_array info_arr;
+	api->godot_array_new(&info_arr);
+
+	godot_variant width, height, aperture, shutter_speed, iso_speed, focal_len;
+	api->godot_variant_new_int(&width, image->width);
+	api->godot_variant_new_int(&height, image->height);
+	api->godot_variant_new_real(&aperture, lr_ptr->imgdata.other.aperture);
+	api->godot_variant_new_real(&shutter_speed, lr_ptr->imgdata.other.shutter);
+	api->godot_variant_new_real(&iso_speed, lr_ptr->imgdata.other.iso_speed);
+	api->godot_variant_new_real(&focal_len, lr_ptr->imgdata.other.focal_len);
+
+	api->godot_array_append(&info_arr, &width);
+	api->godot_array_append(&info_arr, &height);
+	api->godot_array_append(&info_arr, &aperture);
+	api->godot_array_append(&info_arr, &shutter_speed);
+	api->godot_array_append(&info_arr, &iso_speed);
+	api->godot_array_append(&info_arr, &focal_len);
+
+	// output 
+	api->godot_variant_new_array(info, &info_arr);
 	api->godot_variant_new_pool_byte_array(data, &tmp);
 	
 	// clean up
 	api->godot_pool_byte_array_write_access_destroy(ptr_access);
 	api->godot_pool_byte_array_destroy(&tmp);
+	api->godot_variant_destroy(&width);
+	api->godot_variant_destroy(&height);
+	api->godot_variant_destroy(&aperture);
+	api->godot_variant_destroy(&shutter_speed);
+	api->godot_variant_destroy(&iso_speed);
+	api->godot_variant_destroy(&focal_len);
+	api->godot_array_destroy(&info_arr);
 
 	LibRaw::dcraw_clear_mem(image);
 	lr_ptr->recycle();
@@ -113,45 +117,25 @@ extern "C" {
 
 	GDCALLINGCONV void* default_ctor(godot_object* p_instance, void* p_method_data) { return NULL; }
 	GDCALLINGCONV void default_dector(godot_object* p_instance, void* p_method_data, void* p_user_data) {}
-	
-	godot_variant get_exif_info(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args) {
-		const char* path = var2char_ptr(*p_args);
-
-		godot_array ret;
-		api->godot_array_new(&ret);
-
-		get_exif(path, &ret);
-
-		godot_variant result;
-		api->godot_variant_new_array(&result, &ret);
-
-		// clean up
-		api->godot_array_destroy(&ret);
-
-		return result;
-	}
 
 	godot_variant get_image_data(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args) {
 		const char* path = var2char_ptr(*p_args);
 
-		godot_variant width;
-		godot_variant height;
+		godot_variant info;
 		godot_variant data;
-		get_image(path, &width, &height, &data);
+		get_image(path, &info, &data);
 
 		godot_array ret;
 		api->godot_array_new(&ret);
 
-		api->godot_array_push_back(&ret, &width);
-		api->godot_array_push_back(&ret, &height);
+		api->godot_array_push_back(&ret, &info);
 		api->godot_array_push_back(&ret, &data);
 
 		godot_variant result;
 		api->godot_variant_new_array(&result, &ret);
 
 		// clean up
-		api->godot_variant_destroy(&width);
-		api->godot_variant_destroy(&height);
+		api->godot_variant_destroy(&info);
 		api->godot_variant_destroy(&data);
 		api->godot_array_destroy(&ret);
 
@@ -170,10 +154,6 @@ extern "C" {
 		godot_instance_method get_data = { NULL, NULL, NULL };
 		get_data.method = &get_image_data;
 		nativescript_api->godot_nativescript_register_method(p_handle, "QRPBridge", "get_image_data", attributes, get_data);
-
-		godot_instance_method get_exif = { NULL, NULL, NULL };
-		get_exif.method = &get_exif_info;
-		nativescript_api->godot_nativescript_register_method(p_handle, "QRPBridge", "get_exif_info", attributes, get_exif);
 	}
 
 }

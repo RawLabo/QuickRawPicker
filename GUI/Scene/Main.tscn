@@ -12,18 +12,14 @@ __meta__ = {
 position = Vector2( 495, 280 )
 
 [node name="Button" type="Button" parent="."]
-margin_left = 893.75
-margin_top = 555.0
-margin_right = 1009.75
-margin_bottom = 592.0
-text = "load exif"
-
-[node name="Button2" type="Button" parent="."]
-margin_left = 730.0
-margin_top = 555.0
-margin_right = 874.0
-margin_bottom = 592.0
+margin_left = 872.5
+margin_top = 553.75
+margin_right = 1016.5
+margin_bottom = 590.75
 text = "load image"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Label" type="Label" parent="."]
 margin_right = 40.0
@@ -32,5 +28,4 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
-[connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="Button" to="." method="_on_Button2_pressed"]
