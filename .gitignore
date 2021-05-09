@@ -2,3 +2,4 @@
 Build/
 .vs/
 *.RW2
+.DS_Store
