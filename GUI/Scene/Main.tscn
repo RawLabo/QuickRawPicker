@@ -8,9 +8,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 495, 280 )
-
 [node name="Button" type="Button" parent="."]
 margin_left = 872.5
 margin_top = 553.75
@@ -27,5 +24,42 @@ margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Control" type="Control" parent="."]
+margin_right = 203.0
+margin_bottom = 181.0
+rect_clip_content = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="Control"]
+position = Vector2( 113.75, 23.75 )
+
+[node name="Control2" type="Control" parent="."]
+margin_left = 503.0
+margin_top = 191.0
+margin_right = 689.0
+margin_bottom = 389.0
+rect_clip_content = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="Control2"]
+position = Vector2( 29.9999, 41.25 )
+
+[node name="Control3" type="Control" parent="."]
+margin_left = 132.5
+margin_top = 312.5
+margin_right = 373.5
+margin_bottom = 551.5
+rect_clip_content = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="Control3"]
+position = Vector2( 138.75, 151.25 )
 
 [connection signal="pressed" from="Button" to="." method="_on_Button2_pressed"]
