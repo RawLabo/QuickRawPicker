@@ -8,11 +8,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Control" type="Control" parent="."]
+margin_left = 2.30481
+margin_top = 3.21942
+margin_right = 1013.3
+margin_bottom = 539.219
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="Control"]
+position = Vector2( 727.391, 430.584 )
+scale = Vector2( 0.5, 0.5 )
+
 [node name="Button" type="Button" parent="."]
-margin_left = 872.5
-margin_top = 553.75
-margin_right = 1016.5
-margin_bottom = 590.75
+margin_left = 30.0149
+margin_top = 36.7319
+margin_right = 174.015
+margin_bottom = 73.7319
 text = "load image"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -25,22 +38,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Control" type="Control" parent="."]
-margin_right = 203.0
-margin_bottom = 181.0
-rect_clip_content = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Sprite" type="Sprite" parent="Control"]
-position = Vector2( 113.75, 23.75 )
-
 [node name="Control2" type="Control" parent="."]
-margin_left = 503.0
-margin_top = 191.0
-margin_right = 689.0
-margin_bottom = 389.0
+margin_left = 911.75
+margin_top = 19.75
+margin_right = 1097.75
+margin_bottom = 217.75
 rect_clip_content = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -50,10 +52,10 @@ __meta__ = {
 position = Vector2( 29.9999, 41.25 )
 
 [node name="Control3" type="Control" parent="."]
-margin_left = 132.5
-margin_top = 312.5
-margin_right = 373.5
-margin_bottom = 551.5
+margin_left = 320.0
+margin_top = 512.5
+margin_right = 561.0
+margin_bottom = 751.5
 rect_clip_content = true
 __meta__ = {
 "_edit_use_anchors_": false

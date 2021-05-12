@@ -25,6 +25,8 @@ func _physics_process(_delta):
       if len(item) == 1:
         item.push_back(jobs.pop_front())
         item[0].post()
+        
+        printt("A", item)
         break
         
   elif callback_fn[0] and jobs_remain == 0:
@@ -36,28 +38,49 @@ func thread_handler(thread):
     threads[thread][0].wait()
     
     var job = threads[thread][1]
-    printt("working", thread.get_id(), job)
+    
+    printt("B", thread.get_id(), threads[thread])
+    
     call(job[0], job[1])
     threads[thread].pop_back()
     jobs_remain -= 1
     
-func get_raw_image(args):
+func get_raw_thumb(args):
   var path = args[0]
   var sprite = args[1]
   
-  var data_arr = bridge.get_image_data(path)
-
-  var info = data_arr[0]
+  var info = []
+  var data_arr = []
+  
+  bridge.get_info_with_thumb(path, info, data_arr)
+  
   var width = info[0]
   var height = info[1]
   var aperture = info[2]
   var shutter_speed = info[3]
   var iso_speed = info[4]
   var focal_len = info[5]
-
-  var data = data_arr[1]
   
   var image = Image.new()
-  image.create_from_data(width, height, false, Image.FORMAT_RGBH, data)
+  image.load_jpg_from_buffer(data_arr)  
+  sprite.texture = ImageTexture.new()
+  sprite.texture.call_deferred("create_from_image", image)
+  
+  
+func get_raw_image(args):
+  var path = args[0]
+  var sprite = args[1]
+  var bps = args[2]
+  var set_half = args[3]
+  var auto_bright = args[4]
+  
+  var data = []
+  
+  bridge.get_image_data(path, data, bps, set_half, auto_bright)
+  var width = 8191 if not set_half else 8191 / 2
+  var height = 5463 if not set_half else 5463 / 2
+  
+  var image = Image.new()
+  image.create_from_data(width, height, false, Image.FORMAT_RGBH if bps == 16 else Image.FORMAT_RGB8, data)
   sprite.texture = ImageTexture.new()
   sprite.texture.call_deferred("create_from_image", image, 1)

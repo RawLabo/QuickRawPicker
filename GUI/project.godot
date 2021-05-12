@@ -17,15 +17,24 @@ run/low_processor_mode=true
 [autoload]
 
 ThreadPool="*res://Script/thread_pool.gd"
+Util="*res://Script/util.gd"
 
 [display]
 
 window/dpi/allow_hidpi=true
 window/vsync/vsync_via_compositor=true
 
+[gdnative]
+
+singletons=[  ]
+
 [gui]
 
 theme/use_hidpi=true
+
+[logging]
+
+file_logging/enable_file_logging=true
 
 [physics]
 

@@ -1,5 +1,9 @@
 .import/
 Build/
 .vs/
-*.RW2
 .DS_Store
+
+
+
+*.RW2
+*.CR3

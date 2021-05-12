@@ -27,43 +27,38 @@ inline void string2var(const char* data, godot_variant* var) {
 inline const char* var2char_ptr(godot_variant* var) {
 	godot_string gd_str = api->godot_variant_as_string(var);
 	godot_char_string gd_c_str = api->godot_string_utf8(&gd_str);
+
 	const char* ret = api->godot_char_string_get_data(&gd_c_str);
 	
+	// clean up
 	api->godot_char_string_destroy(&gd_c_str);
-	api->godot_string_destroy(&gd_str);
 
 	return ret;
 }
 
-void get_image(const char* path, godot_variant* info, godot_variant* data) {
-	LibRaw *lr_ptr = new LibRaw();
-
-	lr_ptr->imgdata.params.fbdd_noiserd = 0;
-	lr_ptr->imgdata.params.user_qual = 2;
-	lr_ptr->imgdata.params.output_bps = 16;
-
-	int result = lr_ptr->open_file(path);
-	lr_ptr->unpack();
-	lr_ptr->dcraw_process();
-
-	libraw_processed_image_t* image = lr_ptr->dcraw_make_mem_image();
-
-	// img data fetch
+inline void pool_byte_copy(godot_variant* dst, const void* src, int size) {
 	godot_pool_byte_array tmp;
 	api->godot_pool_byte_array_new(&tmp);
-	api->godot_pool_byte_array_resize(&tmp, image->data_size);
+	api->godot_pool_byte_array_resize(&tmp, size);
 	godot_pool_byte_array_write_access* ptr_access = api->godot_pool_byte_array_write(&tmp);
 	uint8_t* tmp_ptr = api->godot_pool_byte_array_write_access_ptr(ptr_access);
+	memcpy(tmp_ptr, src, size);
 
-	memcpy(tmp_ptr, &image->data, image->data_size);
+	// set
+	api->godot_variant_new_pool_byte_array(dst, &tmp);
 
-	// info fetch
+	// clean up
+	api->godot_pool_byte_array_write_access_destroy(ptr_access);
+	api->godot_pool_byte_array_destroy(&tmp);
+}
+
+inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	godot_array info_arr;
 	api->godot_array_new(&info_arr);
 
 	godot_variant width, height, aperture, shutter_speed, iso_speed, focal_len;
-	api->godot_variant_new_int(&width, image->width);
-	api->godot_variant_new_int(&height, image->height);
+	api->godot_variant_new_int(&width, lr_ptr->imgdata.sizes.iwidth);
+	api->godot_variant_new_int(&height, lr_ptr->imgdata.sizes.iheight);
 	api->godot_variant_new_real(&aperture, lr_ptr->imgdata.other.aperture);
 	api->godot_variant_new_real(&shutter_speed, lr_ptr->imgdata.other.shutter);
 	api->godot_variant_new_real(&iso_speed, lr_ptr->imgdata.other.iso_speed);
@@ -76,13 +71,10 @@ void get_image(const char* path, godot_variant* info, godot_variant* data) {
 	api->godot_array_append(&info_arr, &iso_speed);
 	api->godot_array_append(&info_arr, &focal_len);
 
-	// output 
+	// set
 	api->godot_variant_new_array(info, &info_arr);
-	api->godot_variant_new_pool_byte_array(data, &tmp);
-	
+
 	// clean up
-	api->godot_pool_byte_array_write_access_destroy(ptr_access);
-	api->godot_pool_byte_array_destroy(&tmp);
 	api->godot_variant_destroy(&width);
 	api->godot_variant_destroy(&height);
 	api->godot_variant_destroy(&aperture);
@@ -90,6 +82,49 @@ void get_image(const char* path, godot_variant* info, godot_variant* data) {
 	api->godot_variant_destroy(&iso_speed);
 	api->godot_variant_destroy(&focal_len);
 	api->godot_array_destroy(&info_arr);
+}
+
+void _get_info_with_thumb(const char* path, godot_variant* info, godot_variant* data) {
+	LibRaw* lr_ptr = new LibRaw();
+	int result = lr_ptr->open_file(path);
+	lr_ptr->unpack_thumb();
+
+	libraw_processed_image_t* image = lr_ptr->dcraw_make_mem_thumb();
+	
+	pool_byte_copy(data, &image->data, image->data_size);
+
+	info_fetch(info, lr_ptr);
+
+	LibRaw::dcraw_clear_mem(image);
+	lr_ptr->recycle();
+	delete lr_ptr;
+}
+
+void _get_image_data(const char* path, godot_variant* data, int bps, bool set_half, bool auto_bright) {
+	LibRaw *lr_ptr = new LibRaw();
+
+	lr_ptr->imgdata.params.fbdd_noiserd = 0;
+	lr_ptr->imgdata.params.user_qual = 0;
+	lr_ptr->imgdata.params.output_bps = bps;
+	lr_ptr->imgdata.params.highlight = 2;
+	lr_ptr->imgdata.params.use_camera_wb = 1;
+
+	if (set_half)
+		lr_ptr->imgdata.params.half_size = 1;
+
+	if (!auto_bright) {
+		lr_ptr->imgdata.params.no_auto_bright = 1;
+		lr_ptr->imgdata.params.gamm[0] = 0;
+		lr_ptr->imgdata.params.gamm[1] = 1000;
+	}
+
+	int result = lr_ptr->open_file(path);
+	lr_ptr->unpack();
+	lr_ptr->dcraw_process();
+	
+	libraw_processed_image_t* image = lr_ptr->dcraw_make_mem_image();
+
+	pool_byte_copy(data, &image->data, image->data_size);
 
 	LibRaw::dcraw_clear_mem(image);
 	lr_ptr->recycle();
@@ -117,29 +152,22 @@ extern "C" {
 
 	GDCALLINGCONV void* default_ctor(godot_object* p_instance, void* p_method_data) { return NULL; }
 	GDCALLINGCONV void default_dector(godot_object* p_instance, void* p_method_data, void* p_user_data) {}
+	
+	godot_variant get_info_with_thumb(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args) {
+		const char* path = var2char_ptr(*p_args);
+
+		_get_info_with_thumb(path, *(p_args + 1), *(p_args + 2));
+		return **p_args;
+	}
 
 	godot_variant get_image_data(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args) {
 		const char* path = var2char_ptr(*p_args);
+		int bps = (int)api->godot_variant_as_int(*(p_args + 2));
+		bool set_half = api->godot_variant_as_bool(*(p_args + 3));
+		bool auto_bright = api->godot_variant_as_bool(*(p_args + 4));
 
-		godot_variant info;
-		godot_variant data;
-		get_image(path, &info, &data);
-
-		godot_array ret;
-		api->godot_array_new(&ret);
-
-		api->godot_array_push_back(&ret, &info);
-		api->godot_array_push_back(&ret, &data);
-
-		godot_variant result;
-		api->godot_variant_new_array(&result, &ret);
-
-		// clean up
-		api->godot_variant_destroy(&info);
-		api->godot_variant_destroy(&data);
-		api->godot_array_destroy(&ret);
-
-		return result;
+		_get_image_data(path, *(p_args + 1), bps, set_half, auto_bright);
+		return **p_args;
 	}
 
 	void GDN_EXPORT godot_nativescript_init(void* p_handle) {
@@ -151,9 +179,13 @@ extern "C" {
 
 		godot_method_attributes attributes = { GODOT_METHOD_RPC_MODE_DISABLED };
 
-		godot_instance_method get_data = { NULL, NULL, NULL };
-		get_data.method = &get_image_data;
-		nativescript_api->godot_nativescript_register_method(p_handle, "QRPBridge", "get_image_data", attributes, get_data);
+		godot_instance_method get_image_data_m = { NULL, NULL, NULL };
+		get_image_data_m.method = &get_image_data;
+		nativescript_api->godot_nativescript_register_method(p_handle, "QRPBridge", "get_image_data", attributes, get_image_data_m);
+
+		godot_instance_method get_info_with_thumb_m = { NULL, NULL, NULL };
+		get_info_with_thumb_m.method = &get_info_with_thumb;
+		nativescript_api->godot_nativescript_register_method(p_handle, "QRPBridge", "get_info_with_thumb", attributes, get_info_with_thumb_m);
 	}
 
 }
