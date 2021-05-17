@@ -1,5 +1,4 @@
 extends Node
-onready var bridge = preload("res://Asset/Lib/main_nativescript.gdns").new()
 
 var core_num = 1
 var threads = {}
@@ -26,7 +25,7 @@ func _physics_process(_delta):
         item.push_back(jobs.pop_front())
         item[0].post()
         
-        printt("A", item)
+        Util.log(item, "threads_item", Util.LogLevel.Verbose)
         break
         
   elif callback_fn[0] and jobs_remain == 0:
@@ -38,8 +37,7 @@ func thread_handler(thread):
     threads[thread][0].wait()
     
     var job = threads[thread][1]
-    
-    printt("B", thread.get_id(), threads[thread])
+    Util.log([thread.get_id(), job], "thread_job_working", Util.LogLevel.Verbose)
     
     call(job[0], job[1])
     threads[thread].pop_back()
@@ -52,7 +50,7 @@ func get_raw_thumb(args):
   var info = []
   var data_arr = []
   
-  bridge.get_info_with_thumb(path, info, data_arr)
+  Util.Bridge.get_info_with_thumb(path, info, data_arr)
   
   var width = info[0]
   var height = info[1]
@@ -76,7 +74,7 @@ func get_raw_image(args):
   
   var data = []
   
-  bridge.get_image_data(path, data, bps, set_half, auto_bright)
+  Util.Bridge.get_image_data(path, data, bps, set_half, auto_bright)
   var width = 8191 if not set_half else 8191 / 2
   var height = 5463 if not set_half else 5463 / 2
   

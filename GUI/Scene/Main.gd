@@ -16,7 +16,7 @@ func _on_Button2_pressed():
   ], self, "abc")
   
 func abc():
-  printt("done")
+  Util.log("done", "")
   
 func get_url():
   if OS.has_feature("editor"):
