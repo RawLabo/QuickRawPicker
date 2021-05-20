@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Reference",
+"class": "Photo",
+"language": "GDScript",
+"path": "res://Script/photo.gd"
+} ]
+_global_script_class_icons={
+"Photo": ""
+}
+
 [application]
 
 config/name="QuickRawPicker"
@@ -16,8 +26,9 @@ run/low_processor_mode=true
 
 [autoload]
 
-ThreadPool="*res://Script/thread_pool.gd"
+Settings="*res://Script/settings.gd"
 Util="*res://Script/util.gd"
+Threading="*res://Script/threading.gd"
 
 [display]
 
@@ -27,10 +38,6 @@ window/vsync/vsync_via_compositor=true
 [gdnative]
 
 singletons=[  ]
-
-[gui]
-
-theme/use_hidpi=true
 
 [logging]
 

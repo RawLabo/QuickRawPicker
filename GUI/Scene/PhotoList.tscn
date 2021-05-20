@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Asset/Theme/default.tres" type="Theme" id=1]
+[ext_resource path="res://Scene/PhotoList.gd" type="Script" id=2]
+
+[node name="PhotoList" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_constants/separation = 0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="List" type="ItemList" parent="."]
+margin_right = 1024.0
+margin_bottom = 572.0
+size_flags_vertical = 3
+select_mode = 1
+
+[node name="Compare" type="Button" parent="."]
+margin_top = 572.0
+margin_right = 1024.0
+margin_bottom = 600.0
+text = "Compare"
+
+[connection signal="photo_parsed" from="." to="." method="_on_PhotoList_photo_parsed"]

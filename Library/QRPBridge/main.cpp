@@ -29,9 +29,6 @@ inline const char* var2char_ptr(godot_variant* var) {
 	godot_char_string gd_c_str = api->godot_string_utf8(&gd_str);
 
 	const char* ret = api->godot_char_string_get_data(&gd_c_str);
-	
-	// clean up
-	api->godot_char_string_destroy(&gd_c_str);
 
 	return ret;
 }

@@ -1,0 +1,34 @@
+[gd_resource type="Theme" load_steps=4 format=2]
+
+[ext_resource path="res://Asset/Font/default.tres" type="DynamicFont" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.863281, 0.863281, 0.863281, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.862745, 0.862745, 0.862745, 1 )
+
+[resource]
+default_font = ExtResource( 1 )
+FileDialog/colors/file_icon_modulate = Color( 1, 1, 1, 1 )
+FileDialog/colors/files_disabled = Color( 0.501961, 0.501961, 0.501961, 0.701961 )
+FileDialog/colors/folder_icon_modulate = Color( 1, 1, 1, 1 )
+FileDialog/icons/file = null
+FileDialog/icons/folder = null
+FileDialog/icons/parent_folder = null
+FileDialog/icons/reload = null
+FileDialog/icons/toggle_hidden = null
+ItemList/colors/font_color = Color( 0.63, 0.63, 0.63, 1 )
+ItemList/colors/font_color_selected = Color( 1, 1, 1, 1 )
+ItemList/colors/guide_color = Color( 0, 0, 0, 0.1 )
+ItemList/constants/hseparation = 8
+ItemList/constants/icon_margin = 8
+ItemList/constants/line_separation = 8
+ItemList/constants/vseparation = 4
+ItemList/fonts/font = null
+ItemList/styles/bg = null
+ItemList/styles/bg_focus = null
+ItemList/styles/cursor = null
+ItemList/styles/cursor_unfocused = null
+ItemList/styles/selected = SubResource( 1 )
+ItemList/styles/selected_focus = SubResource( 2 )

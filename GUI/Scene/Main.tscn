@@ -1,67 +1,28 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scene/Main.gd" type="Script" id=1]
+[ext_resource path="res://Asset/Theme/default.tres" type="Theme" id=2]
+[ext_resource path="res://Scene/PhotoList.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scene/Operations.tscn" type="PackedScene" id=4]
 
 [node name="Main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Control" type="Control" parent="."]
-margin_left = 2.30481
-margin_top = 3.21942
-margin_right = 1013.3
-margin_bottom = 539.219
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="PhotoList" parent="." instance=ExtResource( 3 )]
+anchor_right = 0.0
+margin_top = 26.0
+margin_right = 200.0
 
-[node name="Sprite" type="Sprite" parent="Control"]
-position = Vector2( 727.391, 430.584 )
-scale = Vector2( 0.5, 0.5 )
+[node name="Operations" parent="." instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 200.0
+margin_bottom = 60.0
 
-[node name="Button" type="Button" parent="."]
-margin_left = 30.0149
-margin_top = 36.7319
-margin_right = 174.015
-margin_bottom = 73.7319
-text = "load image"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 25.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Control2" type="Control" parent="."]
-margin_left = 911.75
-margin_top = 19.75
-margin_right = 1097.75
-margin_bottom = 217.75
-rect_clip_content = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Sprite" type="Sprite" parent="Control2"]
-position = Vector2( 29.9999, 41.25 )
-
-[node name="Control3" type="Control" parent="."]
-margin_left = 320.0
-margin_top = 512.5
-margin_right = 561.0
-margin_bottom = 751.5
-rect_clip_content = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Sprite" type="Sprite" parent="Control3"]
-position = Vector2( 138.75, 151.25 )
-
-[connection signal="pressed" from="Button" to="." method="_on_Button2_pressed"]
+[connection signal="open_folder_selected" from="." to="." method="_on_Main_open_folder_selected"]

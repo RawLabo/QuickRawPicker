@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scene/Operations.gd" type="Script" id=2]
+
+[node name="Operations" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Dialog" type="FileDialog" parent="."]
+margin_right = 338.0
+margin_bottom = 162.0
+rect_min_size = Vector2( 250, 87.5 )
+window_title = ""
+resizable = true
+mode_overrides_title = false
+mode = 2
+access = 2
+current_dir = "/Users/qdwang/Desktop/Codes/QuickRawPickerNative/GUI"
+current_path = "/Users/qdwang/Desktop/Codes/QuickRawPickerNative/GUI/"
+
+[node name="Grid" type="GridContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/vseparation = 2
+custom_constants/hseparation = 2
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpenFolder" type="Button" parent="Grid"]
+margin_right = 511.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "OpenFolder"
+
+[node name="Export" type="MenuButton" parent="Grid"]
+margin_left = 513.0
+margin_right = 1024.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Export"
+flat = false
+items = [ "Move", null, 0, false, false, 0, 0, null, "", false, "Copy", null, 0, false, false, 1, 0, null, "", false ]
+
+[connection signal="dir_selected" from="Dialog" to="." method="_on_Dialog_dir_selected"]
+[connection signal="pressed" from="Grid/OpenFolder" to="." method="_on_OpenFolder_pressed"]
