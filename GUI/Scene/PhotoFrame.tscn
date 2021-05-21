@@ -1,11 +1,163 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scene/PhotoFrame.gd" type="Script" id=1]
+[ext_resource path="res://Asset/Theme/small_button.tres" type="Theme" id=2]
 
 [node name="PhotoFrame" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_clip_content = true
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="LoadingLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -30.5
+margin_top = -7.0
+margin_right = 30.5
+margin_bottom = 7.0
+text = "Loading..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Photo" type="Sprite" parent="."]
+
+[node name="InfoLabel" type="Label" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -28.0
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TopContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+margin_bottom = 32.0
+theme = ExtResource( 2 )
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Selection" type="ColorRect" parent="TopContainer"]
+margin_left = 365.0
+margin_top = 8.0
+margin_right = 381.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 16, 16 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Size" type="HBoxContainer" parent="TopContainer"]
+margin_left = 385.0
+margin_right = 443.0
+margin_bottom = 32.0
+
+[node name="+" type="Button" parent="TopContainer/Size"]
+margin_right = 13.0
+margin_bottom = 32.0
+text = "+"
+flat = true
+
+[node name="Value" type="Label" parent="TopContainer/Size"]
+margin_left = 17.0
+margin_top = 5.0
+margin_right = 41.0
+margin_bottom = 27.0
+text = "0%"
+
+[node name="-" type="Button" parent="TopContainer/Size"]
+margin_left = 45.0
+margin_right = 58.0
+margin_bottom = 32.0
+text = "-"
+flat = true
+
+[node name="Exposure" type="HBoxContainer" parent="TopContainer"]
+margin_left = 447.0
+margin_right = 513.0
+margin_bottom = 32.0
+
+[node name="+" type="Button" parent="TopContainer/Exposure"]
+margin_right = 13.0
+margin_bottom = 32.0
+text = "+"
+flat = true
+
+[node name="Label" type="Label" parent="TopContainer/Exposure"]
+margin_left = 17.0
+margin_top = 5.0
+margin_right = 45.0
+margin_bottom = 27.0
+text = "EV:"
+
+[node name="Value" type="Label" parent="TopContainer/Exposure"]
+margin_left = 49.0
+margin_top = 5.0
+margin_right = 49.0
+margin_bottom = 27.0
+
+[node name="-" type="Button" parent="TopContainer/Exposure"]
+margin_left = 53.0
+margin_right = 66.0
+margin_bottom = 32.0
+text = "-"
+flat = true
+
+[node name="Gamma" type="HBoxContainer" parent="TopContainer"]
+margin_left = 517.0
+margin_right = 621.0
+margin_bottom = 32.0
+
+[node name="+" type="Button" parent="TopContainer/Gamma"]
+margin_right = 13.0
+margin_bottom = 32.0
+text = "+"
+flat = true
+
+[node name="Label" type="Label" parent="TopContainer/Gamma"]
+margin_left = 17.0
+margin_top = 5.0
+margin_right = 83.0
+margin_bottom = 27.0
+text = "Gamma:"
+
+[node name="Value" type="Label" parent="TopContainer/Gamma"]
+margin_left = 87.0
+margin_top = 5.0
+margin_right = 87.0
+margin_bottom = 27.0
+
+[node name="-" type="Button" parent="TopContainer/Gamma"]
+margin_left = 91.0
+margin_right = 104.0
+margin_bottom = 32.0
+text = "-"
+flat = true
+
+[node name="Bit" type="HBoxContainer" parent="TopContainer"]
+margin_left = 625.0
+margin_right = 658.0
+margin_bottom = 32.0
+
+[node name="Label" type="Label" parent="TopContainer/Bit"]
+margin_top = 5.0
+margin_right = 29.0
+margin_bottom = 27.0
+text = "Bit:"
+
+[node name="Value" type="Label" parent="TopContainer/Bit"]
+margin_left = 33.0
+margin_top = 5.0
+margin_right = 33.0
+margin_bottom = 27.0
+
+[connection signal="image_parsed" from="." to="." method="_on_PhotoFrame_image_parsed"]

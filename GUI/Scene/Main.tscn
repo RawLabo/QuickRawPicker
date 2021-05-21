@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scene/Main.gd" type="Script" id=1]
 [ext_resource path="res://Asset/Theme/default.tres" type="Theme" id=2]
 [ext_resource path="res://Scene/PhotoList.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scene/Operations.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scene/Grid.tscn" type="PackedScene" id=5]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -25,4 +26,8 @@ anchor_bottom = 0.0
 margin_right = 200.0
 margin_bottom = 60.0
 
+[node name="Grid" parent="." instance=ExtResource( 5 )]
+margin_left = 200.0
+
 [connection signal="open_folder_selected" from="." to="." method="_on_Main_open_folder_selected"]
+[connection signal="photos_received" from="." to="." method="_on_Main_photos_received"]

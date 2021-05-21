@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "Photo",
 "language": "GDScript",
 "path": "res://Script/photo.gd"
+}, {
+"base": "Control",
+"class": "PhotoFrame",
+"language": "GDScript",
+"path": "res://Scene/PhotoFrame.gd"
 } ]
 _global_script_class_icons={
-"Photo": ""
+"Photo": "",
+"PhotoFrame": ""
 }
 
 [application]

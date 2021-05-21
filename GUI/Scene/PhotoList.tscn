@@ -25,4 +25,5 @@ margin_right = 1024.0
 margin_bottom = 600.0
 text = "Compare"
 
-[connection signal="photo_parsed" from="." to="." method="_on_PhotoList_photo_parsed"]
+[connection signal="thumb_parsed" from="." to="." method="_on_PhotoList_thumb_parsed"]
+[connection signal="pressed" from="Compare" to="." method="_on_Compare_pressed"]

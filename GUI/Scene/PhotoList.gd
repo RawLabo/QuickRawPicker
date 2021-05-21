@@ -1,10 +1,12 @@
 extends VBoxContainer
 
-signal photo_parsed(photo)
+signal thumb_parsed(photo)
 
 var photos = []
 
 func show_folder_images(dir_path):
+  $List.clear()
+  
   Util.log(dir_path, "open_folder", Util.LogLevel.Verbose)
   
   photos = update_dir(dir_path)
@@ -12,12 +14,13 @@ func show_folder_images(dir_path):
   Util.log(photos.size(), "image_files_in_folder")
   
   for photo in photos:
+    $List.add_item("")
     Threading.pending_jobs.append(["get_raw_thumb", photo, self])
   
-  
-func _on_PhotoList_photo_parsed(photo):
-  $List.add_icon_item(photo.thumb_texture)
-  
+func _on_PhotoList_thumb_parsed(photo):
+  var idx = photos.find(photo)
+  $List.set_item_text(idx, photo.get_info())
+  $List.set_item_icon(idx, photo.thumb_texture)
   
 func update_dir(dir_path):
   var photos = []
@@ -40,4 +43,14 @@ func update_dir(dir_path):
       
   return photos
 
+func get_selected_photos():
+  var result = []
+  for index in $List.get_selected_items():
+    result.append(photos[index])
+    
+  return result
 
+func _on_Compare_pressed():
+  var selected_photos = get_selected_photos()
+  get_parent().emit_signal("photos_received", selected_photos)
+  
