@@ -1,7 +1,7 @@
+#include <string>
 #include <gdnative_api_struct.gen.h>
-#include <string.h>
-#include <stdio.h>
 #include <libraw/libraw.h>
+#include <turbojpeg.h>
 
 const godot_gdnative_core_api_struct* api = NULL;
 const godot_gdnative_ext_nativescript_api_struct* nativescript_api = NULL;
@@ -87,8 +87,30 @@ void _get_info_with_thumb(const char* path, godot_variant* info, godot_variant* 
 	lr_ptr->unpack_thumb();
 
 	libraw_processed_image_t* image = lr_ptr->dcraw_make_mem_thumb();
-	
-	pool_byte_copy(data, &image->data, image->data_size);
+
+	int flip = lr_ptr->imgdata.sizes.flip;
+	if (flip != 0) {
+		unsigned long dstSizes = 0;
+		unsigned char* dstBufs = nullptr;
+
+		tjhandle _jpegRotator = tjInitTransform();
+		tjtransform transform;
+		transform.customFilter = 0;
+		if (flip == 3)
+			transform.op = TJXOP_ROT180;
+		else if (flip == 5)
+			transform.op = TJXOP_ROT270;
+		else if (flip == 6)
+			transform.op = TJXOP_ROT90;
+
+		tjTransform(_jpegRotator, (unsigned char*)&image->data, image->data_size, 1, &dstBufs, &dstSizes, &transform, TJFLAG_FASTDCT);
+		pool_byte_copy(data, dstBufs, dstSizes);
+
+		delete _jpegRotator;
+	}
+	else {
+		pool_byte_copy(data, &image->data, image->data_size);
+	}
 
 	info_fetch(info, lr_ptr);
 
