@@ -1,0 +1,47 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float exposure = 0.0;
+uniform float gamma_correction = 1.0;
+uniform float shadow_draw = 1.0;
+uniform float highlight_draw = 1.0;
+
+float get_luminance(vec3 color) {
+  // BT.2020
+  return 0.2627 * color.r + 0.6780 * color.g + 0.0593 * color.b;
+}
+
+void fragment() {
+  vec3 center = texture(TEXTURE, UV).rgb;
+  
+  // exposure adjustment
+  vec3 gamma_corrected = pow(center, vec3(gamma_correction));
+  vec3 exposure_adjusted = min(gamma_corrected * pow(2, exposure), vec3(1.0));
+  
+  float luminance = get_luminance(exposure_adjusted);
+  float switcher = smoothstep(0.0, 1.0, sin(TIME * 2.5));
+  // draw shadow pixels
+  vec3 shadow_drawed = mix(
+    exposure_adjusted, 
+    vec3(0.0, 1.0, 0.0), 
+    (1.0 - step(0.01, luminance)) * switcher * shadow_draw
+  );
+  // draw highlight pixels
+  vec3 highlight_drawed = mix(
+    shadow_drawed, 
+    vec3(1.0, 0.0, 0.0), 
+    step(0.99, luminance) * switcher * highlight_draw
+  );
+  
+  COLOR.rgb = highlight_drawed;
+}"
+
+[resource]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/exposure = 0.0
+shader_param/gamma_correction = 1.0
+shader_param/shadow_draw = 1.0
+shader_param/highlight_draw = 1.0

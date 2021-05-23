@@ -44,7 +44,7 @@ func update_photos(photos):
       if column_num * row_num >= photos_count:
         break
   
-  columns = column_num
+  columns = column_num 
   var w = int((OS.window_size.x - 200) / columns)
   var h = int(OS.window_size.y / row_num)
   
@@ -52,3 +52,72 @@ func update_photos(photos):
     var photo_frame = PhotoFrameScene.instance()
     photo_frame.init(w, h, photo)
     add_child(photo_frame)
+
+func get_hovering_frame(pos):
+  for frame in get_children():
+    var g_pos = frame.rect_position
+    if pos.x >= g_pos.x and pos.y >= g_pos.y and pos.x <= g_pos.x + frame.rect_size.x and pos.y <= g_pos.y + frame.rect_size.y:
+      return frame
+      
+  return null
+  
+var prev_mouse_pos = Vector2.ZERO
+func _on_Grid_gui_input(event):
+  var with_ctrl = event.control
+  var with_alt = event.alt
+  var with_shift = event.shift
+  
+  var hovering_frame = get_hovering_frame(event.position)
+  
+  var button_index = 0
+  var pressed = false
+  if event is InputEventMouseButton:
+    button_index = event.button_index
+    pressed = event.pressed
+  
+  if button_index == BUTTON_LEFT:
+    if pressed:
+      if event.doubleclick:
+        for frame in get_children():
+          if with_shift and hovering_frame != frame:
+            continue
+          
+          frame.reset_size()
+      elif with_alt and hovering_frame != null:
+        pass # toggle mark
+      elif with_ctrl and hovering_frame != null:
+        pass # toggle selection
+      else:
+        prev_mouse_pos = event.position
+    else:
+      prev_mouse_pos = Vector2.ZERO
+      
+  elif (button_index == BUTTON_WHEEL_UP or button_index == BUTTON_WHEEL_DOWN) and pressed:
+    var is_up = button_index == BUTTON_WHEEL_UP
+    for frame in get_children():
+      if with_alt:
+        frame.gamma += 0.1 if is_up else -0.1
+        frame.update_shader()
+        continue
+        
+      if with_ctrl:
+        frame.EV += 0.1 if is_up else -0.1
+        frame.update_shader()
+        continue
+        
+      if with_shift and hovering_frame != frame:
+        continue
+      
+      frame.rescale(is_up)
+      
+      
+  if event is InputEventMouseMotion and prev_mouse_pos != Vector2.ZERO:
+    for frame in get_children():
+      if with_shift and hovering_frame != frame:
+        continue
+        
+      frame.reposition(event.position - prev_mouse_pos)
+      
+    prev_mouse_pos = event.position
+        
+      

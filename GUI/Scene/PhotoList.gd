@@ -11,15 +11,13 @@ func show_folder_images(dir_path):
   
   photos = update_dir(dir_path)
   
-  Util.log(photos.size(), "image_files_in_folder")
-  
   for photo in photos:
     $List.add_item("")
     Threading.pending_jobs.append(["get_raw_thumb", photo, self])
   
 func _on_PhotoList_thumb_parsed(photo):
   var idx = photos.find(photo)
-  $List.set_item_text(idx, photo.get_info())
+  $List.set_item_text(idx, photo.get_list_info())
   $List.set_item_icon(idx, photo.thumb_texture)
   
 func update_dir(dir_path):
@@ -53,4 +51,7 @@ func get_selected_photos():
 func _on_Compare_pressed():
   var selected_photos = get_selected_photos()
   get_parent().emit_signal("photos_received", selected_photos)
+  
+func _on_List_multi_selected(index, selected):
+  pass
   

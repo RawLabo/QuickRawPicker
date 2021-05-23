@@ -1,12 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scene/PhotoFrame.gd" type="Script" id=1]
 [ext_resource path="res://Asset/Theme/small_button.tres" type="Theme" id=2]
+[ext_resource path="res://Asset/Shader/default.tres" type="Material" id=3]
 
 [node name="PhotoFrame" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_clip_content = true
+mouse_filter = 2
+theme = ExtResource( 2 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -27,6 +30,7 @@ __meta__ = {
 }
 
 [node name="Photo" type="Sprite" parent="."]
+material = ExtResource( 3 )
 
 [node name="InfoLabel" type="Label" parent="."]
 anchor_top = 1.0
@@ -41,24 +45,24 @@ __meta__ = {
 [node name="TopContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
 margin_bottom = 32.0
-theme = ExtResource( 2 )
+custom_constants/separation = 8
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Selection" type="ColorRect" parent="TopContainer"]
-margin_left = 365.0
+margin_left = 357.0
 margin_top = 8.0
-margin_right = 381.0
+margin_right = 373.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 16, 16 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="Size" type="HBoxContainer" parent="TopContainer"]
-margin_left = 385.0
-margin_right = 443.0
+margin_left = 381.0
+margin_right = 439.0
 margin_bottom = 32.0
 
 [node name="+" type="Button" parent="TopContainer/Size"]
@@ -113,8 +117,8 @@ text = "-"
 flat = true
 
 [node name="Gamma" type="HBoxContainer" parent="TopContainer"]
-margin_left = 517.0
-margin_right = 621.0
+margin_left = 521.0
+margin_right = 625.0
 margin_bottom = 32.0
 
 [node name="+" type="Button" parent="TopContainer/Gamma"]
@@ -144,8 +148,8 @@ text = "-"
 flat = true
 
 [node name="Bit" type="HBoxContainer" parent="TopContainer"]
-margin_left = 625.0
-margin_right = 658.0
+margin_left = 633.0
+margin_right = 666.0
 margin_bottom = 32.0
 
 [node name="Label" type="Label" parent="TopContainer/Bit"]
@@ -161,3 +165,9 @@ margin_right = 33.0
 margin_bottom = 27.0
 
 [connection signal="image_parsed" from="." to="." method="_on_PhotoFrame_image_parsed"]
+[connection signal="pressed" from="TopContainer/Size/+" to="." method="_on_size_plus_pressed"]
+[connection signal="pressed" from="TopContainer/Size/-" to="." method="_on_size_minus_pressed"]
+[connection signal="pressed" from="TopContainer/Exposure/+" to="." method="_on_exposure_plus_pressed"]
+[connection signal="pressed" from="TopContainer/Exposure/-" to="." method="_on_exposure_minus_pressed"]
+[connection signal="pressed" from="TopContainer/Gamma/+" to="." method="_on_gamma_plus_pressed"]
+[connection signal="pressed" from="TopContainer/Gamma/-" to="." method="_on_gamma_minus_pressed"]
