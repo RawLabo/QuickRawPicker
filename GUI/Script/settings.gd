@@ -7,5 +7,7 @@ var extension_filter = [
   "ARW",
   "RW2",
   "ORF",
-  "CR3"
+  "CR3",
+  "DNG",
+  "dng"
 ]

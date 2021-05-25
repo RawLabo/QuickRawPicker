@@ -14,6 +14,14 @@ inline void print(const char* data) {
 	
 	api->godot_string_destroy(&x);
 }
+inline void print(int value) {
+	godot_string x;
+	api->godot_string_new(&x);
+	api->godot_string_parse_utf8(&x, std::to_string(value).c_str());
+	api->godot_print(&x);
+
+	api->godot_string_destroy(&x);
+}
 
 inline void string2var(const char* data, godot_variant* dst) {
 	godot_string tmp;
@@ -94,37 +102,41 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 void _get_info_with_thumb(const char* path, godot_variant* info, godot_variant* data) {
 	LibRaw* lr_ptr = new LibRaw();
 	int result = lr_ptr->open_file(path);
-	lr_ptr->unpack_thumb();
+	if (result == 0) {
+		info_fetch(info, lr_ptr);
 
-	libraw_processed_image_t* image = lr_ptr->dcraw_make_mem_thumb();
+		int unpack_result = lr_ptr->unpack_thumb();
+		if (unpack_result == 0) {
+			libraw_processed_image_t* image = lr_ptr->dcraw_make_mem_thumb();
 
-	int flip = lr_ptr->imgdata.sizes.flip;
-	if (flip != 0) {
-		unsigned long dstSizes = 0;
-		unsigned char* dstBufs = nullptr;
+			int flip = lr_ptr->imgdata.sizes.flip;
+			if (flip != 0) {
+				unsigned long dstSizes = 0;
+				unsigned char* dstBufs = nullptr;
 
-		tjhandle _jpegRotator = tjInitTransform();
-		tjtransform transform;
-		transform.customFilter = 0;
-		if (flip == 3)
-			transform.op = TJXOP_ROT180;
-		else if (flip == 5)
-			transform.op = TJXOP_ROT270;
-		else if (flip == 6)
-			transform.op = TJXOP_ROT90;
+				tjhandle _jpegRotator = tjInitTransform();
+				tjtransform transform;
+				transform.customFilter = 0;
+				if (flip == 3)
+					transform.op = TJXOP_ROT180;
+				else if (flip == 5)
+					transform.op = TJXOP_ROT270;
+				else if (flip == 6)
+					transform.op = TJXOP_ROT90;
 
-		tjTransform(_jpegRotator, (unsigned char*)&image->data, image->data_size, 1, &dstBufs, &dstSizes, &transform, TJFLAG_FASTDCT);
-		pool_byte_copy(data, dstBufs, dstSizes);
+				tjTransform(_jpegRotator, (unsigned char*)&image->data, image->data_size, 1, &dstBufs, &dstSizes, &transform, TJFLAG_FASTDCT);
+				pool_byte_copy(data, dstBufs, dstSizes);
 
-		delete _jpegRotator;
+				delete _jpegRotator;
+			}
+			else {
+				pool_byte_copy(data, &image->data, image->data_size);
+			}
+
+			LibRaw::dcraw_clear_mem(image);
+		}
 	}
-	else {
-		pool_byte_copy(data, &image->data, image->data_size);
-	}
-
-	info_fetch(info, lr_ptr);
-
-	LibRaw::dcraw_clear_mem(image);
+	
 	lr_ptr->recycle();
 	delete lr_ptr;
 }
@@ -148,14 +160,17 @@ void _get_image_data(const char* path, godot_variant* data, int bps, bool set_ha
 	}
 
 	int result = lr_ptr->open_file(path);
-	lr_ptr->unpack();
-	lr_ptr->dcraw_process();
-	
-	libraw_processed_image_t* image = lr_ptr->dcraw_make_mem_image();
+	if (result == 0) {
+		lr_ptr->unpack();
+		lr_ptr->dcraw_process();
 
-	pool_byte_copy(data, &image->data, image->data_size);
+		libraw_processed_image_t* image = lr_ptr->dcraw_make_mem_image();
 
-	LibRaw::dcraw_clear_mem(image);
+		pool_byte_copy(data, &image->data, image->data_size);
+
+		LibRaw::dcraw_clear_mem(image);
+	}
+
 	lr_ptr->recycle();
 	delete lr_ptr;
 }
