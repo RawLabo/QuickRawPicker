@@ -32,28 +32,22 @@ func get_raw_thumb(args):
     photo.model = info[7]
     photo.lens_info = info[8]
   
+    var image = Image.new()
     if data_arr.size() > 0:
-      var image = Image.new()
       image.load_jpg_from_buffer(data_arr)
       var size = image.get_size()
-      var k = size.x / 180
-      image.resize(180, size.y / k, Image.INTERPOLATE_CUBIC)
-      photo.thumb_texture.create_from_image(image)
-      
       if size.y > size.x:
         photo.width = info[1]
         photo.height = info[0]
     else:
       var data = []
       Util.Bridge.get_image_data(photo.file_path, data, 8, true, true)
-      
-      var image = Image.new()
       image.create_from_data(photo.width / 2, photo.height / 2, false, Image.FORMAT_RGB8, data)
-      var size = image.get_size()
-      var k = size.x / 180
-      image.resize(180, size.y / k, Image.INTERPOLATE_CUBIC)
-      photo.thumb_texture.create_from_image(image)
-      
+    
+    var size = image.get_size()
+    var k = size.x / 180
+    image.resize(180, size.y / k, Image.INTERPOLATE_CUBIC)
+    photo.thumb_texture.create_from_image(image)
       
   call_deferred("thread_end", "thumb_parsed", args)
 
@@ -65,6 +59,12 @@ func get_raw_image(args):
   
   var data = []
   
+  if Settings.show_thumb_first:
+    var img = Image.new()
+    img.copy_from(photo.thumb_texture.get_data())
+    img.resize(photo.width, photo.height, Image.INTERPOLATE_NEAREST)
+    photo.full_texture.create_from_image(img)
+    
   Util.Bridge.get_image_data(photo.file_path, data, bps, set_half, auto_bright)
   
   var image = Image.new()

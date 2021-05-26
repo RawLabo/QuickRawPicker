@@ -127,7 +127,8 @@ void _get_info_with_thumb(const char* path, godot_variant* info, godot_variant* 
 				tjTransform(_jpegRotator, (unsigned char*)&image->data, image->data_size, 1, &dstBufs, &dstSizes, &transform, TJFLAG_FASTDCT);
 				pool_byte_copy(data, dstBufs, dstSizes);
 
-				delete _jpegRotator;
+				tjDestroy(_jpegRotator);
+				tjFree(dstBufs);
 			}
 			else {
 				pool_byte_copy(data, &image->data, image->data_size);

@@ -13,8 +13,8 @@ var scale_options = [
 ]
 
 var photo : Photo = null
-var EV = 0
 var gamma = 1.0
+var EV = 0
 var scale_index = 0
 var highlight_draw = 1.0
 var shadow_draw = 1.0
@@ -48,22 +48,29 @@ func init(w, h, input_photo):
   photo.ui_frame = self
   
   rect_min_size = Vector2(w, h)
-  $Photo.position = vec_int(rect_min_size / 2)
-  
-  $InfoLabel.text = photo.get_bar_info()
-  Threading.pending_jobs.append(["get_raw_image", photo, self, [Settings.bps, false, Settings.auto_bright]])
-
-
-func _on_PhotoFrame_image_parsed(photo : Photo):
   scale_options[0] = min(rect_min_size.x / photo.width, rect_min_size.y / photo.height)
+  
+  $Photo.position = vec_int(rect_min_size / 2)
   $Photo.texture = photo.full_texture
   $Photo.scale = Vector2(scale_options[0], scale_options[0])
   
-  if not Settings.auto_bright:
-    gamma = 2.6
-    update_shader()
-  else: 
-    update_top_info()
+  gamma = 2.6 if photo.has_processed() and not Settings.auto_bright else 1.0
+  update_shader()
+  
+  $InfoLabel.text = photo.get_bar_info()
+  
+  if not photo.has_processed():
+    
+    Threading.pending_jobs.append(["get_raw_image", photo, self, [Settings.bps, false, Settings.auto_bright]])
+  else:
+    $LoadingLabel.visible = false
+  
+
+func _on_PhotoFrame_image_parsed(photo : Photo):
+  $LoadingLabel.visible = false
+  gamma = 2.6 if not Settings.auto_bright else 1.0
+  update_shader()
+  update_top_info()
 
 func update_top_info():
   $TopContainer/Size/Value.text = "%d%%" % (scale_options[scale_index] * 100)

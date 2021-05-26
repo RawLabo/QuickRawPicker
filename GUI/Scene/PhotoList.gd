@@ -48,8 +48,17 @@ func get_selected_photos():
     
   return result
 
+var compare_round = 0
 func _on_Compare_pressed():
+  compare_round += 1
   var selected_photos = get_selected_photos()
+  for photo in photos:
+    if selected_photos.has(photo):
+      photo.ui_round = compare_round
+    elif photo.ui_round > 0 and photo.ui_round < compare_round - Settings.cache_round:
+      photo.full_texture = ImageTexture.new()
+      photo.ui_round = 0
+      
   get_parent().emit_signal("photos_received", selected_photos)
   
 func _on_List_multi_selected(index, selected):
