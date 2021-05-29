@@ -47,7 +47,7 @@ func get_raw_thumb(args):
     var size = image.get_size()
     var k = size.x / 180
     image.resize(180, size.y / k, Image.INTERPOLATE_CUBIC)
-    photo.thumb_texture.create_from_image(image)
+    photo.thumb_texture.create_from_image(image, 0)
       
   call_deferred("thread_end", "thumb_parsed", args)
 
@@ -63,13 +63,13 @@ func get_raw_image(args):
     var img = Image.new()
     img.copy_from(photo.thumb_texture.get_data())
     img.resize(photo.width, photo.height, Image.INTERPOLATE_NEAREST)
-    photo.full_texture.create_from_image(img)
+    photo.full_texture.create_from_image(img, 0)
     
   Util.Bridge.get_image_data(photo.file_path, data, bps, set_half, auto_bright)
   
   var image = Image.new()
   image.create_from_data(photo.width, photo.height, false, Image.FORMAT_RGBH if bps == 16 else Image.FORMAT_RGB8, data)
-  photo.full_texture.create_from_image(image, 1)
+  photo.full_texture.create_from_image(image, 0)
   
   call_deferred("thread_end", "image_parsed", args)
 
