@@ -19,6 +19,20 @@ var scale_index = 0
 var highlight_draw = 1.0
 var shadow_draw = 1.0
 
+onready var selection_node = $TopContainer/Selection
+func select():
+  selection_node.color.a = 1.0
+func unselect():
+  selection_node.color.a = 0.2
+func mark():
+  var alpha = selection_node.color.a
+  selection_node.color = Settings.mark_color
+  selection_node.color.a = alpha
+func unmark():
+  var alpha = selection_node.color.a
+  selection_node.color = Settings.select_color
+  selection_node.color.a = alpha
+  
 func update_shader():
   if gamma < 1.0:
     gamma = 1.0
@@ -42,11 +56,14 @@ func update_shader():
   
 func vec_int(vec):
   return Vector2(int(vec.x), int(vec.y))
-  
+
+func _ready():
+  if photo.ui_marked:
+    mark()
+    
 func init(w, h, input_photo):
   photo = input_photo
-  photo.ui_frame = self
-  
+    
   rect_min_size = Vector2(w, h)
   scale_options[0] = min(rect_min_size.x / photo.width, rect_min_size.y / photo.height)
   

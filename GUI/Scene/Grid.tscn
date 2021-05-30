@@ -13,3 +13,5 @@ __meta__ = {
 }
 
 [connection signal="gui_input" from="." to="." method="_on_Grid_gui_input"]
+[connection signal="photo_mark_changed" from="." to="." method="_on_Grid_photo_mark_changed"]
+[connection signal="photo_selection_changed" from="." to="." method="_on_Grid_photo_selection_changed"]

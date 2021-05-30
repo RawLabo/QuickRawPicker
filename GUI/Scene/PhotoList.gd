@@ -1,6 +1,8 @@
 extends VBoxContainer
 
 signal thumb_parsed(photo)
+signal photo_selection_changed(photo, selection)
+signal photo_mark_changed(photo, mark)
 
 var photos = []
 
@@ -61,6 +63,29 @@ func _on_Compare_pressed():
       
   get_parent().emit_signal("photos_received", selected_photos)
   
+var with_alt = false
 func _on_List_multi_selected(index, selected):
-  pass
-  
+  if with_alt and selected:
+    photos[index].toggle_mark()
+    
+  var selected_photos = get_selected_photos()
+  for photo in photos:
+    var curr_selected = selected_photos.has(photo)
+    if curr_selected != photo.ui_selected:
+      photo.toggle_selection()
+
+
+func _on_List_gui_input(event):
+  with_alt = event.alt
+
+func _on_PhotoList_photo_mark_changed(photo, mark):
+  var idx = photos.find(photo)
+  $List.set_item_custom_bg_color(idx, Settings.mark_color if mark else Color.transparent)
+  $List.update()
+
+func _on_PhotoList_photo_selection_changed(photo, selection):
+  var idx = photos.find(photo)
+  if selection:
+    $List.select(idx, false)
+  else:
+    $List.unselect(idx)

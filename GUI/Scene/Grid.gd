@@ -1,5 +1,8 @@
 extends GridContainer
 
+signal photo_selection_changed(photo, selection)
+signal photo_mark_changed(photo, mark)
+
 const PhotoFrameScene = preload("res://Scene/PhotoFrame.tscn")
 
 const pattern = {
@@ -84,9 +87,9 @@ func _on_Grid_gui_input(event):
           
           frame.reset_size()
       elif with_alt and hovering_frame != null:
-        pass # toggle mark
+        hovering_frame.photo.toggle_mark()
       elif with_ctrl and hovering_frame != null:
-        pass # toggle selection
+        hovering_frame.photo.toggle_selection()
       else:
         prev_mouse_pos = event.position
     else:
@@ -120,4 +123,22 @@ func _on_Grid_gui_input(event):
       
     prev_mouse_pos = event.position
         
-      
+
+
+func _on_Grid_photo_mark_changed(photo, mark):
+  for frame in get_children():
+    if frame.photo == photo:
+      if mark:
+        frame.mark()
+      else:
+        frame.unmark()
+      break
+
+func _on_Grid_photo_selection_changed(photo, selection):
+  for frame in get_children():
+    if frame.photo == photo:
+      if selection:
+        frame.select()
+      else:
+        frame.unselect()
+      break
