@@ -9,15 +9,17 @@ var scale_options = [
   1.5,
   2,
   3,
-  5
+  5,
+  7.5,
+  10
 ]
 
 var photo : Photo = null
 var gamma = 1.0
 var EV = 0
 var scale_index = 0
-var highlight_draw = 1.0
-var shadow_draw = 1.0
+var highlight_draw = 0.0
+var shadow_draw = 0.0
 
 onready var selection_node = $TopContainer/Selection
 func select():
@@ -34,8 +36,8 @@ func unmark():
   selection_node.color.a = alpha
   
 func update_shader():
-  if gamma < 1.0:
-    gamma = 1.0
+  if gamma < 0.0:
+    gamma = 0.0
     
   if shadow_draw < 0:
     shadow_draw = 0
@@ -78,7 +80,7 @@ func init(w, h, input_photo):
   
   if not photo.has_processed():
     
-    Threading.pending_jobs.append(["get_raw_image", photo, self, [Settings.bps, false, Settings.auto_bright]])
+    Threading.pending_jobs.append(["get_raw_image", photo, self])
   else:
     $LoadingLabel.visible = false
   
@@ -91,7 +93,6 @@ func _on_PhotoFrame_image_parsed(photo : Photo):
 
 func update_top_info():
   $TopContainer/Size/Value.text = "%d%%" % (scale_options[scale_index] * 100)
-  $TopContainer/Bit/Value.text = str(Settings.bps)
   $TopContainer/Exposure/Value.text = "%.1f" % EV
   $TopContainer/Gamma/Value.text = "%.1f" % gamma
 

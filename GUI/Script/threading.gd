@@ -41,7 +41,7 @@ func get_raw_thumb(args):
         photo.height = info[0]
     else:
       var data = []
-      Util.Bridge.get_image_data(photo.file_path, data, 8, true, true)
+      Util.Bridge.get_image_data(photo.file_path, data, 8, true, true, Settings.OutputColors.SRGB)
       image.create_from_data(photo.width / 2, photo.height / 2, false, Image.FORMAT_RGB8, data)
     
     var size = image.get_size()
@@ -53,11 +53,6 @@ func get_raw_thumb(args):
 
 func get_raw_image(args):
   var photo : Photo = args[0]
-  var bps = args[3][0]
-  var set_half = args[3][1]
-  var auto_bright = args[3][2]
-  
-  var data = []
   
   if Settings.show_thumb_first:
     var img = Image.new()
@@ -65,10 +60,11 @@ func get_raw_image(args):
     img.resize(photo.width, photo.height, Image.INTERPOLATE_NEAREST)
     photo.full_texture.create_from_image(img, 0)
     
-  Util.Bridge.get_image_data(photo.file_path, data, bps, set_half, auto_bright)
+  var data = []
+  Util.Bridge.get_image_data(photo.file_path, data, Settings.bps, false, Settings.auto_bright, Settings.output_color)
   
   var image = Image.new()
-  image.create_from_data(photo.width, photo.height, false, Image.FORMAT_RGBH if bps == 16 else Image.FORMAT_RGB8, data)
+  image.create_from_data(photo.width, photo.height, false, Image.FORMAT_RGBH if Settings.bps == 16 else Image.FORMAT_RGB8, data)
   photo.full_texture.create_from_image(image, 0)
   
   call_deferred("thread_end", "image_parsed", args)

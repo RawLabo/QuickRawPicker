@@ -142,14 +142,17 @@ void _get_info_with_thumb(const char* path, godot_variant* info, godot_variant* 
 	delete lr_ptr;
 }
 
-void _get_image_data(const char* path, godot_variant* data, int bps, bool set_half, bool auto_bright) {
+void _get_image_data(const char* path, godot_variant* data, int bps, bool set_half, bool auto_bright, int output_color) {
 	LibRaw *lr_ptr = new LibRaw();
 
 	lr_ptr->imgdata.params.fbdd_noiserd = 0;
-	lr_ptr->imgdata.params.user_qual = 0;
+	lr_ptr->imgdata.params.highlight = 0;
+	lr_ptr->imgdata.params.user_qual = 2;
 	lr_ptr->imgdata.params.output_bps = bps;
-	lr_ptr->imgdata.params.highlight = 2;
+	lr_ptr->imgdata.params.output_color = output_color;
 	lr_ptr->imgdata.params.use_camera_wb = 1;
+	//lr_ptr->imgdata.params.no_auto_scale = 1;
+	//lr_ptr->imgdata.params.no_interpolation = 1;
 
 	if (set_half)
 		lr_ptr->imgdata.params.half_size = 1;
@@ -210,8 +213,9 @@ extern "C" {
 		int bps = (int)api->godot_variant_as_int(*(p_args + 2));
 		bool set_half = api->godot_variant_as_bool(*(p_args + 3));
 		bool auto_bright = api->godot_variant_as_bool(*(p_args + 4));
+		int output_color = api->godot_variant_as_int(*(p_args + 5));
 
-		_get_image_data(path, *(p_args + 1), bps, set_half, auto_bright);
+		_get_image_data(path, *(p_args + 1), bps, set_half, auto_bright, output_color);
 		return **p_args;
 	}
 

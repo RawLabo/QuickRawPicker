@@ -57,17 +57,17 @@ __meta__ = {
 }
 
 [node name="Selection" type="ColorRect" parent="TopContainer"]
-margin_left = 357.0
+margin_left = 378.0
 margin_top = 8.0
-margin_right = 373.0
+margin_right = 394.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 16, 16 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="Size" type="HBoxContainer" parent="TopContainer"]
-margin_left = 381.0
-margin_right = 439.0
+margin_left = 402.0
+margin_right = 460.0
 margin_bottom = 32.0
 
 [node name="+" type="Button" parent="TopContainer/Size"]
@@ -91,8 +91,8 @@ text = "-"
 flat = true
 
 [node name="Exposure" type="HBoxContainer" parent="TopContainer"]
-margin_left = 447.0
-margin_right = 513.0
+margin_left = 468.0
+margin_right = 534.0
 margin_bottom = 32.0
 
 [node name="+" type="Button" parent="TopContainer/Exposure"]
@@ -122,8 +122,8 @@ text = "-"
 flat = true
 
 [node name="Gamma" type="HBoxContainer" parent="TopContainer"]
-margin_left = 521.0
-margin_right = 625.0
+margin_left = 542.0
+margin_right = 646.0
 margin_bottom = 32.0
 
 [node name="+" type="Button" parent="TopContainer/Gamma"]
@@ -151,23 +151,6 @@ margin_right = 104.0
 margin_bottom = 32.0
 text = "-"
 flat = true
-
-[node name="Bit" type="HBoxContainer" parent="TopContainer"]
-margin_left = 633.0
-margin_right = 666.0
-margin_bottom = 32.0
-
-[node name="Label" type="Label" parent="TopContainer/Bit"]
-margin_top = 5.0
-margin_right = 29.0
-margin_bottom = 27.0
-text = "Bit:"
-
-[node name="Value" type="Label" parent="TopContainer/Bit"]
-margin_left = 33.0
-margin_top = 5.0
-margin_right = 33.0
-margin_bottom = 27.0
 
 [connection signal="image_parsed" from="." to="." method="_on_PhotoFrame_image_parsed"]
 [connection signal="pressed" from="TopContainer/Size/+" to="." method="_on_size_plus_pressed"]
