@@ -98,6 +98,9 @@ func _on_Grid_gui_input(event):
   elif (button_index == BUTTON_WHEEL_UP or button_index == BUTTON_WHEEL_DOWN) and pressed:
     var is_up = button_index == BUTTON_WHEEL_UP
     for frame in get_children():
+      if with_shift and hovering_frame != frame:
+        continue
+        
       if with_alt:
         frame.gamma += 0.1 if is_up else -0.1
         frame.update_shader()
@@ -108,9 +111,6 @@ func _on_Grid_gui_input(event):
         frame.update_shader()
         continue
         
-      if with_shift and hovering_frame != frame:
-        continue
-      
       frame.rescale(is_up)
       
       
