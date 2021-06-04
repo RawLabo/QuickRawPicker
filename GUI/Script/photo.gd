@@ -11,6 +11,8 @@ var maker : String
 var model : String
 var lens_info : String
 
+var xmp_rating : int
+
 var thumb_texture : ImageTexture
 var full_texture : ImageTexture
 
@@ -18,10 +20,59 @@ var ui_round = 0
 var ui_selected := false
 var ui_marked := false
 
+const rating_tag = "xmp:Rating="
+const xmp_tag = "xmlns:xmp="
+const xmp_template = """
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="QuickRawPicker">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about=""
+    xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+    xmp:Rating="0">
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>"""
+
 func _init(path):
   file_path = path
   thumb_texture = ImageTexture.new()
   full_texture = ImageTexture.new()
+  update_xmp_rating()
+  
+func update_xmp_rating():
+  var xmp_path =  file_path.substr(0, file_path.find_last(".")) + ".xmp"
+  var file = File.new()
+  var err = file.open(xmp_path, File.READ)
+  if err == 0:
+    var content = file.get_as_text()
+    var index = content.find(rating_tag)
+    if index > -1:
+      xmp_rating = content.substr(index + len(rating_tag) + 1, 1).to_int()
+    else:
+      xmp_rating = 0
+  
+  file.close()
+  
+func set_xmp_rating(score):
+  xmp_rating = score
+  
+  var xmp_path =  file_path.substr(0, file_path.find_last(".")) + ".xmp"
+  var file = File.new()
+  var err = file.open(xmp_path, File.READ_WRITE)
+  if err != 0:
+    file.open(xmp_path, File.WRITE)
+  
+  var content = file.get_as_text() if err == 0 else xmp_template
+  var score_str = "\"%d\"" % score
+    
+  var index = content.find(rating_tag)
+  if index > -1:
+    content = content.substr(0, index + len(rating_tag)) + score_str + content.substr(index + len(rating_tag) + 3)
+  else:
+    var xmp_index = content.find(xmp_tag)
+    content = content.substr(0, xmp_index) + rating_tag + score_str + " " + content.substr(xmp_index)
+    
+  file.store_string(content)
+  file.close()
   
 func has_processed():
   return full_texture.get_data() != null
