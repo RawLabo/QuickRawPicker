@@ -25,8 +25,8 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -45.0
 margin_top = -14.0
-margin_right = 39.0
-margin_bottom = 13.0
+margin_right = 58.0
+margin_bottom = 19.0
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.65098 )
 custom_constants/shadow_offset_x = 2
 custom_constants/shadow_offset_y = 2
@@ -57,17 +57,17 @@ __meta__ = {
 }
 
 [node name="Selection" type="ColorRect" parent="TopContainer"]
-margin_left = 378.0
+margin_left = 325.0
 margin_top = 8.0
-margin_right = 394.0
+margin_right = 341.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 16, 16 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="Size" type="HBoxContainer" parent="TopContainer"]
-margin_left = 402.0
-margin_right = 460.0
+margin_left = 349.0
+margin_right = 401.0
 margin_bottom = 32.0
 
 [node name="+" type="Button" parent="TopContainer/Size"]
@@ -78,21 +78,21 @@ flat = true
 
 [node name="Value" type="Label" parent="TopContainer/Size"]
 margin_left = 17.0
-margin_top = 5.0
-margin_right = 41.0
-margin_bottom = 27.0
+margin_top = 2.0
+margin_right = 35.0
+margin_bottom = 29.0
 text = "0%"
 
 [node name="-" type="Button" parent="TopContainer/Size"]
-margin_left = 45.0
-margin_right = 58.0
+margin_left = 39.0
+margin_right = 52.0
 margin_bottom = 32.0
 text = "-"
 flat = true
 
 [node name="Exposure" type="HBoxContainer" parent="TopContainer"]
-margin_left = 468.0
-margin_right = 534.0
+margin_left = 409.0
+margin_right = 474.0
 margin_bottom = 32.0
 
 [node name="+" type="Button" parent="TopContainer/Exposure"]
@@ -103,27 +103,27 @@ flat = true
 
 [node name="Label" type="Label" parent="TopContainer/Exposure"]
 margin_left = 17.0
-margin_top = 5.0
-margin_right = 45.0
-margin_bottom = 27.0
+margin_top = 2.0
+margin_right = 44.0
+margin_bottom = 29.0
 text = "EV:"
 
 [node name="Value" type="Label" parent="TopContainer/Exposure"]
-margin_left = 49.0
-margin_top = 5.0
-margin_right = 49.0
-margin_bottom = 27.0
+margin_left = 48.0
+margin_top = 2.0
+margin_right = 48.0
+margin_bottom = 29.0
 
 [node name="-" type="Button" parent="TopContainer/Exposure"]
-margin_left = 53.0
-margin_right = 66.0
+margin_left = 52.0
+margin_right = 65.0
 margin_bottom = 32.0
 text = "-"
 flat = true
 
 [node name="Gamma" type="HBoxContainer" parent="TopContainer"]
-margin_left = 542.0
-margin_right = 646.0
+margin_left = 482.0
+margin_right = 574.0
 margin_bottom = 32.0
 
 [node name="+" type="Button" parent="TopContainer/Gamma"]
@@ -134,23 +134,46 @@ flat = true
 
 [node name="Label" type="Label" parent="TopContainer/Gamma"]
 margin_left = 17.0
-margin_top = 5.0
-margin_right = 83.0
-margin_bottom = 27.0
+margin_top = 2.0
+margin_right = 71.0
+margin_bottom = 29.0
 text = "Gamma:"
 
 [node name="Value" type="Label" parent="TopContainer/Gamma"]
-margin_left = 87.0
-margin_top = 5.0
-margin_right = 87.0
-margin_bottom = 27.0
+margin_left = 75.0
+margin_top = 2.0
+margin_right = 75.0
+margin_bottom = 29.0
 
 [node name="-" type="Button" parent="TopContainer/Gamma"]
-margin_left = 91.0
-margin_right = 104.0
+margin_left = 79.0
+margin_right = 92.0
 margin_bottom = 32.0
 text = "-"
 flat = true
+
+[node name="Rating" type="HBoxContainer" parent="TopContainer"]
+margin_left = 582.0
+margin_right = 698.0
+margin_bottom = 32.0
+
+[node name="Label" type="Label" parent="TopContainer/Rating"]
+margin_top = 2.0
+margin_right = 63.0
+margin_bottom = 29.0
+text = "Rating:"
+
+[node name="RatingCombox" type="OptionButton" parent="TopContainer/Rating"]
+margin_left = 67.0
+margin_top = 2.0
+margin_right = 116.0
+margin_bottom = 29.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "None"
+flat = true
+items = [ "None", null, false, 0, null, "1", null, false, 1, null, "2", null, false, 2, null, "3", null, false, 3, null, "4", null, false, 4, null, "5", null, false, 5, null ]
+selected = 0
 
 [connection signal="image_parsed" from="." to="." method="_on_PhotoFrame_image_parsed"]
 [connection signal="pressed" from="TopContainer/Size/+" to="." method="_on_size_plus_pressed"]

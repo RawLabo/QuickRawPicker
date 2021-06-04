@@ -1,7 +1,8 @@
-[gd_resource type="Theme" load_steps=7 format=2]
+[gd_resource type="Theme" load_steps=10 format=2]
 
-[ext_resource path="res://Asset/Font/default.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Asset/Font/mono.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Asset/Font/bigger.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Asset/Font/MplusCodeLatin50-SemiBold.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -10,6 +11,22 @@
 [sub_resource type="StyleBoxEmpty" id=3]
 
 [sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="DynamicFont" id=5]
+size = 18
+outline_size = 1
+outline_color = Color( 0, 0, 0, 0.596078 )
+use_mipmaps = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color( 0, 0, 0, 0.407843 )
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
 
 [resource]
 default_font = ExtResource( 1 )
@@ -33,3 +50,35 @@ Label/constants/shadow_offset_x = 2
 Label/constants/shadow_offset_y = 2
 Label/fonts/font = null
 Label/styles/normal = null
+OptionButton/colors/font_color = Color( 1, 1, 1, 1 )
+OptionButton/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+OptionButton/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+OptionButton/constants/arrow_margin = 2
+OptionButton/constants/hseparation = 1
+OptionButton/fonts/font = SubResource( 5 )
+OptionButton/icons/arrow = null
+OptionButton/styles/disabled = null
+OptionButton/styles/focus = null
+OptionButton/styles/hover = null
+OptionButton/styles/normal = null
+OptionButton/styles/pressed = null
+PopupMenu/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
+PopupMenu/colors/font_color_accel = Color( 0.7, 0.7, 0.7, 0.8 )
+PopupMenu/colors/font_color_disabled = Color( 0.4, 0.4, 0.4, 0.8 )
+PopupMenu/colors/font_color_hover = Color( 0.88, 0.88, 0.88, 1 )
+PopupMenu/colors/font_color_separator = Color( 0.88, 0.88, 0.88, 1 )
+PopupMenu/constants/hseparation = 4
+PopupMenu/constants/vseparation = 4
+PopupMenu/fonts/font = null
+PopupMenu/icons/checked = null
+PopupMenu/icons/radio_checked = null
+PopupMenu/icons/radio_unchecked = null
+PopupMenu/icons/submenu = null
+PopupMenu/icons/unchecked = null
+PopupMenu/styles/hover = null
+PopupMenu/styles/labeled_separator_left = null
+PopupMenu/styles/labeled_separator_right = null
+PopupMenu/styles/panel = SubResource( 6 )
+PopupMenu/styles/panel_disabled = null
+PopupMenu/styles/separator = null
