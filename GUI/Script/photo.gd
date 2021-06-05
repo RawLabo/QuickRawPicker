@@ -11,7 +11,7 @@ var maker : String
 var model : String
 var lens_info : String
 
-var xmp_rating : int
+var xmp_rating : int = 0
 
 var thumb_texture : ImageTexture
 var full_texture : ImageTexture
@@ -36,10 +36,9 @@ func _init(path):
   file_path = path
   thumb_texture = ImageTexture.new()
   full_texture = ImageTexture.new()
-  update_xmp_rating()
   
 func update_xmp_rating():
-  var xmp_path =  file_path.substr(0, file_path.find_last(".")) + ".xmp"
+  var xmp_path = file_path.substr(0, file_path.find_last(".")) + ".xmp"
   var file = File.new()
   var err = file.open(xmp_path, File.READ)
   if err == 0:

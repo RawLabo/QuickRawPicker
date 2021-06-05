@@ -65,6 +65,7 @@ func _ready():
     
 func init(w, h, input_photo):
   photo = input_photo
+  photo.update_xmp_rating()
     
   rect_min_size = Vector2(w, h)
   scale_options[0] = min(rect_min_size.x / photo.width, rect_min_size.y / photo.height)
@@ -79,22 +80,23 @@ func init(w, h, input_photo):
   $InfoLabel.text = photo.get_bar_info()
   
   if not photo.has_processed():
-    
     Threading.pending_jobs.append(["get_raw_image", photo, self])
   else:
     $LoadingLabel.visible = false
+    $TopContainer.visible = true
   
 
 func _on_PhotoFrame_image_parsed(photo : Photo):
   $LoadingLabel.visible = false
+  $TopContainer.visible = true
   gamma = 2.6 if not Settings.auto_bright else 1.0
   update_shader()
-  update_top_info()
 
 func update_top_info():
   $TopContainer/Size/Value.text = "%d%%" % (scale_options[scale_index] * 100)
   $TopContainer/Exposure/Value.text = "%.1f" % EV
   $TopContainer/Gamma/Value.text = "%.1f" % gamma
+  $TopContainer/Rating/RatingCombox.select(photo.xmp_rating)
 
 func reset_size():
   rescale(true, 1 if scale_index == 0 else 0)
@@ -167,3 +169,7 @@ func _on_gamma_plus_pressed():
 func _on_gamma_minus_pressed():
   gamma -= 0.1
   update_shader()
+
+
+func _on_RatingCombox_item_selected(index):
+  photo.set_xmp_rating(index)

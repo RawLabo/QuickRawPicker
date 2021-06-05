@@ -48,6 +48,7 @@ __meta__ = {
 }
 
 [node name="TopContainer" type="HBoxContainer" parent="."]
+visible = false
 anchor_right = 1.0
 margin_bottom = 32.0
 custom_constants/separation = 8
@@ -182,3 +183,4 @@ selected = 0
 [connection signal="pressed" from="TopContainer/Exposure/-" to="." method="_on_exposure_minus_pressed"]
 [connection signal="pressed" from="TopContainer/Gamma/+" to="." method="_on_gamma_plus_pressed"]
 [connection signal="pressed" from="TopContainer/Gamma/-" to="." method="_on_gamma_minus_pressed"]
+[connection signal="item_selected" from="TopContainer/Rating/RatingCombox" to="." method="_on_RatingCombox_item_selected"]

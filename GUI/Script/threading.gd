@@ -53,13 +53,12 @@ func get_raw_thumb(args):
 
 func get_raw_image(args):
   var photo : Photo = args[0]
-  
   if Settings.show_thumb_first:
     var img = Image.new()
     img.copy_from(photo.thumb_texture.get_data())
     img.resize(photo.width, photo.height, Image.INTERPOLATE_NEAREST)
     photo.full_texture.create_from_image(img, 0)
-    
+  
   var data = []
   Util.Bridge.get_image_data(photo.file_path, data, Settings.bps, false, Settings.auto_bright, Settings.output_color)
   
