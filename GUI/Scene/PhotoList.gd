@@ -74,7 +74,11 @@ func _on_List_multi_selected(index, selected):
     if curr_selected != photo.ui_selected:
       photo.toggle_selection()
 
-
+func clean_cache():
+  for photo in photos:
+    photo.full_texture = ImageTexture.new()
+    photo.ui_round = 0
+    
 func _on_List_gui_input(event):
   with_alt = event.alt
 

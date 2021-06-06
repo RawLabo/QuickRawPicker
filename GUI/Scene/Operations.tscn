@@ -22,30 +22,160 @@ access = 2
 current_dir = "/Users/qdwang/Desktop/Codes/QuickRawPickerNative/GUI"
 current_path = "/Users/qdwang/Desktop/Codes/QuickRawPickerNative/GUI/"
 
-[node name="Grid" type="GridContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/vseparation = 2
-custom_constants/hseparation = 2
+[node name="SettingsDialog" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -250.0
+margin_top = -150.0
+margin_right = 141.0
+margin_bottom = 157.0
+window_title = "Settings"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Grid" type="GridContainer" parent="SettingsDialog"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -132.158
+margin_top = -124.86
+margin_right = 80.8421
+margin_bottom = 62.1404
+custom_constants/vseparation = 12
+custom_constants/hseparation = 8
 columns = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OpenFolder" type="Button" parent="Grid"]
+[node name="BpsLabel" type="Label" parent="SettingsDialog/Grid"]
+margin_left = 56.0
+margin_top = 3.0
+margin_right = 128.0
+margin_bottom = 17.0
+size_flags_horizontal = 8
+text = "Display bit:"
+
+[node name="BpsOption" type="OptionButton" parent="SettingsDialog/Grid"]
+margin_left = 136.0
+margin_right = 210.0
+margin_bottom = 20.0
+items = [ "16", null, false, 0, null, "8", null, false, 1, null ]
+selected = 0
+
+[node name="AutoBrightLabel" type="Label" parent="SettingsDialog/Grid"]
+margin_left = 39.0
+margin_top = 35.0
+margin_right = 128.0
+margin_bottom = 49.0
+size_flags_horizontal = 8
+text = "High contrast:"
+
+[node name="AutoBrightOption" type="OptionButton" parent="SettingsDialog/Grid"]
+margin_left = 136.0
+margin_top = 32.0
+margin_right = 210.0
+margin_bottom = 52.0
+items = [ "True", null, false, 0, null, "False", null, false, 1, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShowThumbFirstLabel" type="Label" parent="SettingsDialog/Grid"]
+margin_left = 22.0
+margin_top = 67.0
+margin_right = 128.0
+margin_bottom = 81.0
+size_flags_horizontal = 8
+text = "Show thumbnail:"
+
+[node name="ShowThumbFirstOption" type="OptionButton" parent="SettingsDialog/Grid"]
+margin_left = 136.0
+margin_top = 64.0
+margin_right = 210.0
+margin_bottom = 84.0
+items = [ "True", null, false, 0, null, "False", null, false, 1, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CacheRoundLabel" type="Label" parent="SettingsDialog/Grid"]
+margin_left = 45.0
+margin_top = 101.0
+margin_right = 128.0
+margin_bottom = 115.0
+size_flags_horizontal = 8
+text = "Cache round:"
+
+[node name="CacheRoundSpinBox" type="SpinBox" parent="SettingsDialog/Grid"]
+margin_left = 136.0
+margin_top = 96.0
+margin_right = 210.0
+margin_bottom = 120.0
+min_value = 1.0
+max_value = 20.0
+value = 1.0
+rounded = true
+
+[node name="DisplayColorSpaceLabel" type="Label" parent="SettingsDialog/Grid"]
+margin_top = 135.0
+margin_right = 128.0
+margin_bottom = 149.0
+size_flags_horizontal = 8
+text = "Display color space:"
+
+[node name="DisplayColorSpaceOption" type="OptionButton" parent="SettingsDialog/Grid"]
+margin_left = 136.0
+margin_top = 132.0
+margin_right = 210.0
+margin_bottom = 152.0
+
+[node name="Empty" type="Label" parent="SettingsDialog/Grid"]
+margin_top = 167.0
+margin_right = 128.0
+margin_bottom = 181.0
+
+[node name="Reset" type="Button" parent="SettingsDialog/Grid"]
+margin_left = 136.0
+margin_top = 164.0
+margin_right = 210.0
+margin_bottom = 184.0
+text = "Reset"
+
+[node name="Container" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+margin_bottom = 20.0
+custom_constants/separation = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpenFolder" type="Button" parent="Container"]
 margin_right = 511.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "OpenFolder"
 
-[node name="Export" type="MenuButton" parent="Grid"]
+[node name="Fn" type="MenuButton" parent="Container"]
 margin_left = 513.0
 margin_right = 1024.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
-text = "Export"
+text = "Fn"
 flat = false
-items = [ "Move", null, 0, false, false, 0, 0, null, "", false, "Copy", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "Export Selected", null, 0, false, false, 0, 0, null, "", false, "Settings", null, 0, false, false, 1, 0, null, "", false, "About", null, 0, false, false, 2, 0, null, "", false ]
 
 [connection signal="dir_selected" from="Dialog" to="." method="_on_Dialog_dir_selected"]
-[connection signal="pressed" from="Grid/OpenFolder" to="." method="_on_OpenFolder_pressed"]
+[connection signal="item_selected" from="SettingsDialog/Grid/BpsOption" to="." method="_on_BpsOption_item_selected"]
+[connection signal="item_selected" from="SettingsDialog/Grid/AutoBrightOption" to="." method="_on_AutoBrightOption_item_selected"]
+[connection signal="item_selected" from="SettingsDialog/Grid/ShowThumbFirstOption" to="." method="_on_ShowThumbFirstOption_item_selected"]
+[connection signal="value_changed" from="SettingsDialog/Grid/CacheRoundSpinBox" to="." method="_on_CacheRoundSpinBox_value_changed"]
+[connection signal="item_selected" from="SettingsDialog/Grid/DisplayColorSpaceOption" to="." method="_on_DisplayColorSpaceOption_item_selected"]
+[connection signal="pressed" from="SettingsDialog/Grid/Reset" to="." method="_on_Reset_pressed"]
+[connection signal="pressed" from="Container/OpenFolder" to="." method="_on_OpenFolder_pressed"]
