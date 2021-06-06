@@ -173,3 +173,17 @@ func _on_gamma_minus_pressed():
 
 func _on_RatingCombox_item_selected(index):
   photo.set_xmp_rating(index)
+
+func toggle_highlight():
+  $TopContainer/Highlight.pressed = not $TopContainer/Highlight.pressed
+  
+func toggle_shadow():
+  $TopContainer/Shadow.pressed = not $TopContainer/Shadow.pressed
+  
+func _on_Highlight_toggled(button_pressed):
+  highlight_draw = 1.0 if button_pressed else 0.0
+  update_shader()
+
+func _on_Shadow_toggled(button_pressed):
+  shadow_draw = 1.0 if button_pressed else 0.0
+  update_shader()

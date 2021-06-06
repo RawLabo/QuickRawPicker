@@ -19,20 +19,19 @@ void fragment() {
   // exposure adjustment
   vec3 gamma_corrected = pow(center, vec3(gamma_correction));
   vec3 exposure_adjusted = min(gamma_corrected * pow(2, exposure), vec3(1.0));
-  
+
   float luminance = get_luminance(exposure_adjusted);
-  float switcher = smoothstep(0.0, 1.0, sin(TIME * 2.5));
   // draw shadow pixels
   vec3 shadow_drawed = mix(
     exposure_adjusted, 
     vec3(0.0, 1.0, 0.0), 
-    (1.0 - step(0.01, luminance)) * switcher * shadow_draw
+    (1.0 - step(0.01, luminance)) * shadow_draw
   );
   // draw highlight pixels
   vec3 highlight_drawed = mix(
     shadow_drawed, 
     vec3(1.0, 0.0, 0.0), 
-    step(0.99, luminance) * switcher * highlight_draw
+    step(0.99, luminance) * highlight_draw
   );
   
   COLOR.rgb = highlight_drawed;

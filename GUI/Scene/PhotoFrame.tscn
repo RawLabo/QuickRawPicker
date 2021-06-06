@@ -18,20 +18,15 @@ __meta__ = {
 [node name="Photo" type="Sprite" parent="."]
 material = ExtResource( 3 )
 
-[node name="LoadingLabel" type="RichTextLabel" parent="."]
+[node name="LoadingLabel" type="Label" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -45.0
-margin_top = -14.0
-margin_right = 58.0
-margin_bottom = 19.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.65098 )
-custom_constants/shadow_offset_x = 2
-custom_constants/shadow_offset_y = 2
-bbcode_enabled = true
-bbcode_text = "[wave amp=50 freq=10]Loading...[/wave]"
+margin_top = -13.5
+margin_right = 45.0
+margin_bottom = 13.5
 text = "Loading..."
 __meta__ = {
 "_edit_use_anchors_": false
@@ -48,7 +43,6 @@ __meta__ = {
 }
 
 [node name="TopContainer" type="HBoxContainer" parent="."]
-visible = false
 anchor_right = 1.0
 margin_bottom = 32.0
 custom_constants/separation = 8
@@ -58,17 +52,17 @@ __meta__ = {
 }
 
 [node name="Selection" type="ColorRect" parent="TopContainer"]
-margin_left = 325.0
+margin_left = 304.0
 margin_top = 8.0
-margin_right = 341.0
+margin_right = 320.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 16, 16 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="Size" type="HBoxContainer" parent="TopContainer"]
-margin_left = 349.0
-margin_right = 401.0
+margin_left = 328.0
+margin_right = 380.0
 margin_bottom = 32.0
 
 [node name="+" type="Button" parent="TopContainer/Size"]
@@ -92,8 +86,8 @@ text = "-"
 flat = true
 
 [node name="Exposure" type="HBoxContainer" parent="TopContainer"]
-margin_left = 409.0
-margin_right = 474.0
+margin_left = 388.0
+margin_right = 453.0
 margin_bottom = 32.0
 
 [node name="+" type="Button" parent="TopContainer/Exposure"]
@@ -123,8 +117,8 @@ text = "-"
 flat = true
 
 [node name="Gamma" type="HBoxContainer" parent="TopContainer"]
-margin_left = 482.0
-margin_right = 574.0
+margin_left = 461.0
+margin_right = 553.0
 margin_bottom = 32.0
 
 [node name="+" type="Button" parent="TopContainer/Gamma"]
@@ -154,8 +148,8 @@ text = "-"
 flat = true
 
 [node name="Rating" type="HBoxContainer" parent="TopContainer"]
-margin_left = 582.0
-margin_right = 698.0
+margin_left = 561.0
+margin_right = 677.0
 margin_bottom = 32.0
 
 [node name="Label" type="Label" parent="TopContainer/Rating"]
@@ -176,6 +170,26 @@ flat = true
 items = [ "None", null, false, 0, null, "1", null, false, 1, null, "2", null, false, 2, null, "3", null, false, 3, null, "4", null, false, 4, null, "5", null, false, 5, null ]
 selected = 0
 
+[node name="Highlight" type="Button" parent="TopContainer"]
+margin_left = 685.0
+margin_right = 698.0
+margin_bottom = 32.0
+custom_colors/font_color = Color( 0.835294, 0.580392, 0.580392, 1 )
+custom_colors/font_color_hover = Color( 0.807843, 0.356863, 0.356863, 1 )
+custom_colors/font_color_pressed = Color( 0.937255, 0.172549, 0.172549, 1 )
+toggle_mode = true
+text = "H"
+
+[node name="Shadow" type="Button" parent="TopContainer"]
+margin_left = 706.0
+margin_right = 719.0
+margin_bottom = 32.0
+custom_colors/font_color = Color( 0.729412, 0.890196, 0.713726, 1 )
+custom_colors/font_color_hover = Color( 0.470588, 0.901961, 0.439216, 1 )
+custom_colors/font_color_pressed = Color( 0.247059, 0.862745, 0.294118, 1 )
+toggle_mode = true
+text = "S"
+
 [connection signal="image_parsed" from="." to="." method="_on_PhotoFrame_image_parsed"]
 [connection signal="pressed" from="TopContainer/Size/+" to="." method="_on_size_plus_pressed"]
 [connection signal="pressed" from="TopContainer/Size/-" to="." method="_on_size_minus_pressed"]
@@ -184,3 +198,5 @@ selected = 0
 [connection signal="pressed" from="TopContainer/Gamma/+" to="." method="_on_gamma_plus_pressed"]
 [connection signal="pressed" from="TopContainer/Gamma/-" to="." method="_on_gamma_minus_pressed"]
 [connection signal="item_selected" from="TopContainer/Rating/RatingCombox" to="." method="_on_RatingCombox_item_selected"]
+[connection signal="toggled" from="TopContainer/Highlight" to="." method="_on_Highlight_toggled"]
+[connection signal="toggled" from="TopContainer/Shadow" to="." method="_on_Shadow_toggled"]

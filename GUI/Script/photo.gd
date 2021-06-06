@@ -37,11 +37,18 @@ func _init(path):
   thumb_texture = ImageTexture.new()
   full_texture = ImageTexture.new()
   
+func get_buffer():
+  var file = File.new()
+  var err = file.open(file_path, File.READ)
+  var result = file.get_buffer(file.get_len()) if err == OK else []
+  file.close()
+  return result
+  
 func update_xmp_rating():
   var xmp_path = file_path.substr(0, file_path.find_last(".")) + ".xmp"
   var file = File.new()
   var err = file.open(xmp_path, File.READ)
-  if err == 0:
+  if err == OK:
     var content = file.get_as_text()
     var index = content.find(rating_tag)
     if index > -1:

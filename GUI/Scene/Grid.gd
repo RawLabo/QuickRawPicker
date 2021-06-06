@@ -64,13 +64,29 @@ func get_hovering_frame(pos):
       
   return null
   
+func _input(event):
+  if event is InputEventKey and event.pressed and hovering_frame:
+    var with_h = event.scancode == KEY_H
+    var with_s = event.scancode == KEY_S
+    
+    if with_h:
+#      hovering_frame.highlight_draw = 0.0 if hovering_frame.highlight_draw > 0.5 else 1.0
+#      hovering_frame.update_shader()
+      hovering_frame.toggle_highlight()
+    elif with_s:
+#      hovering_frame.shadow_draw = 0.0 if hovering_frame.shadow_draw > 0.5 else 1.0
+#      hovering_frame.update_shader()
+      hovering_frame.toggle_shadow()
+    
+    
 var prev_mouse_pos = Vector2.ZERO
+var hovering_frame = null
 func _on_Grid_gui_input(event):
   var with_ctrl = event.control
   var with_alt = event.alt
   var with_shift = event.shift
   
-  var hovering_frame = get_hovering_frame(event.position)
+  hovering_frame = get_hovering_frame(event.position)
   
   var button_index = 0
   var pressed = false

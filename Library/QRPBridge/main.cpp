@@ -1,10 +1,17 @@
 #include <string>
+#include <codecvt>
 #include <gdnative_api_struct.gen.h>
 #include <libraw/libraw.h>
 #include <turbojpeg.h>
 
 const godot_gdnative_core_api_struct* api = NULL;
 const godot_gdnative_ext_nativescript_api_struct* nativescript_api = NULL;
+
+inline std::wstring char2wchar(const char* data) {
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+	std::wstring result = converter.from_bytes(data);
+	return result;
+}
 
 inline void print(const char* data) {
 	godot_string x;
@@ -101,7 +108,8 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 
 void _get_info_with_thumb(const char* path, godot_variant* info, godot_variant* data) {
 	LibRaw* lr_ptr = new LibRaw();
-	int result = lr_ptr->open_file(path);
+
+	int result = lr_ptr->open_file(char2wchar(path).c_str());
 	if (result == 0) {
 		info_fetch(info, lr_ptr);
 
@@ -163,7 +171,7 @@ void _get_image_data(const char* path, godot_variant* data, int bps, bool set_ha
 		lr_ptr->imgdata.params.gamm[1] = 1000;
 	}
 
-	int result = lr_ptr->open_file(path);
+	int result = lr_ptr->open_file(char2wchar(path).c_str());
 	if (result == 0) {
 		lr_ptr->unpack();
 		lr_ptr->dcraw_process();
