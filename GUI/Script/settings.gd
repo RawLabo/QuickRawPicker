@@ -10,12 +10,34 @@ var select_color = Color(1, 1, 1)
 var mark_color = Color(0, 1, 0, 0.7)
 
 var extension_filter = [
-  "ARW",
-  "RW2",
-  "ORF",
-  "CR3",
-  "DNG",
-  "dng"
+  "3fr",
+  "mdc",
+  "ari",
+  "mos",
+  "arw", "srf", "sr2",
+  "mrw",
+  "bay",
+  "nef", "nrw",
+  "braw",
+  "orf",
+  "cri",
+  "pef", "ptx",
+  "crw", "cr2", "cr3",
+  "pxn",
+  "cap", "iiq", "eip",
+  "r3d",
+  "dcs", "dcr", "drf", "k25", "kdc",
+  "raf",
+  "dng",
+  "raw", "rw2",
+  "etf",
+  "rwl",
+  "fff",
+  "rwz",
+  "gpr",
+  "srw",
+  "mef",
+  "x3f"
 ]
 
 enum OutputColors {

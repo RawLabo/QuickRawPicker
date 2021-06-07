@@ -32,7 +32,7 @@ func update_dir(dir_path):
     while file_name != "":
       if not dir.current_is_dir():
         var extension_name = ("." + file_name).rsplit(".", true, 1)[1]
-        if extension_name in Settings.extension_filter:
+        if extension_name.to_lower() in Settings.extension_filter:
           var file_path = dir_path + "/" + file_name
           if Util.is_windows:
             file_path = file_path.replace("/", "\\")

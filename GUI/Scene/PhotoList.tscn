@@ -15,12 +15,13 @@ __meta__ = {
 
 [node name="List" type="ItemList" parent="."]
 margin_right = 1024.0
-margin_bottom = 572.0
+margin_bottom = 570.0
 size_flags_vertical = 3
 select_mode = 1
+fixed_column_width = 1
 
 [node name="Compare" type="Button" parent="."]
-margin_top = 572.0
+margin_top = 570.0
 margin_right = 1024.0
 margin_bottom = 600.0
 text = "Compare"
