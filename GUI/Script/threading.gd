@@ -34,13 +34,21 @@ func get_raw_thumb(args):
     #TODO: DNG xmp rating read from Bridge
     
     var image = Image.new()
-    if data_arr.size() > 0:
-      image.load_jpg_from_buffer(data_arr)
-      var size = image.get_size()
-      if size.y > size.x:
-        photo.width = info[1]
-        photo.height = info[0]
-    else:
+    var need_half_raw = data_arr.size() == 0
+    if not need_half_raw:
+      var err = image.load_jpg_from_buffer(data_arr)
+      if err != OK:
+        err = image.load_bmp_from_buffer(data_arr)
+        
+      if err == OK:
+        var size = image.get_size()
+        if size.y > size.x:
+          photo.width = info[1]
+          photo.height = info[0]
+      else:
+        need_half_raw = true
+        
+    if need_half_raw:
       var data = []
       Util.Bridge.get_image_data(photo.file_path, data, 8, true, true, Settings.OutputColors.SRGB)
       image.create_from_data(photo.width / 2, photo.height / 2, false, Image.FORMAT_RGB8, data)
