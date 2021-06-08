@@ -7,6 +7,8 @@ func _ready():
   $Container/Fn.get_popup().connect("id_pressed", self, "_on_Fn_id_pressed")
   for key in Settings.OutputColors.keys():
     $SettingsDialog/Grid/DisplayColorSpaceOption.add_item(key)
+  for key in Settings.RatingType.keys():
+    $SettingsDialog/Grid/RatingTypeOption.add_item(key)
   
 func _on_Reset_pressed():
   Settings.reset()
@@ -18,6 +20,7 @@ func update_settings_dialog():
   $SettingsDialog/Grid/ShowThumbFirstOption.select(0 if Settings.show_thumb_first else 1)
   $SettingsDialog/Grid/CacheRoundSpinBox.value = Settings.cache_round
   $SettingsDialog/Grid/DisplayColorSpaceOption.select(int(Settings.output_color))
+  $SettingsDialog/Grid/RatingTypeOption.select(int(Settings.rating_type))
   
 func _on_Fn_id_pressed(id):
   if id == 0:
@@ -65,3 +68,8 @@ func _on_DisplayColorSpaceOption_item_selected(index):
   Settings.output_color = index
   Settings.save_settings()
   Settings.update_title()
+
+func _on_RatingTypeOption_item_selected(index):
+  Settings.rating_type = index
+  Settings.save_settings()
+  

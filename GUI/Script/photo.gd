@@ -11,7 +11,7 @@ var maker : String
 var model : String
 var lens_info : String
 
-var xmp_rating : int = 0
+var rating : int = 0
 
 var thumb_texture : ImageTexture
 var full_texture : ImageTexture
@@ -20,7 +20,7 @@ var ui_round = 0
 var ui_selected := false
 var ui_marked := false
 
-const rating_tag = "xmp:Rating="
+const xmp_rating_tag = "xmp:Rating="
 const xmp_tag = "xmlns:xmp="
 const xmp_template = """
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="QuickRawPicker">
@@ -31,6 +31,11 @@ const xmp_template = """
   </rdf:Description>
  </rdf:RDF>
 </x:xmpmeta>"""
+const pp3_rating_tag = "Rank="
+const pp3_template = """
+[General]
+Rank=0
+"""
 
 func _init(path):
   file_path = path
@@ -44,22 +49,32 @@ func get_buffer():
   file.close()
   return result
   
+func update_rating():
+  if Settings.rating_type == Settings.RatingType.XMP:
+    update_xmp_rating()
+  elif Settings.rating_type == Settings.RatingType.PP3:
+    update_pp3_rating()
+    
+func set_rating(score):
+  if Settings.rating_type == Settings.RatingType.XMP:
+    set_xmp_rating(score)
+  elif Settings.rating_type == Settings.RatingType.PP3:
+    set_pp3_rating(score)
+  
 func update_xmp_rating():
   var xmp_path = file_path.substr(0, file_path.find_last(".")) + ".xmp"
   var file = File.new()
   var err = file.open(xmp_path, File.READ)
   if err == OK:
     var content = file.get_as_text()
-    var index = content.find(rating_tag)
+    var index = content.find(xmp_rating_tag)
     if index > -1:
-      xmp_rating = content.substr(index + len(rating_tag) + 1, 1).to_int()
-    else:
-      xmp_rating = 0
+      rating = content.substr(index + len(xmp_rating_tag) + 1, 1).to_int()
   
   file.close()
-  
+    
 func set_xmp_rating(score):
-  xmp_rating = score
+  rating = score
   
   var xmp_path =  file_path.substr(0, file_path.find_last(".")) + ".xmp"
   var file = File.new()
@@ -70,13 +85,43 @@ func set_xmp_rating(score):
   var content = file.get_as_text() if err == 0 else xmp_template
   var score_str = "\"%d\"" % score
     
-  var index = content.find(rating_tag)
+  var index = content.find(xmp_rating_tag)
   if index > -1:
-    content = content.substr(0, index + len(rating_tag)) + score_str + content.substr(index + len(rating_tag) + 3)
+    content = content.substr(0, index + len(xmp_rating_tag)) + score_str + content.substr(index + len(xmp_rating_tag) + 3)
   else:
     var xmp_index = content.find(xmp_tag)
-    content = content.substr(0, xmp_index) + rating_tag + score_str + " " + content.substr(xmp_index)
+    content = content.substr(0, xmp_index) + xmp_rating_tag + score_str + " " + content.substr(xmp_index)
     
+  file.store_string(content)
+  file.close()
+
+func update_pp3_rating():
+  var pp3_path = file_path + ".pp3"
+  var file = File.new()
+  var err = file.open(pp3_path, File.READ)
+  if err == OK:
+    var content = file.get_as_text()
+    var index = content.find(pp3_rating_tag)
+    if index > -1:
+      rating = content.substr(index + len(pp3_rating_tag), 1).to_int()
+  
+  file.close()
+  
+func set_pp3_rating(score):
+  rating = score
+  
+  var pp3_path = file_path + ".pp3"
+  var file = File.new()
+  var err = file.open(pp3_path, File.READ_WRITE)
+  if err != OK:
+    file.open(pp3_path, File.WRITE)
+    
+  var content = file.get_as_text() if err == OK else pp3_template
+      
+  var index = content.find(pp3_rating_tag)
+  if index > -1:
+    content = content.substr(0, index + len(pp3_rating_tag)) + str(score) + content.substr(index + len(pp3_rating_tag) + 1)
+
   file.store_string(content)
   file.close()
   

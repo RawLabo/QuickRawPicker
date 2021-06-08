@@ -29,8 +29,8 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -250.0
 margin_top = -150.0
-margin_right = 141.0
-margin_bottom = 157.0
+margin_right = 209.0
+margin_bottom = 223.0
 window_title = "Settings"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -41,10 +41,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -132.158
-margin_top = -124.86
-margin_right = 80.8421
-margin_bottom = 62.1404
+margin_left = -129.307
+margin_top = -145.529
+margin_right = 83.693
+margin_bottom = 70.4712
 custom_constants/vseparation = 12
 custom_constants/hseparation = 8
 columns = 2
@@ -53,12 +53,11 @@ __meta__ = {
 }
 
 [node name="BpsLabel" type="Label" parent="SettingsDialog/Grid"]
-margin_left = 56.0
 margin_top = 3.0
 margin_right = 128.0
 margin_bottom = 17.0
-size_flags_horizontal = 8
 text = "Display bit:"
+align = 2
 
 [node name="BpsOption" type="OptionButton" parent="SettingsDialog/Grid"]
 margin_left = 136.0
@@ -69,12 +68,11 @@ items = [ "16", null, false, 0, null, "8", null, false, 1, null ]
 selected = 0
 
 [node name="AutoBrightLabel" type="Label" parent="SettingsDialog/Grid"]
-margin_left = 39.0
 margin_top = 35.0
 margin_right = 128.0
 margin_bottom = 49.0
-size_flags_horizontal = 8
 text = "High contrast:"
+align = 2
 
 [node name="AutoBrightOption" type="OptionButton" parent="SettingsDialog/Grid"]
 margin_left = 136.0
@@ -89,12 +87,11 @@ __meta__ = {
 }
 
 [node name="ShowThumbFirstLabel" type="Label" parent="SettingsDialog/Grid"]
-margin_left = 22.0
 margin_top = 67.0
 margin_right = 128.0
 margin_bottom = 81.0
-size_flags_horizontal = 8
 text = "Show thumbnail:"
+align = 2
 
 [node name="ShowThumbFirstOption" type="OptionButton" parent="SettingsDialog/Grid"]
 margin_left = 136.0
@@ -109,12 +106,11 @@ __meta__ = {
 }
 
 [node name="CacheRoundLabel" type="Label" parent="SettingsDialog/Grid"]
-margin_left = 45.0
 margin_top = 101.0
 margin_right = 128.0
 margin_bottom = 115.0
-size_flags_horizontal = 8
 text = "Cache round:"
+align = 2
 
 [node name="CacheRoundSpinBox" type="SpinBox" parent="SettingsDialog/Grid"]
 margin_left = 136.0
@@ -130,8 +126,8 @@ rounded = true
 margin_top = 135.0
 margin_right = 128.0
 margin_bottom = 149.0
-size_flags_horizontal = 8
 text = "Display color space:"
+align = 2
 
 [node name="DisplayColorSpaceOption" type="OptionButton" parent="SettingsDialog/Grid"]
 margin_left = 136.0
@@ -139,16 +135,30 @@ margin_top = 132.0
 margin_right = 210.0
 margin_bottom = 152.0
 
-[node name="Empty" type="Label" parent="SettingsDialog/Grid"]
+[node name="RatingType" type="Label" parent="SettingsDialog/Grid"]
 margin_top = 167.0
 margin_right = 128.0
 margin_bottom = 181.0
+text = "Rating type:"
+align = 2
 
-[node name="Reset" type="Button" parent="SettingsDialog/Grid"]
+[node name="RatingTypeOption" type="OptionButton" parent="SettingsDialog/Grid"]
 margin_left = 136.0
 margin_top = 164.0
 margin_right = 210.0
 margin_bottom = 184.0
+
+[node name="Empty" type="Label" parent="SettingsDialog/Grid"]
+margin_top = 199.0
+margin_right = 128.0
+margin_bottom = 213.0
+align = 2
+
+[node name="Reset" type="Button" parent="SettingsDialog/Grid"]
+margin_left = 136.0
+margin_top = 196.0
+margin_right = 210.0
+margin_bottom = 216.0
 text = "Reset"
 
 [node name="Container" type="HBoxContainer" parent="."]
@@ -180,5 +190,6 @@ items = [ "Export Selected", null, 0, false, false, 0, 0, null, "", false, "Sett
 [connection signal="item_selected" from="SettingsDialog/Grid/ShowThumbFirstOption" to="." method="_on_ShowThumbFirstOption_item_selected"]
 [connection signal="value_changed" from="SettingsDialog/Grid/CacheRoundSpinBox" to="." method="_on_CacheRoundSpinBox_value_changed"]
 [connection signal="item_selected" from="SettingsDialog/Grid/DisplayColorSpaceOption" to="." method="_on_DisplayColorSpaceOption_item_selected"]
+[connection signal="item_selected" from="SettingsDialog/Grid/RatingTypeOption" to="." method="_on_RatingTypeOption_item_selected"]
 [connection signal="pressed" from="SettingsDialog/Grid/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="pressed" from="Container/OpenFolder" to="." method="_on_OpenFolder_pressed"]

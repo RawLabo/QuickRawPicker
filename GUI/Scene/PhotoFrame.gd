@@ -65,7 +65,7 @@ func _ready():
     
 func init(w, h, input_photo):
   photo = input_photo
-  photo.update_xmp_rating()
+  photo.update_rating()
     
   rect_min_size = Vector2(w, h)
   scale_options[0] = min(rect_min_size.x / photo.width, rect_min_size.y / photo.height)
@@ -96,7 +96,7 @@ func update_top_info():
   $TopContainer/Size/Value.text = "%d%%" % (scale_options[scale_index] * 100)
   $TopContainer/Exposure/Value.text = "%.1f" % EV
   $TopContainer/Gamma/Value.text = "%.1f" % gamma
-  $TopContainer/Rating/RatingCombox.select(photo.xmp_rating)
+  $TopContainer/Rating/RatingCombox.select(photo.rating)
 
 func reset_size():
   rescale(true, 1 if scale_index == 0 else 0)
@@ -172,7 +172,7 @@ func _on_gamma_minus_pressed():
 
 
 func _on_RatingCombox_item_selected(index):
-  photo.set_xmp_rating(index)
+  photo.set_rating(index)
 
 func toggle_highlight():
   $TopContainer/Highlight.pressed = not $TopContainer/Highlight.pressed

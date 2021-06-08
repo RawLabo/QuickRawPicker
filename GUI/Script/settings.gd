@@ -5,7 +5,7 @@ var auto_bright = false
 var show_thumb_first = true
 var cache_round = 2
 var output_color = OutputColors.SRGB
-
+var rating_type = RatingType.XMP
 var select_color = Color(1, 1, 1)
 var mark_color = Color(0, 1, 0, 0.7)
 
@@ -40,6 +40,10 @@ var extension_filter = [
   "x3f"
 ]
 
+enum RatingType {
+  XMP = 0,
+  PP3 = 1
+}
 enum OutputColors {
   RAW = 0,
   SRGB = 1,
@@ -62,7 +66,8 @@ func reset():
   auto_bright = false
   show_thumb_first = true
   cache_round = 2
-  output_color = Settings.OutputColors.SRGB
+  output_color = OutputColors.SRGB
+  rating_type = RatingType.XMP
   save_settings()
   
 func save_settings():
@@ -72,7 +77,8 @@ func save_settings():
     "auto_bright": auto_bright,
     "show_thumb_first": show_thumb_first,
     "cache_round": cache_round,
-    "output_color": output_color
+    "output_color": output_color,
+    "rating_type": rating_type
   })
   file.open("user://settings.cfg", File.WRITE_READ)
   file.store_string(content)
@@ -87,10 +93,11 @@ func load_settings():
     var content = file.get_as_text()
     var dict = JSON.parse(content).result
     
-    bps = dict["bps"]
-    auto_bright = dict["auto_bright"]
-    show_thumb_first = dict["show_thumb_first"]
-    cache_round = dict["cache_round"]
-    output_color = dict["output_color"]
+    bps = dict.get("bps", 16)
+    auto_bright = dict.get("auto_bright", false)
+    show_thumb_first = dict.get("show_thumb_first", true)
+    cache_round = dict.get("cache_round", 2)
+    output_color = dict.get("output_color", OutputColors.SRGB)
+    rating_type = dict.get("rating_type", RatingType.XMP)
     
   file.close()
