@@ -6,8 +6,12 @@ var show_thumb_first = true
 var cache_round = 2
 var output_color = OutputColors.SRGB
 var rating_type = RatingType.XMP
+
 var select_color = Color(1, 1, 1)
 var mark_color = Color(0, 1, 0, 0.7)
+var version = "v0.1.0"
+
+onready var project_name = ProjectSettings.get_setting("application/config/name")
 
 var extension_filter = [
   "3fr",
@@ -59,7 +63,7 @@ func _ready():
   update_title()
   
 func update_title():
-  OS.set_window_title("%s / bit:%s / colorspace:%s" % ["QuickRawPicker", bps, OutputColors.keys()[output_color]])
+  OS.set_window_title("%s %s / bit:%s / colorspace:%s" % [project_name, version, bps, OutputColors.keys()[output_color]])
   
 func reset():
   bps = 16

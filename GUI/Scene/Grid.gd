@@ -70,14 +70,9 @@ func _input(event):
     var with_s = event.scancode == KEY_S
     
     if with_h:
-#      hovering_frame.highlight_draw = 0.0 if hovering_frame.highlight_draw > 0.5 else 1.0
-#      hovering_frame.update_shader()
       hovering_frame.toggle_highlight()
     elif with_s:
-#      hovering_frame.shadow_draw = 0.0 if hovering_frame.shadow_draw > 0.5 else 1.0
-#      hovering_frame.update_shader()
       hovering_frame.toggle_shadow()
-    
     
 var prev_mouse_pos = Vector2.ZERO
 var hovering_frame = null

@@ -1,6 +1,7 @@
 class_name Photo
 
 var file_path : String
+var file_name : String
 var width : int
 var height : int
 var aperture : float
@@ -37,8 +38,10 @@ const pp3_template = """
 Rank=0
 """
 
-func _init(path):
-  file_path = path
+func _init(dir_path, name):
+  file_name = name
+  file_path = dir_path + "/" + file_name
+  
   thumb_texture = ImageTexture.new()
   full_texture = ImageTexture.new()
   
