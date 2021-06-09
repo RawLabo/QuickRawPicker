@@ -23,6 +23,9 @@ _global_script_class_icons={
 config/name="QuickRawPicker"
 run/main_scene="res://Scene/Main.tscn"
 run/low_processor_mode=true
+boot_splash/image="res://Asset/Texture/empty.png"
+config/icon="res://Asset/Texture/icon.png"
+config/macos_native_icon="res://Asset/Texture/icon.icns"
 
 [autoload]
 
