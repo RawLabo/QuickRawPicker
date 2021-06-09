@@ -170,7 +170,10 @@ func _on_gamma_minus_pressed():
   gamma -= 0.1
   update_shader()
 
-
+func select_rating_combox(index):
+  $TopContainer/Rating/RatingCombox.select(index)
+  photo.set_rating(index)
+  
 func _on_RatingCombox_item_selected(index):
   photo.set_rating(index)
 

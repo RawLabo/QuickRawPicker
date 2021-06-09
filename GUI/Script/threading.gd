@@ -99,4 +99,6 @@ func thread_end(signal_name, args):
   thread.wait_to_finish()
   working_thread_count -= 1
   
-  target.emit_signal(signal_name, args[0])
+  if is_instance_valid(target):
+    target.emit_signal(signal_name, args[0])
+  

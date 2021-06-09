@@ -65,14 +65,27 @@ func get_hovering_frame(pos):
   return null
   
 func _input(event):
-  if event is InputEventKey and event.pressed and hovering_frame:
-    var with_h = event.scancode == KEY_H
-    var with_s = event.scancode == KEY_S
+  if event is InputEventKey and event.pressed:
+    var with_up = event.scancode == KEY_UP
+    var with_down = event.scancode == KEY_DOWN
     
-    if with_h:
-      hovering_frame.toggle_highlight()
-    elif with_s:
-      hovering_frame.toggle_shadow()
+    if with_up:
+      Util.Nodes["PhotoList"].show_prev()
+    elif with_down:
+      Util.Nodes["PhotoList"].show_next()
+    
+    if hovering_frame:
+      var with_h = event.scancode == KEY_H
+      var with_s = event.scancode == KEY_S
+      
+      var rating_index = (event.scancode - KEY_0) if event.scancode >= KEY_0 and event.scancode <= KEY_5 else -1
+      
+      if with_h:
+        hovering_frame.toggle_highlight()
+      elif with_s:
+        hovering_frame.toggle_shadow()
+      elif rating_index > -1:
+        hovering_frame.select_rating_combox(rating_index)
     
 var prev_mouse_pos = Vector2.ZERO
 var hovering_frame = null
