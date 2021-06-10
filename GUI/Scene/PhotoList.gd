@@ -22,19 +22,26 @@ func _on_PhotoList_thumb_parsed(photo):
   $List.set_item_text(idx, photo.get_list_info())
   $List.set_item_icon(idx, photo.thumb_texture)
   
+func index_limit(index):
+  if index < 0:
+    return 0
+  elif index > photos.size() - 1:
+    return photos.size() - 1
+  else:
+    return index
+    
 func show_next():
   var selected_index_lst = $List.get_selected_items()
   var last_index = selected_index_lst[-1] if selected_index_lst.size() > 0 else -1
-  $List.select(last_index + 1)
+  var next_index = index_limit(last_index + 1)
+  $List.select(next_index)
   _on_Compare_pressed()
   
 func show_prev():
   var selected_index_lst = $List.get_selected_items()
-  var last_index = selected_index_lst[0] if selected_index_lst.size() > 0 else 1
-  if last_index < 1:
-    last_index = 1
-    
-  $List.select(last_index - 1)
+  var first_index = selected_index_lst[0] if selected_index_lst.size() > 0 else 1
+  var prev_index = index_limit(first_index - 1)
+  $List.select(prev_index)
   _on_Compare_pressed()
   
 func update_dir(dir_path):
