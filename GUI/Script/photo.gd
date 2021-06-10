@@ -11,6 +11,7 @@ var focal_len : float
 var maker : String
 var model : String
 var lens_info : String
+var raw_xmp : String
 
 var rating : int = 0
 
@@ -21,6 +22,7 @@ var ui_round = 0
 var ui_selected := false
 var ui_marked := false
 
+const old_xmp_rating_tag = "xmp:Rating>"
 const xmp_rating_tag = "xmp:Rating="
 const xmp_tag = "xmlns:xmp="
 const xmp_template = """
@@ -53,16 +55,22 @@ func get_buffer():
   return result
   
 func update_rating():
+  rating = get_xmp_rating(raw_xmp)
   if Settings.rating_type == Settings.RatingType.XMP:
     update_xmp_rating()
   elif Settings.rating_type == Settings.RatingType.PP3:
     update_pp3_rating()
     
-func set_rating(score):
-  if Settings.rating_type == Settings.RatingType.XMP:
-    set_xmp_rating(score)
-  elif Settings.rating_type == Settings.RatingType.PP3:
-    set_pp3_rating(score)
+func get_xmp_rating(content):
+  var index1 = content.find(xmp_rating_tag)
+  if index1 > -1:
+    return content.substr(index1 + len(xmp_rating_tag) + 1, 1).to_int()
+    
+  var index2 = content.find(old_xmp_rating_tag)
+  if index2 > -1:
+    return content.substr(index2 + len(old_xmp_rating_tag), 1).to_int()
+    
+  return 0
   
 func update_xmp_rating():
   var xmp_path = file_path.substr(0, file_path.find_last(".")) + ".xmp"
@@ -70,10 +78,8 @@ func update_xmp_rating():
   var err = file.open(xmp_path, File.READ)
   if err == OK:
     var content = file.get_as_text()
-    var index = content.find(xmp_rating_tag)
-    if index > -1:
-      rating = content.substr(index + len(xmp_rating_tag) + 1, 1).to_int()
-  
+    rating = get_xmp_rating(content)
+      
   file.close()
     
 func set_xmp_rating(score):
@@ -88,9 +94,14 @@ func set_xmp_rating(score):
   var content = file.get_as_text() if err == 0 else xmp_template
   var score_str = "\"%d\"" % score
     
-  var index = content.find(xmp_rating_tag)
-  if index > -1:
-    content = content.substr(0, index + len(xmp_rating_tag)) + score_str + content.substr(index + len(xmp_rating_tag) + 3)
+  var index1 = content.find(xmp_rating_tag)
+  var index2 = content.find(old_xmp_rating_tag)
+  if index1 > -1:
+    var tag_len = len(xmp_rating_tag)
+    content = content.substr(0, index1 + tag_len) + score_str + content.substr(index1 + tag_len + 3)
+  elif index2 > -1:
+    var tag_len = len(old_xmp_rating_tag)
+    content = content.substr(0, index2 + tag_len) + str(score) + content.substr(index2 + tag_len + 1)
   else:
     var xmp_index = content.find(xmp_tag)
     content = content.substr(0, xmp_index) + xmp_rating_tag + score_str + " " + content.substr(xmp_index)
@@ -127,6 +138,13 @@ func set_pp3_rating(score):
 
   file.store_string(content)
   file.close()
+  
+  
+func set_rating(score):
+  if Settings.rating_type == Settings.RatingType.XMP:
+    set_xmp_rating(score)
+  elif Settings.rating_type == Settings.RatingType.PP3:
+    set_pp3_rating(score)
   
 func has_processed():
   return full_texture.get_data() != null

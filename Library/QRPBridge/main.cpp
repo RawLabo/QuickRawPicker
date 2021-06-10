@@ -30,10 +30,14 @@ inline void print(int value) {
 	api->godot_string_destroy(&x);
 }
 
-inline void string2var(const char* data, godot_variant* dst) {
+inline void string2var(const char* data, godot_variant* dst, int len = -1) {
 	godot_string tmp;
 	api->godot_string_new(&tmp);
-	api->godot_string_parse_utf8(&tmp, data);
+	if (len > 0)
+		api->godot_string_parse_utf8_with_len(&tmp, data, len);
+	else
+		api->godot_string_parse_utf8(&tmp, data);
+
 	api->godot_variant_new_string(dst, &tmp);
 
 	api->godot_string_destroy(&tmp);
@@ -68,8 +72,8 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	godot_array info_arr;
 	api->godot_array_new(&info_arr);
 
-	godot_variant width, height, aperture, shutter_speed, iso_speed, focal_len, lens_info, maker, model;
-	
+	godot_variant width, height, aperture, shutter_speed, iso_speed, focal_len, lens_info, maker, model, xmp;
+
 	api->godot_variant_new_int(&width, lr_ptr->imgdata.sizes.iwidth);
 	api->godot_variant_new_int(&height, lr_ptr->imgdata.sizes.iheight);
 	api->godot_variant_new_real(&aperture, lr_ptr->imgdata.other.aperture);
@@ -79,7 +83,8 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	string2var(&lr_ptr->imgdata.idata.make[0], &maker);
 	string2var(&lr_ptr->imgdata.idata.model[0], &model);
 	string2var(&lr_ptr->imgdata.lens.Lens[0], &lens_info);
-
+	string2var(lr_ptr->imgdata.idata.xmpdata, &xmp, lr_ptr->imgdata.idata.xmplen);
+	
 	api->godot_array_append(&info_arr, &width);
 	api->godot_array_append(&info_arr, &height);
 	api->godot_array_append(&info_arr, &aperture);
@@ -89,6 +94,7 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	api->godot_array_append(&info_arr, &maker);
 	api->godot_array_append(&info_arr, &model);
 	api->godot_array_append(&info_arr, &lens_info);
+	api->godot_array_append(&info_arr, &xmp);
 
 	// set
 	api->godot_variant_new_array(info, &info_arr);
@@ -103,6 +109,8 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	api->godot_variant_destroy(&maker);
 	api->godot_variant_destroy(&model);
 	api->godot_variant_destroy(&lens_info);
+	api->godot_variant_destroy(&xmp);
+
 	api->godot_array_destroy(&info_arr);
 }
 

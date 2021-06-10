@@ -104,7 +104,6 @@ func clean_cache():
   for photo in photos:
     photo.full_texture = ImageTexture.new()
     photo.ui_round = 0
-    photo.rating = 0
     
 func _on_List_gui_input(event):
   with_alt = event.alt

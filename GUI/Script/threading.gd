@@ -44,7 +44,7 @@ func get_raw_thumb(args):
     photo.maker = info[6]
     photo.model = info[7]
     photo.lens_info = info[8]
-    #TODO: DNG xmp rating read from Bridge
+    photo.raw_xmp = info[9]
     
     var image = Image.new()
     var need_half_raw = data_arr.size() == 0
