@@ -56,6 +56,7 @@ func update_photos(photos):
     photo_frame.init(w, h, photo)
     add_child(photo_frame)
 
+
 func get_hovering_frame(pos):
   for frame in get_children():
     var g_pos = frame.rect_position
@@ -64,16 +65,44 @@ func get_hovering_frame(pos):
       
   return null
   
+func frame_op(is_up, with_shift, with_alt, with_ctrl):
+  for frame in get_children():
+    if with_shift and hovering_frame != frame:
+      continue
+      
+    if with_alt:
+      frame.gamma += 0.1 if is_up else -0.1
+      frame.update_shader()
+      continue
+      
+    if with_ctrl:
+      frame.EV += 0.1 if is_up else -0.1
+      frame.update_shader()
+      continue
+      
+    frame.rescale(is_up)
+    
+    
 func _input(event):
   if event is InputEventKey and event.pressed:
+    var with_ctrl = event.control or event.command
+    var with_alt = event.alt
+    var with_shift = event.shift
+    
     var with_up = event.scancode == KEY_UP
     var with_down = event.scancode == KEY_DOWN
+    var with_zoom_in = event.scancode == KEY_EQUAL or event.scancode == KEY_PERIOD
+    var with_zoom_out = event.scancode == KEY_MINUS or event.scancode == KEY_COMMA
     
     if with_up:
       Util.Nodes["PhotoList"].show_prev()
     elif with_down:
       Util.Nodes["PhotoList"].show_next()
     
+    if with_zoom_in or with_zoom_out:
+      var is_up = with_zoom_in
+      frame_op(is_up, with_shift, with_alt, with_ctrl)
+        
     if hovering_frame:
       var with_h = event.scancode == KEY_H
       var with_s = event.scancode == KEY_S
@@ -87,10 +116,11 @@ func _input(event):
       elif rating_index > -1:
         hovering_frame.select_rating_combox(rating_index)
     
+    
 var prev_mouse_pos = Vector2.ZERO
 var hovering_frame = null
 func _on_Grid_gui_input(event):
-  var with_ctrl = event.control
+  var with_ctrl = event.control or event.command
   var with_alt = event.alt
   var with_shift = event.shift
   
@@ -121,22 +151,7 @@ func _on_Grid_gui_input(event):
       
   elif (button_index == BUTTON_WHEEL_UP or button_index == BUTTON_WHEEL_DOWN) and pressed:
     var is_up = button_index == BUTTON_WHEEL_UP
-    for frame in get_children():
-      if with_shift and hovering_frame != frame:
-        continue
-        
-      if with_alt:
-        frame.gamma += 0.1 if is_up else -0.1
-        frame.update_shader()
-        continue
-        
-      if with_ctrl:
-        frame.EV += 0.1 if is_up else -0.1
-        frame.update_shader()
-        continue
-        
-      frame.rescale(is_up)
-      
+    frame_op(is_up, with_shift, with_alt, with_ctrl)
       
   if event is InputEventMouseMotion and prev_mouse_pos != Vector2.ZERO:
     for frame in get_children():
