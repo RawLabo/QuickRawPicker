@@ -148,7 +148,9 @@ func _on_Grid_gui_input(event):
         prev_mouse_pos = event.position
     else:
       prev_mouse_pos = Vector2.ZERO
-      
+  
+  elif button_index == BUTTON_RIGHT and hovering_frame:
+    get_parent().emit_signal("fullscreen_photo_received", hovering_frame)
   elif (button_index == BUTTON_WHEEL_UP or button_index == BUTTON_WHEEL_DOWN) and pressed:
     var is_up = button_index == BUTTON_WHEEL_UP
     frame_op(is_up, with_shift, with_alt, with_ctrl)

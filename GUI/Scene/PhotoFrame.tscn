@@ -15,6 +15,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Bg" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Photo" type="Sprite" parent="."]
 material = ExtResource( 3 )
 
@@ -43,6 +52,7 @@ __meta__ = {
 }
 
 [node name="TopContainer" type="HBoxContainer" parent="."]
+visible = false
 anchor_right = 1.0
 margin_bottom = 32.0
 custom_constants/separation = 8
@@ -190,6 +200,7 @@ custom_colors/font_color_pressed = Color( 0.247059, 0.862745, 0.294118, 1 )
 toggle_mode = true
 text = "S"
 
+[connection signal="gui_input" from="." to="." method="_on_PhotoFrame_gui_input"]
 [connection signal="image_parsed" from="." to="." method="_on_PhotoFrame_image_parsed"]
 [connection signal="pressed" from="TopContainer/Size/+" to="." method="_on_size_plus_pressed"]
 [connection signal="pressed" from="TopContainer/Size/-" to="." method="_on_size_minus_pressed"]

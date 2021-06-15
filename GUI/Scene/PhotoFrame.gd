@@ -21,19 +21,18 @@ var scale_index = 0
 var highlight_draw = 0.0
 var shadow_draw = 0.0
 
-onready var selection_node = $TopContainer/Selection
 func select():
-  selection_node.color.a = 1.0
+  $TopContainer/Selection.color.a = 1.0
 func unselect():
-  selection_node.color.a = 0.2
+  $TopContainer/Selection.color.a = 0.2
 func mark():
-  var alpha = selection_node.color.a
-  selection_node.color = Settings.mark_color
-  selection_node.color.a = alpha
+  var alpha = $TopContainer/Selection.color.a
+  $TopContainer/Selection.color = Settings.mark_color
+  $TopContainer/Selection.color.a = alpha
 func unmark():
-  var alpha = selection_node.color.a
-  selection_node.color = Settings.select_color
-  selection_node.color.a = alpha
+  var alpha = $TopContainer/Selection.color.a
+  $TopContainer/Selection.color = Settings.select_color
+  $TopContainer/Selection.color.a = alpha
   
 func update_shader():
   if gamma < 0.0:
@@ -58,14 +57,12 @@ func update_shader():
   
 func vec_int(vec):
   return Vector2(int(vec.x), int(vec.y))
-
-func _ready():
-  if photo.ui_marked:
-    mark()
     
-func init(w, h, input_photo):
+func init(w, h, input_photo, is_overlay = false):
   photo = input_photo
   photo.update_rating()
+  if photo.ui_marked:
+    mark()
     
   rect_min_size = Vector2(w, h)
   scale_options[0] = min(rect_min_size.x / photo.width, rect_min_size.y / photo.height)
@@ -84,6 +81,10 @@ func init(w, h, input_photo):
   else:
     $LoadingLabel.visible = false
     $TopContainer.visible = true
+    
+  if is_overlay:
+    mouse_filter = Control.MOUSE_FILTER_STOP
+    $TopContainer.visible = false
   
 
 func _on_PhotoFrame_image_parsed(photo : Photo):
@@ -190,3 +191,8 @@ func _on_Highlight_toggled(button_pressed):
 func _on_Shadow_toggled(button_pressed):
   shadow_draw = 1.0 if button_pressed else 0.0
   update_shader()
+
+
+func _on_PhotoFrame_gui_input(event):
+  if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT:
+    visible = false
