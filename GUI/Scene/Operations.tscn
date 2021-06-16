@@ -229,7 +229,7 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "Fn"
 flat = false
-items = [ "Export Marked", null, 0, false, false, 0, 0, null, "", false, "Settings", null, 0, false, false, 1, 0, null, "", false, "About", null, 0, false, false, 2, 0, null, "", false ]
+items = [ "Export Marked", null, 0, false, false, 100, 0, null, "", false, "Settings", null, 0, false, false, 200, 0, null, "", false, "", null, 0, false, true, 0, 0, null, "", true, "Wiki", null, 0, false, false, 301, 0, null, "", false, "Github", null, 0, false, false, 302, 0, null, "", false, "About", null, 0, false, false, 300, 0, null, "", false ]
 
 [connection signal="file_exported" from="." to="." method="_on_Operations_file_exported"]
 [connection signal="dir_selected" from="Dialog" to="." method="_on_Dialog_dir_selected"]

@@ -6,7 +6,8 @@ enum DialogType { OpenDir, ExportByCopy }
 var dialog_type = DialogType.OpenDir
 
 func _ready():
-  $AboutDialog.dialog_text = "%s %s" % [Settings.project_name, Settings.version]
+  $AboutDialog.get_child(1).align = HALIGN_CENTER
+  $AboutDialog.dialog_text = "%s %s\nCopyright © 2021 qdwang.  All rights reserved.\nLicense: LGPL-2.1" % [Settings.project_name, Settings.version]
   $Container/Fn.get_popup().connect("id_pressed", self, "_on_Fn_id_pressed")
   for key in Settings.OutputColors.keys():
     $SettingsDialog/Grid/DisplayColorSpaceOption.add_item(key)
@@ -26,18 +27,26 @@ func update_settings_dialog():
   $SettingsDialog/Grid/RatingTypeOption.select(int(Settings.rating_type))
   
 func _on_Fn_id_pressed(id):
-  if id == 0:
+  if id == 100:
     # export selected
     dialog_type = DialogType.ExportByCopy
     $Dialog.window_title = "Copy selected photos to folder"
     $Dialog.popup_centered_clamped(Vector2(1200, 800), 0.9)
-  elif id == 1:
+    
+  elif id == 200:
     # settings
     update_settings_dialog()
     $SettingsDialog.popup_centered()
-  elif id == 2:
+    
+  elif id == 300:
     # about
     $AboutDialog.popup_centered()
+  
+  elif id == 301:
+    OS.shell_open("https://github.com/qdwang/QuickRawPicker/wiki")
+  
+  elif id == 302:
+    OS.shell_open("https://github.com/qdwang/QuickRawPicker")
   
 func _on_OpenFolder_pressed():
   dialog_type = DialogType.OpenDir
