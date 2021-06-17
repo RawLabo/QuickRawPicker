@@ -35,6 +35,8 @@ Threading="*res://Script/threading.gd"
 
 [display]
 
+window/size/width=1200
+window/size/height=700
 window/dpi/allow_hidpi=true
 window/vsync/vsync_via_compositor=true
 window/energy_saving/keep_screen_on=false
