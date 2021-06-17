@@ -26,8 +26,6 @@ resizable = true
 mode_overrides_title = false
 mode = 2
 access = 2
-current_dir = "/Users/qdwang/Desktop/Codes/QuickRawPickerNative/GUI"
-current_path = "/Users/qdwang/Desktop/Codes/QuickRawPickerNative/GUI/"
 
 [node name="SettingsDialog" type="WindowDialog" parent="."]
 anchor_left = 0.5
@@ -155,11 +153,11 @@ margin_top = 164.0
 margin_right = 210.0
 margin_bottom = 184.0
 
-[node name="Empty" type="Label" parent="SettingsDialog/Grid"]
-margin_top = 199.0
+[node name="OpenLogFolder" type="Button" parent="SettingsDialog/Grid"]
+margin_top = 196.0
 margin_right = 128.0
-margin_bottom = 213.0
-align = 2
+margin_bottom = 216.0
+text = "Open logs folder"
 
 [node name="Reset" type="Button" parent="SettingsDialog/Grid"]
 margin_left = 136.0
@@ -229,7 +227,7 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "Fn"
 flat = false
-items = [ "Export Marked", null, 0, false, false, 100, 0, null, "", false, "Settings", null, 0, false, false, 200, 0, null, "", false, "", null, 0, false, true, 0, 0, null, "", true, "Wiki", null, 0, false, false, 301, 0, null, "", false, "Github", null, 0, false, false, 302, 0, null, "", false, "About", null, 0, false, false, 300, 0, null, "", false ]
+items = [ "Export Marked", null, 0, false, false, 100, 0, null, "", false, "Settings", null, 0, false, false, 200, 0, null, "", false, "", null, 0, false, true, 0, 0, null, "", true, "Github", null, 0, false, false, 301, 0, null, "", false, "About", null, 0, false, false, 300, 0, null, "", false ]
 
 [connection signal="file_exported" from="." to="." method="_on_Operations_file_exported"]
 [connection signal="dir_selected" from="Dialog" to="." method="_on_Dialog_dir_selected"]
@@ -239,5 +237,6 @@ items = [ "Export Marked", null, 0, false, false, 100, 0, null, "", false, "Sett
 [connection signal="value_changed" from="SettingsDialog/Grid/CacheRoundSpinBox" to="." method="_on_CacheRoundSpinBox_value_changed"]
 [connection signal="item_selected" from="SettingsDialog/Grid/DisplayColorSpaceOption" to="." method="_on_DisplayColorSpaceOption_item_selected"]
 [connection signal="item_selected" from="SettingsDialog/Grid/RatingTypeOption" to="." method="_on_RatingTypeOption_item_selected"]
+[connection signal="pressed" from="SettingsDialog/Grid/OpenLogFolder" to="." method="_on_OpenLogFolder_pressed"]
 [connection signal="pressed" from="SettingsDialog/Grid/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="pressed" from="Container/OpenFolder" to="." method="_on_OpenFolder_pressed"]

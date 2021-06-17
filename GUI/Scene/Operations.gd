@@ -43,10 +43,8 @@ func _on_Fn_id_pressed(id):
     $AboutDialog.popup_centered()
   
   elif id == 301:
-    OS.shell_open("https://github.com/qdwang/QuickRawPicker/wiki")
-  
-  elif id == 302:
     OS.shell_open("https://github.com/qdwang/QuickRawPicker")
+  
   
 func _on_OpenFolder_pressed():
   dialog_type = DialogType.OpenDir
@@ -90,3 +88,5 @@ func _on_RatingTypeOption_item_selected(index):
   Settings.rating_type = index
   Settings.save_settings()
   
+func _on_OpenLogFolder_pressed():
+  OS.shell_open(OS.get_user_data_dir())
