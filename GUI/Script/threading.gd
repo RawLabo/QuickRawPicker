@@ -41,10 +41,11 @@ func get_raw_thumb(args):
     photo.shutter_speed = info[3]
     photo.iso_speed = info[4]
     photo.focal_len = info[5]
-    photo.maker = info[6]
-    photo.model = info[7]
-    photo.lens_info = info[8]
-    photo.raw_xmp = info[9]
+    photo.timestamp = info[6]
+    photo.maker = info[7]
+    photo.model = info[8]
+    photo.lens_info = info[9]
+    photo.raw_xmp = info[10]
     
     var image = Image.new()
     var need_half_raw = data_arr.size() == 0

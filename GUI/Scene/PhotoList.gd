@@ -5,7 +5,6 @@ signal photo_selection_changed(photo, selection)
 signal photo_mark_changed(photo, mark)
 
 var photos = []
-
 func show_folder_images(dir_path):
   $List.clear()
   
@@ -14,13 +13,15 @@ func show_folder_images(dir_path):
   photos = update_dir(dir_path)
   
   for photo in photos:
-    $List.add_item("")
     Threading.pending_jobs.append(["get_raw_thumb", photo, self])
   
 func _on_PhotoList_thumb_parsed(photo):
-  var idx = photos.find(photo)
-  $List.set_item_text(idx, photo.get_list_info())
-  $List.set_item_icon(idx, photo.thumb_texture)
+  $List.add_item(photo.get_list_info(), photo.thumb_texture)
+  if $List.get_item_count() == photos.size():
+    photos.sort_custom(Photo.PhotoSorter, "sort_descending")
+    for idx in range(photos.size()):
+      $List.set_item_text(idx, photos[idx].get_list_info())
+      $List.set_item_icon(idx, photos[idx].thumb_texture)
   
 func index_limit(index):
   if index < 0:

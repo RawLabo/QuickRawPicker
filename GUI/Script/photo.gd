@@ -8,6 +8,7 @@ var aperture : float
 var shutter_speed : float
 var iso_speed : float
 var focal_len : float
+var timestamp : int
 var maker : String
 var model : String
 var lens_info : String
@@ -40,6 +41,17 @@ const pp3_template = """
 Rank=0
 """
 
+class PhotoSorter:
+  static func sort_descending(a, b):
+    if a.timestamp > b.timestamp:
+      return true
+    return false
+    
+  static func sort_ascending(a, b):
+    if a.timestamp < b.timestamp:
+      return true
+    return false
+    
 func _init(dir_path, name):
   file_name = name
   file_path = dir_path + "/" + file_name
@@ -178,9 +190,12 @@ func emit_mark_change():
   Util.Nodes["PhotoList"].emit_signal("photo_mark_changed", self, ui_marked)
   Util.Nodes["Grid"].emit_signal("photo_mark_changed", self, ui_marked)
   
+func get_datetime():
+  var time = OS.get_datetime_from_unix_time(timestamp + OS.get_time_zone_info()["bias"] / 60 * 3600)
+  return "%d-%02d-%02d %02d:%02d" % [time["year"], time["month"], time["day"], time["hour"], time["minute"]]
 
 func get_list_info():
-  return "%s\n%d x %d\nF%.1f\n%ss\nISO%1.f\n%.1fmm\n%s %s%s" % [
+  return "%s\n%d x %d\nF%.1f\n%ss\nISO%1.f\n%.1fmm\n%s %s%s\n%s" % [
     file_path,
     width, height,
     aperture,
@@ -189,11 +204,13 @@ func get_list_info():
     focal_len,
     maker,
     model,
-    " + " + lens_info if len(lens_info) > 0 else ""
+    " + " + lens_info if len(lens_info) > 0 else "",
+    get_datetime()
   ]
   
 func get_bar_info():
-  return "F%.1f / %ss / ISO%1.f / %.1fmm / %s" % [
+  return "%s / F%.1f / %ss / ISO%1.f / %.1fmm / %s" % [
+    file_name,
     aperture,
     shutter_speed,
     iso_speed,

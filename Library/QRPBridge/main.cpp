@@ -74,7 +74,7 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	godot_array info_arr;
 	api->godot_array_new(&info_arr);
 
-	godot_variant width, height, aperture, shutter_speed, iso_speed, focal_len, lens_info, maker, model, xmp;
+	godot_variant width, height, aperture, shutter_speed, iso_speed, focal_len, timestamp, lens_info, maker, model,  xmp;
 
 	api->godot_variant_new_int(&width, lr_ptr->imgdata.sizes.iwidth);
 	api->godot_variant_new_int(&height, lr_ptr->imgdata.sizes.iheight);
@@ -82,6 +82,7 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	api->godot_variant_new_real(&shutter_speed, lr_ptr->imgdata.other.shutter);
 	api->godot_variant_new_real(&iso_speed, lr_ptr->imgdata.other.iso_speed);
 	api->godot_variant_new_real(&focal_len, lr_ptr->imgdata.other.focal_len);
+	api->godot_variant_new_int(&timestamp, lr_ptr->imgdata.other.timestamp);
 	string2var(&lr_ptr->imgdata.idata.make[0], &maker);
 	string2var(&lr_ptr->imgdata.idata.model[0], &model);
 	string2var(&lr_ptr->imgdata.lens.Lens[0], &lens_info);
@@ -93,6 +94,7 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	api->godot_array_append(&info_arr, &shutter_speed);
 	api->godot_array_append(&info_arr, &iso_speed);
 	api->godot_array_append(&info_arr, &focal_len);
+	api->godot_array_append(&info_arr, &timestamp);
 	api->godot_array_append(&info_arr, &maker);
 	api->godot_array_append(&info_arr, &model);
 	api->godot_array_append(&info_arr, &lens_info);
@@ -108,6 +110,7 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	api->godot_variant_destroy(&shutter_speed);
 	api->godot_variant_destroy(&iso_speed);
 	api->godot_variant_destroy(&focal_len);
+	api->godot_variant_destroy(&timestamp);
 	api->godot_variant_destroy(&maker);
 	api->godot_variant_destroy(&model);
 	api->godot_variant_destroy(&lens_info);
