@@ -1,3 +1,12 @@
+QuickRawPicker - a free and open source program that lets you 
+cull, pick or score raw photos.
+
+Copyright (C) 2021 qdwang.
+
+QuickRawPicker uses LibRaw library licensed under LGPL-2.1.
+QuickRawPicker uses libjpeg-turbo library licensed under BSD License.
+
+
                   GNU LESSER GENERAL PUBLIC LICENSE
                        Version 2.1, February 1999
 
