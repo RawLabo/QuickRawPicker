@@ -23,15 +23,15 @@ QuickRawPicker is a free and open source program that lets you cull, pick or sco
 |---|-----------|
 |Alt + LeftClick|Toggle mark at the pointing photo|
 |Shift + LeftClick|Select multiple photos from start to end to compare|
-|Ctrl + LeftClick|Pick multiple photos to compare|
+|Command/Ctrl + LeftClick|Pick multiple photos to compare|
 
 ### In photo area
 |Key|Description|
 |---|-----------|
 |MouseWheel / Key, Key. / Key- Key=|Resize all photos|
-|Ctrl + Resize|Adjust all photos' EV|
+|Command/Ctrl + Resize|Adjust all photos' EV|
 |Alt + Resize|Adjust all photos' Gamma|
 |Shift + **one of the above three**|Resize/adjust the pointing photo|
 |Alt + LeftClick|Toggle mark at the pointing photo|
-|Ctrl + LeftClick|Toggle selection at the pointing photo|
+|Command/Ctrl + LeftClick|Toggle selection at the pointing photo|
 |RightClick|View the pointing photo at fullscreen|
