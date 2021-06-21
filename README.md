@@ -37,3 +37,4 @@ QuickRawPicker is a free and open source program that lets you cull, pick or sco
 |Alt + LeftClick|Toggle mark at the pointing photo|
 |Command/Ctrl + LeftClick|Toggle selection at the pointing photo|
 |RightClick|View the pointing photo at fullscreen|
+|1,2,3,4,5|Rate the pointing photo|
