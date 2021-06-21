@@ -2,7 +2,7 @@
 
 
 [![CodeFactor](https://www.codefactor.io/repository/github/qdwang/quickrawpicker/badge)](https://www.codefactor.io/repository/github/qdwang/quickrawpicker)
-[![GitHub](https://img.shields.io/github/license/qdwang/QuickRawPicker)](./LICENSE)
+[![GitHub](https://img.shields.io/badge/license-LGPL--2.1-yellow)](./LICENSE)
 [![GitHub last commit](https://img.shields.io/github/last-commit/qdwang/QuickRawPicker)](#)
 
 [![GitHub Release Date](https://img.shields.io/github/release-date/qdwang/QuickRawPicker)](https://github.com/qdwang/QuickRawPicker/releases)
