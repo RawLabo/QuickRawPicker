@@ -12,6 +12,26 @@
 
 [![Discord](https://img.shields.io/discord/856151439053946940?color=%23ea0&label=discord%20support)](https://discord.com/channels/856151439053946940)
 
-QuickRawPicker is a free and open source program that lets you pick or score Raw Photos captured by your camera. It is also compatible with the XMP sidecar file used by Adobe Bridge/Lightroom or PP3 sidecar file used by Rawtherapee.
+QuickRawPicker is a free and open source program that lets you cull, pick or score Raw Photos captured by your camera. It is also compatible with the XMP sidecar file used by Adobe Bridge/Lightroom or PP3 sidecar file used by Rawtherapee.
 
 ![QuickRawPicker-screenshot](https://user-images.githubusercontent.com/403616/122661158-f258e880-d1b9-11eb-9be0-6eb7c0e0175b.jpg)
+
+## Shortcut list
+
+### In thumbnail list
+|Key|Description|
+|---|-----------|
+|Alt + LeftClick|Toggle mark at the pointing photo|
+|Shift + LeftClick|Select multiple photos from start to end to compare|
+|Ctrl + LeftClick|Pick multiple photos to compare|
+
+### In photo area
+|Key|Description|
+|---|-----------|
+|MouseWheel / Key, Key. / Key- Key=|Resize all photos|
+|Ctrl + Resize|Adjust all photos' EV|
+|Alt + Resize|Adjust all photos' Gamma|
+|Shift + **one of the above three**|Resize/adjust the pointing photo|
+|Alt + LeftClick|Toggle mark at the pointing photo|
+|Ctrl + LeftClick|Toggle selection at the pointing photo|
+|RightClick|View the pointing photo at fullscreen|
