@@ -14,6 +14,8 @@
 
 QuickRawPicker is a free and open source program that lets you cull, pick or score Raw Photos captured by your camera. It is also compatible with the XMP sidecar file used by Adobe Bridge/Lightroom or PP3 sidecar file used by Rawtherapee.
 
+**[Download](https://github.com/qdwang/QuickRawPicker/releases/latest) pre-built binaries.**
+
 ![QuickRawPicker-screenshot](https://user-images.githubusercontent.com/403616/122661158-f258e880-d1b9-11eb-9be0-6eb7c0e0175b.jpg)
 
 ## Shortcut list
