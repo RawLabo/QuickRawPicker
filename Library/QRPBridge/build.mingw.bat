@@ -3,5 +3,5 @@ g++ main.cpp ../LibRaw/lib/libraw_mod.mingw.a ../libjpeg-turbo/lib/libturbojpeg.
 -D_WINDLL ^
 -Wall -pedantic -Wextra -Wno-unused-parameter ^
 -static -shared -lWs2_32 -lz ^
--Ofast -funroll-loops -flto ^
+-Ofast -funroll-loops ^
 -I./godot-headers -I../LibRaw -I../libjpeg-turbo 
