@@ -1,6 +1,6 @@
-clang++ main.cpp ../LibRaw/lib/libraw_mod.linux.a ../libjpeg-turbo/lib/libturbojpeg.linux.a \
+clang++ main.cpp ../LibRaw/lib/libraw_mod.macos.a ../libjpeg-turbo/lib/libturbojpeg.macos.a \
 -o ../../GUI/Asset/Lib/Bin/QRPBridge.dylib \
--Wall -pedantic -Wextra -Wno-unused-parameter \
+-std=c++17 -Wall -pedantic -Wextra -Wno-unused-parameter \
 -arch x86_64 -arch arm64 \
 -dynamiclib -lz \
 -Ofast -funroll-loops \
