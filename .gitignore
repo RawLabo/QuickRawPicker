@@ -1,5 +1,6 @@
 .import/
 Build/
 .vs/
+.vscode/
 Samples/
 .DS_Store

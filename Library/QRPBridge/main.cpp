@@ -7,6 +7,7 @@ const godot_gdnative_core_api_struct* api = NULL;
 const godot_gdnative_ext_nativescript_api_struct* nativescript_api = NULL;
 
 #if _WINDLL
+#include <locale>
 #include <codecvt>
 inline std::wstring char2wchar(const char* data) {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;

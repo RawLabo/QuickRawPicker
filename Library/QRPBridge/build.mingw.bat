@@ -1,0 +1,1 @@
+g++ main.cpp ../LibRaw/lib/libraw_mod.mingw.a ../libjpeg-turbo/lib/libturbojpeg.mingw.a -o ../../GUI/Asset/Lib/Bin/QRPBridge.dll -D_WINDLL -static -lz -lWs2_32 -shared -Ofast -flto -funroll-loops -I./godot-headers -I../LibRaw -I../libjpeg-turbo 
