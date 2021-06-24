@@ -12,7 +12,7 @@
 
 [![Discord](https://img.shields.io/discord/856151439053946940?color=%23ea0&label=discord%20support)](https://discord.com/channels/856151439053946940)
 
-QuickRawPicker is a free and open source program that lets you cull, pick or score Raw Photos captured by your camera. It is also compatible with the XMP sidecar file used by Adobe Bridge/Lightroom or PP3 sidecar file used by Rawtherapee.
+QuickRawPicker is a free and open source program that lets you cull, pick or rate raw photos captured by your camera. It is also compatible with the XMP sidecar file used by Adobe Bridge/Lightroom or PP3 sidecar file used by Rawtherapee.
 
 **[🔽Download](https://github.com/qdwang/QuickRawPicker/releases/latest) the latest precompiled binaries.**
 > You may need to run `xattr -dr com.apple.quarantine QuickRawPicker.app` to fix the **"file is damaged"** issue under macOS.
