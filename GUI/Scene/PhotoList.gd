@@ -5,12 +5,13 @@ signal photo_selection_changed(photo, selection)
 signal photo_mark_changed(photo, mark)
 
 var photos = []
+
 func show_folder_images(dir_path):
   $List.clear()
   
   Util.log(dir_path, "open_folder", Util.LogLevel.Verbose)
   
-  photos = update_dir(dir_path)
+  update_dir(dir_path)
   
   for photo in photos:
     Threading.pending_jobs.append(["get_raw_thumb", photo, self])
@@ -46,7 +47,7 @@ func show_prev():
   _on_Compare_pressed()
   
 func update_dir(dir_path):
-  var photos = []
+  photos = []
   
   var dir = Directory.new()
   if dir.open(dir_path) == OK:
@@ -60,8 +61,6 @@ func update_dir(dir_path):
 
       file_name = dir.get_next()
       
-  return photos
-
 func get_selected_photos():
   var result = []
   for index in $List.get_selected_items():

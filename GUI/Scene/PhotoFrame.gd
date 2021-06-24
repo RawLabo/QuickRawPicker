@@ -87,7 +87,7 @@ func init(w, h, input_photo, is_overlay = false):
     $TopContainer.visible = false
   
 
-func _on_PhotoFrame_image_parsed(photo : Photo):
+func _on_PhotoFrame_image_parsed(_photo):
   $LoadingLabel.visible = false
   $TopContainer.visible = true
   gamma = 2.6 if not Settings.auto_bright else 1.0

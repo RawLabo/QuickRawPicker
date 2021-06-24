@@ -59,7 +59,7 @@ func _on_Dialog_dir_selected(dir):
     Threading.pending_jobs.append(["export_files", photos, self, [dir, $ExportProgress/ProgressBar]])
     $ExportProgress.popup_centered()
 
-func _on_Operations_file_exported(photos):
+func _on_Operations_file_exported(_photos):
   $ExportProgress.visible = false
 
 func _on_BpsOption_item_selected(index):

@@ -33,6 +33,12 @@ Settings="*res://Script/settings.gd"
 Util="*res://Script/util.gd"
 Threading="*res://Script/threading.gd"
 
+[debug]
+
+gdscript/warnings/unused_signal=false
+gdscript/warnings/return_value_discarded=false
+gdscript/warnings/integer_division=false
+
 [display]
 
 window/size/width=1200
