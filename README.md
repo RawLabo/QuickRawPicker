@@ -41,7 +41,7 @@ QuickRawPicker is a free and open source program that lets you cull, pick or rat
 ### In photo area
 |Key|Description|
 |---|-----------|
-|MouseWheel / Key, Key. / Key- Key=|Resize all photos|
+|MouseWheel / Key, Key. / Key- Key= / Key_Q Key_E|Resize all photos|
 |Command/Ctrl + Resize|Adjust all photos' EV|
 |Alt + Resize|Adjust all photos' Gamma|
 |Shift + **one of the above three**|Resize/adjust the pointing photo|
