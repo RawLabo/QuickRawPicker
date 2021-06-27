@@ -50,3 +50,18 @@ QuickRawPicker is a free and open source program that lets you cull, pick or rat
 |Command/Ctrl + LeftClick|Toggle selection at the pointing photo|
 |RightClick|View the pointing photo at fullscreen|
 |1,2,3,4,5|Rate the pointing photo|
+
+## Sample workflows
+### Workflow 1 - rate raw photos
+Rate your raw photos with the fast QuickRawPicker and then edit them in Bridge, Lightroom or Rawtherapee.
+
+https://user-images.githubusercontent.com/403616/123539236-4855ff00-d76b-11eb-9c7e-583e490c62b4.mp4
+
+> The rating operation is performed by pressing `3` on keyboard.
+
+### Workflow 2 - mark raw photos and export
+Mark your raw photos and then copy them to the folder desired.
+
+https://user-images.githubusercontent.com/403616/123539349-e5189c80-d76b-11eb-94b2-c85aba85ee54.mp4
+
+> The marking operation is performed by holding `alt` and clicking mouse left button.
