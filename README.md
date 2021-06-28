@@ -1,18 +1,22 @@
 # QuickRawPicker
-
+A free and open source program that lets you cull, pick or rate raw photos captured by your camera.
 
 [![CodeFactor](https://www.codefactor.io/repository/github/qdwang/quickrawpicker/badge)](https://www.codefactor.io/repository/github/qdwang/quickrawpicker)
 [![GitHub](https://img.shields.io/badge/license-LGPL--2.1-yellow)](./LICENSE)
 [![GitHub last commit](https://img.shields.io/github/last-commit/qdwang/QuickRawPicker)](#)
+[![Discord](https://img.shields.io/discord/856151439053946940?color=%23ea0&label=discord%20support)](https://discord.com/channels/856151439053946940)
 
 [![GitHub Release Date](https://img.shields.io/github/release-date/qdwang/QuickRawPicker)](https://github.com/qdwang/QuickRawPicker/releases)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/qdwang/QuickRawPicker)](https://github.com/qdwang/QuickRawPicker/releases)
 [![GitHub all releases](https://img.shields.io/github/downloads/qdwang/QuickRawPicker/total)](https://github.com/qdwang/QuickRawPicker/releases)
 [![platform](https://img.shields.io/badge/platform-win64%20%2F%20linux64%20%2F%20macOS%20universal-green)](#)
 
-[![Discord](https://img.shields.io/discord/856151439053946940?color=%23ea0&label=discord%20support)](https://discord.com/channels/856151439053946940)
 
-QuickRawPicker is a free and open source program that lets you cull, pick or rate raw photos captured by your camera. It is also compatible with the XMP sidecar file used by Adobe Bridge/Lightroom or PP3 sidecar file used by Rawtherapee.
+## Why QuickRawPicker?
+* **To save time.** QuickRawPicker is very fast for checking multiple raw photos at the same time. It is speed oriented and built with C++ and Godot game engine. With the 16-bit texture feature, it is easy to check if the raw photo is overexposed or too noisy in dark areas.
+* **To save money.** You can easily use QuickRawPicker as a pre-step to Rawtherapee or Darktable. This is because QuickRawPicker has XMP and PP3 ratings and is compatible with most free raw editing software on the market.
+* **Cross platforms.** Most major desktop platforms are natively supported. **(Windows x64 | Linux x64 | macOS Intel / Apple silicon)**
+* **Small size and ease of use.** The zip package is only about 30MB, no installation and no complicated setup.
 
 **[🔽Download](https://github.com/qdwang/QuickRawPicker/releases/latest) the latest precompiled binaries.**
 > You may need to run `xattr -dr com.apple.quarantine QuickRawPicker.app` to fix the **"file is damaged"** issue under macOS.
@@ -26,6 +30,7 @@ QuickRawPicker is a free and open source program that lets you cull, pick or rat
 * Adjust EV and shift Gamma.
 * Draw highlight area and shadow area.
 * Display as 16 bit texture on screen.
+* Display as low contrast texture.
 * Display color space setting available.
 * Export marked photos by copying.
 
@@ -48,4 +53,21 @@ QuickRawPicker is a free and open source program that lets you cull, pick or rat
 |Alt + LeftClick|Toggle mark at the pointing photo|
 |Command/Ctrl + LeftClick|Toggle selection at the pointing photo|
 |RightClick|View the pointing photo at fullscreen|
+|Key_H|Turn the highlight area of the pointing photo into red color|
+|Key_S|Turn the shadow area of the pointing photo into green color|
 |1,2,3,4,5|Rate the pointing photo|
+
+## Sample workflows
+### Workflow 1 - rate raw photos
+Rate your raw photos with the fast QuickRawPicker and then edit them in Bridge, Lightroom or Rawtherapee.
+
+https://user-images.githubusercontent.com/403616/123539236-4855ff00-d76b-11eb-9c7e-583e490c62b4.mp4
+
+> The rating operation is performed by pressing `3` on keyboard.
+
+### Workflow 2 - mark raw photos and export
+Mark your raw photos and then copy them to the folder desired.
+
+https://user-images.githubusercontent.com/403616/123539349-e5189c80-d76b-11eb-94b2-c85aba85ee54.mp4
+
+> The marking operation is performed by holding `alt` and clicking mouse left button.
