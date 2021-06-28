@@ -14,9 +14,13 @@ func _on_Main_photos_received(photos):
   $Grid.update_photos(photos)
 
 func _on_Main_fullscreen_photo_received(photo_frame):
-  $PhotoFrame.init($PhotoFrame.rect_size.x, $PhotoFrame.rect_size.y, photo_frame.photo, true)
-  $PhotoFrame.gamma = photo_frame.gamma
-  $PhotoFrame.EV = photo_frame.EV
-  $PhotoFrame.update_shader()
-  $PhotoFrame.visible = true
+  if not $PhotoFrame.visible:
+    $PhotoFrame.init($PhotoFrame.rect_size.x, $PhotoFrame.rect_size.y, photo_frame.photo, true)
+    $PhotoFrame.gamma = photo_frame.gamma
+    $PhotoFrame.EV = photo_frame.EV
+    $PhotoFrame.update_shader()
+    $PhotoFrame.set_deferred("visible", true)
   
+func _input(event):
+  if event is InputEventKey and event.pressed and event.scancode == KEY_F:
+    $PhotoFrame.visible = false

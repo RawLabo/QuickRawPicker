@@ -89,11 +89,15 @@ func _input(event):
     var with_alt = event.alt
     var with_shift = event.shift
     
+    var with_enter = event.scancode == KEY_ENTER
+    var with_c = event.scancode == KEY_C
     var with_up = event.scancode == KEY_UP
     var with_down = event.scancode == KEY_DOWN
     var with_zoom_in = [KEY_EQUAL, KEY_PERIOD, KEY_E].has(event.scancode)
     var with_zoom_out = [KEY_MINUS, KEY_COMMA, KEY_Q].has(event.scancode)
     
+    if with_c or with_enter:
+      Util.Nodes["PhotoList"]._on_Compare_pressed()
     if with_up:
       Util.Nodes["PhotoList"].show_prev()
     elif with_down:
@@ -104,12 +108,15 @@ func _input(event):
       frame_op(is_up, with_shift, with_alt, with_ctrl)
         
     if hovering_frame:
+      var with_f = event.scancode == KEY_F
       var with_h = event.scancode == KEY_H
       var with_s = event.scancode == KEY_S
       
       var rating_index = (event.scancode - KEY_0) if event.scancode >= KEY_0 and event.scancode <= KEY_5 else -1
       
-      if with_h:
+      if with_f:
+        get_parent().emit_signal("fullscreen_photo_received", hovering_frame)
+      elif with_h:
         hovering_frame.toggle_highlight()
       elif with_s:
         hovering_frame.toggle_shadow()
@@ -149,8 +156,6 @@ func _on_Grid_gui_input(event):
     else:
       prev_mouse_pos = Vector2.ZERO
   
-  elif button_index == BUTTON_RIGHT and hovering_frame:
-    get_parent().emit_signal("fullscreen_photo_received", hovering_frame)
   elif (button_index == BUTTON_WHEEL_UP or button_index == BUTTON_WHEEL_DOWN) and pressed:
     var is_up = button_index == BUTTON_WHEEL_UP
     frame_op(is_up, with_shift, with_alt, with_ctrl)

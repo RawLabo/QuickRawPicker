@@ -191,8 +191,3 @@ func _on_Highlight_toggled(button_pressed):
 func _on_Shadow_toggled(button_pressed):
   shadow_draw = 1.0 if button_pressed else 0.0
   update_shader()
-
-
-func _on_PhotoFrame_gui_input(event):
-  if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT:
-    visible = false
