@@ -62,6 +62,7 @@ __meta__ = {
 }
 
 [node name="LeftPanelAni" type="AnimationPlayer" parent="LeftPanel"]
+playback_process_mode = 0
 anims/Slide = SubResource( 1 )
 
 [node name="PhotoList" parent="LeftPanel" instance=ExtResource( 3 )]

@@ -1,8 +1,22 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scene/PhotoFrame.gd" type="Script" id=1]
 [ext_resource path="res://Asset/Theme/small_button.tres" type="Theme" id=2]
 [ext_resource path="res://Asset/Shader/default.tres" type="Material" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 16
+anti_aliasing = false
 
 [node name="PhotoFrame" type="Control"]
 anchor_right = 1.0
@@ -26,6 +40,15 @@ __meta__ = {
 
 [node name="Photo" type="Sprite" parent="."]
 material = ExtResource( 3 )
+
+[node name="Selection" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="LoadingLabel" type="Label" parent="."]
 anchor_left = 0.5
@@ -60,15 +83,6 @@ alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Selection" type="ColorRect" parent="TopContainer"]
-margin_left = 304.0
-margin_top = 8.0
-margin_right = 320.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 16, 16 )
-size_flags_horizontal = 4
-size_flags_vertical = 4
 
 [node name="Size" type="HBoxContainer" parent="TopContainer"]
 margin_left = 328.0

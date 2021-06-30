@@ -8,7 +8,7 @@ var output_color = OutputColors.SRGB
 var rating_type = RatingType.XMP
 
 var select_color = Color(1, 1, 1)
-var mark_color = Color(0, 1, 0, 0.7)
+var mark_color = Color(0.5, 1, 0.3)
 var version = "v0.1.3"
 
 onready var project_name = ProjectSettings.get_setting("application/config/name")

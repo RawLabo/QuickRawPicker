@@ -22,18 +22,26 @@ var highlight_draw = 0.0
 var shadow_draw = 0.0
 
 func select():
-  $TopContainer/Selection.color.a = 1.0
+  $Selection.modulate.a = 1.0
+  selection_style_udpate()
 func unselect():
-  $TopContainer/Selection.color.a = 0.2
+  $Selection.modulate.a = 0.5
+  selection_style_udpate()
 func mark():
-  var alpha = $TopContainer/Selection.color.a
-  $TopContainer/Selection.color = Settings.mark_color
-  $TopContainer/Selection.color.a = alpha
+  var alpha = $Selection.modulate.a
+  $Selection.modulate = Settings.mark_color
+  $Selection.modulate.a = alpha
+  selection_style_udpate()
 func unmark():
-  var alpha = $TopContainer/Selection.color.a
-  $TopContainer/Selection.color = Settings.select_color
-  $TopContainer/Selection.color.a = alpha
+  var alpha = $Selection.modulate.a
+  $Selection.modulate = Settings.select_color
+  $Selection.modulate.a = alpha
+  selection_style_udpate()
+func selection_style_udpate():
+  $InfoLabel.modulate = $Selection.modulate
+  $TopContainer.modulate.a = $Selection.modulate.a
   
+    
 func update_shader():
   if gamma < 0.0:
     gamma = 0.0
