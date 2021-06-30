@@ -48,7 +48,7 @@ func update_photos(photos):
         break
   
   columns = column_num 
-  var w = int((OS.window_size.x - 200) / columns)
+  var w = int(OS.window_size.x / columns)
   var h = int(OS.window_size.y / row_num)
   
   for photo in photos:
@@ -56,7 +56,7 @@ func update_photos(photos):
     photo_frame.init(w, h, photo)
     add_child(photo_frame)
 
-
+  
 func get_hovering_frame(pos):
   for frame in get_children():
     var g_pos = frame.rect_position
@@ -115,7 +115,7 @@ func _input(event):
       var rating_index = (event.scancode - KEY_0) if event.scancode >= KEY_0 and event.scancode <= KEY_5 else -1
       
       if with_f:
-        get_parent().emit_signal("fullscreen_photo_received", hovering_frame)
+        Util.Nodes["Main"].show_fullscreen_photo(hovering_frame)
       elif with_h:
         hovering_frame.toggle_highlight()
       elif with_s:

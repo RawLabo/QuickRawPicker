@@ -89,7 +89,7 @@ func _on_Compare_pressed():
       photo.full_texture = ImageTexture.new()
       photo.ui_round = 0
       
-  get_parent().emit_signal("photos_received", selected_photos)
+  Util.Nodes["Grid"].update_photos(selected_photos)
   
 var with_alt = false
 func _on_List_multi_selected(index, selected):

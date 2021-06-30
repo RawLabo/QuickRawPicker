@@ -215,14 +215,14 @@ __meta__ = {
 }
 
 [node name="OpenFolder" type="Button" parent="Container"]
-margin_right = 511.0
+margin_right = 599.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "OpenFolder"
 
 [node name="Fn" type="MenuButton" parent="Container"]
-margin_left = 513.0
-margin_right = 1024.0
+margin_left = 601.0
+margin_right = 1200.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "Fn"

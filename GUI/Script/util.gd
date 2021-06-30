@@ -7,7 +7,8 @@ onready var is_windows = true if OS.get_name() == "Windows" else false
 onready var log_time = OS.get_ticks_msec()
 onready var log_level = LogLevel.keys()
 onready var Nodes = {
-  "PhotoList": get_node("/root/Main/PhotoList"),
+  "Main": get_node("/root/Main"),
+  "PhotoList": get_node("/root/Main/LeftPanel/PhotoList"),
   "Grid": get_node("/root/Main/Grid")  
 }
 

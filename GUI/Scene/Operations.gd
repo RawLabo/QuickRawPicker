@@ -53,7 +53,7 @@ func _on_OpenFolder_pressed():
 
 func _on_Dialog_dir_selected(dir):
   if dialog_type == DialogType.OpenDir:
-    get_parent().emit_signal("open_folder_selected", dir)
+    Util.Nodes["PhotoList"].show_folder_images(dir)
   elif dialog_type == DialogType.ExportByCopy:
     var photos = Util.Nodes["PhotoList"].get_marked_photos()
     Threading.pending_jobs.append(["export_files", photos, self, [dir, $ExportProgress/ProgressBar]])
