@@ -12,10 +12,10 @@ func show_fullscreen_photo(photo_frame):
     $PhotoFrame.set_deferred("visible", true)
   
 func _input(event):
-  if event is InputEventMouseMotion and $Grid.get_child_count() > 0:
-    if event.position.x < 20 && $LeftPanel.rect_position.x <= -200:
+  if event is InputEventMouseMotion:
+    if event.position.x < 20 and $LeftPanel.rect_position.x <= -200:
       $LeftPanel/LeftPanelAni.play("Slide")
-    elif event.position.x > 200 && $LeftPanel.rect_position.x == 0:
+    elif event.position.x > 400 and $LeftPanel.rect_position.x == 0 and $Grid.get_child_count() > 0:
       $LeftPanel/LeftPanelAni.play_backwards("Slide")
       
   elif event is InputEventKey and event.pressed:
