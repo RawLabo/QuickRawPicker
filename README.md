@@ -76,3 +76,6 @@ Mark your raw photos and then copy them to the folder desired.
 https://user-images.githubusercontent.com/403616/123539349-e5189c80-d76b-11eb-94b2-c85aba85ee54.mp4
 
 > The marking operation is performed by holding `alt` and clicking mouse left button.
+
+## Need any help, support or discussion
+**[👉 Go github discussions](https://github.com/qdwang/QuickRawPicker/discussions)**
