@@ -4,7 +4,6 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 [![CodeFactor](https://www.codefactor.io/repository/github/qdwang/quickrawpicker/badge)](https://www.codefactor.io/repository/github/qdwang/quickrawpicker)
 [![GitHub](https://img.shields.io/badge/license-LGPL--2.1-yellow)](./LICENSE)
 [![GitHub last commit](https://img.shields.io/github/last-commit/qdwang/QuickRawPicker)](#)
-[![Discord](https://img.shields.io/discord/856151439053946940?color=%23ea0&label=discord%20support)](https://discord.com/channels/856151439053946940)
 
 [![GitHub Release Date](https://img.shields.io/github/release-date/qdwang/QuickRawPicker)](https://github.com/qdwang/QuickRawPicker/releases)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/qdwang/QuickRawPicker)](https://github.com/qdwang/QuickRawPicker/releases)
