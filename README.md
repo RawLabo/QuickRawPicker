@@ -36,6 +36,12 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 
 ## Shortcut list
 
+### Global
+|Key|Description|
+|---|-----------|
+|Key_C|Compare the selected photos|
+|Key_F11|Toggle the fullscreen mode|
+
 ### In thumbnail list
 |Key|Description|
 |---|-----------|
@@ -52,7 +58,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 |Shift + **one of the above three**|Resize/adjust the pointing photo|
 |Alt + LeftClick|Toggle mark at the pointing photo|
 |Command/Ctrl + LeftClick|Toggle selection at the pointing photo|
-|RightClick|View the pointing photo at fullscreen|
+|Key_F|View the pointing photo at fullscreen|
 |Key_H|Turn the highlight area of the pointing photo into red color|
 |Key_S|Turn the shadow area of the pointing photo into green color|
 |1,2,3,4,5|Rate the pointing photo|
