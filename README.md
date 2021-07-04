@@ -4,7 +4,6 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 [![CodeFactor](https://www.codefactor.io/repository/github/qdwang/quickrawpicker/badge)](https://www.codefactor.io/repository/github/qdwang/quickrawpicker)
 [![GitHub](https://img.shields.io/badge/license-LGPL--2.1-yellow)](./LICENSE)
 [![GitHub last commit](https://img.shields.io/github/last-commit/qdwang/QuickRawPicker)](#)
-[![Discord](https://img.shields.io/discord/856151439053946940?color=%23ea0&label=discord%20support)](https://discord.com/channels/856151439053946940)
 
 [![GitHub Release Date](https://img.shields.io/github/release-date/qdwang/QuickRawPicker)](https://github.com/qdwang/QuickRawPicker/releases)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/qdwang/QuickRawPicker)](https://github.com/qdwang/QuickRawPicker/releases)
@@ -36,6 +35,12 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 
 ## Shortcut list
 
+### Global
+|Key|Description|
+|---|-----------|
+|Key_C|Compare the selected photos|
+|Key_F11|Toggle the fullscreen mode|
+
 ### In thumbnail list
 |Key|Description|
 |---|-----------|
@@ -52,7 +57,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 |Shift + **one of the above three**|Resize/adjust the pointing photo|
 |Alt + LeftClick|Toggle mark at the pointing photo|
 |Command/Ctrl + LeftClick|Toggle selection at the pointing photo|
-|RightClick|View the pointing photo at fullscreen|
+|Key_F|View the pointing photo at fullscreen|
 |Key_H|Turn the highlight area of the pointing photo into red color|
 |Key_S|Turn the shadow area of the pointing photo into green color|
 |1,2,3,4,5|Rate the pointing photo|
@@ -71,3 +76,6 @@ Mark your raw photos and then copy them to the folder desired.
 https://user-images.githubusercontent.com/403616/123539349-e5189c80-d76b-11eb-94b2-c85aba85ee54.mp4
 
 > The marking operation is performed by holding `alt` and clicking mouse left button.
+
+## Need any help, support or discussion
+**[👉 Go github discussions](https://github.com/qdwang/QuickRawPicker/discussions)**
