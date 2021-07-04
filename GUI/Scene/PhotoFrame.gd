@@ -79,7 +79,7 @@ func init(w, h, input_photo, is_overlay = false):
   $Photo.texture = photo.full_texture
   $Photo.scale = Vector2(scale_options[0], scale_options[0])
   
-  gamma = 2.6 if photo.has_processed() and not Settings.auto_bright else 1.0
+  gamma = 2.2 if photo.has_processed() else 1.0
   update_shader()
   
   $InfoLabel.text = photo.get_bar_info()
@@ -98,7 +98,7 @@ func init(w, h, input_photo, is_overlay = false):
 func _on_PhotoFrame_image_parsed(_photo):
   $LoadingLabel.visible = false
   $TopContainer.visible = true
-  gamma = 2.6 if not Settings.auto_bright else 1.0
+  gamma = 2.2
   update_shader()
 
 func update_top_info():

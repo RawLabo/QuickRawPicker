@@ -186,8 +186,9 @@ void _get_image_data(const char* path, godot_variant* data, int bps, bool set_ha
 
 	if (!auto_bright) {
 		lr_ptr->imgdata.params.no_auto_bright = 1;
-		lr_ptr->imgdata.params.gamm[0] = 0;
-		lr_ptr->imgdata.params.gamm[1] = 1000;
+		lr_ptr->imgdata.params.bright = 1;
+		lr_ptr->imgdata.params.gamm[0] = 1;
+		lr_ptr->imgdata.params.gamm[1] = 1;
 	}
 
 #if _WINDLL

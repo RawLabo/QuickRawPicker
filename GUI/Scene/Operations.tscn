@@ -34,8 +34,8 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -250.0
 margin_top = -150.0
-margin_right = 209.0
-margin_bottom = 223.0
+margin_right = 182.0
+margin_bottom = 187.0
 window_title = "Settings"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -46,10 +46,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -129.307
-margin_top = -145.529
-margin_right = 83.693
-margin_bottom = 70.4712
+margin_left = -119.228
+margin_top = -130.41
+margin_right = 93.7723
+margin_bottom = 85.5902
 custom_constants/vseparation = 12
 custom_constants/hseparation = 8
 columns = 2
@@ -72,14 +72,14 @@ text = "16"
 items = [ "16", null, false, 0, null, "8", null, false, 1, null ]
 selected = 0
 
-[node name="AutoBrightLabel" type="Label" parent="SettingsDialog/Grid"]
+[node name="ShowThumbFirstLabel" type="Label" parent="SettingsDialog/Grid"]
 margin_top = 35.0
 margin_right = 128.0
 margin_bottom = 49.0
-text = "High contrast:"
+text = "Show thumbnail:"
 align = 2
 
-[node name="AutoBrightOption" type="OptionButton" parent="SettingsDialog/Grid"]
+[node name="ShowThumbFirstOption" type="OptionButton" parent="SettingsDialog/Grid"]
 margin_left = 136.0
 margin_top = 32.0
 margin_right = 210.0
@@ -91,79 +91,60 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ShowThumbFirstLabel" type="Label" parent="SettingsDialog/Grid"]
-margin_top = 67.0
-margin_right = 128.0
-margin_bottom = 81.0
-text = "Show thumbnail:"
-align = 2
-
-[node name="ShowThumbFirstOption" type="OptionButton" parent="SettingsDialog/Grid"]
-margin_left = 136.0
-margin_top = 64.0
-margin_right = 210.0
-margin_bottom = 84.0
-text = "True"
-items = [ "True", null, false, 0, null, "False", null, false, 1, null ]
-selected = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="CacheRoundLabel" type="Label" parent="SettingsDialog/Grid"]
-margin_top = 101.0
+margin_top = 69.0
 margin_right = 128.0
-margin_bottom = 115.0
+margin_bottom = 83.0
 text = "Cache round:"
 align = 2
 
 [node name="CacheRoundSpinBox" type="SpinBox" parent="SettingsDialog/Grid"]
 margin_left = 136.0
-margin_top = 96.0
+margin_top = 64.0
 margin_right = 210.0
-margin_bottom = 120.0
+margin_bottom = 88.0
 min_value = 1.0
 max_value = 20.0
 value = 1.0
 rounded = true
 
 [node name="DisplayColorSpaceLabel" type="Label" parent="SettingsDialog/Grid"]
-margin_top = 135.0
+margin_top = 103.0
 margin_right = 128.0
-margin_bottom = 149.0
+margin_bottom = 117.0
 text = "Display color space:"
 align = 2
 
 [node name="DisplayColorSpaceOption" type="OptionButton" parent="SettingsDialog/Grid"]
 margin_left = 136.0
-margin_top = 132.0
+margin_top = 100.0
 margin_right = 210.0
-margin_bottom = 152.0
+margin_bottom = 120.0
 
 [node name="RatingType" type="Label" parent="SettingsDialog/Grid"]
-margin_top = 167.0
+margin_top = 135.0
 margin_right = 128.0
-margin_bottom = 181.0
+margin_bottom = 149.0
 text = "Rating type:"
 align = 2
 
 [node name="RatingTypeOption" type="OptionButton" parent="SettingsDialog/Grid"]
 margin_left = 136.0
-margin_top = 164.0
+margin_top = 132.0
 margin_right = 210.0
-margin_bottom = 184.0
+margin_bottom = 152.0
 
 [node name="OpenLogFolder" type="Button" parent="SettingsDialog/Grid"]
-margin_top = 196.0
+margin_top = 164.0
 margin_right = 128.0
-margin_bottom = 216.0
+margin_bottom = 184.0
 text = "Open logs folder"
 
 [node name="Reset" type="Button" parent="SettingsDialog/Grid"]
 margin_left = 136.0
-margin_top = 196.0
+margin_top = 164.0
 margin_right = 210.0
-margin_bottom = 216.0
+margin_bottom = 184.0
 text = "Reset"
 
 [node name="AboutDialog" type="AcceptDialog" parent="."]
@@ -232,7 +213,6 @@ items = [ "Export Marked", null, 0, false, false, 100, 0, null, "", false, "Sett
 [connection signal="file_exported" from="." to="." method="_on_Operations_file_exported"]
 [connection signal="dir_selected" from="Dialog" to="." method="_on_Dialog_dir_selected"]
 [connection signal="item_selected" from="SettingsDialog/Grid/BpsOption" to="." method="_on_BpsOption_item_selected"]
-[connection signal="item_selected" from="SettingsDialog/Grid/AutoBrightOption" to="." method="_on_AutoBrightOption_item_selected"]
 [connection signal="item_selected" from="SettingsDialog/Grid/ShowThumbFirstOption" to="." method="_on_ShowThumbFirstOption_item_selected"]
 [connection signal="value_changed" from="SettingsDialog/Grid/CacheRoundSpinBox" to="." method="_on_CacheRoundSpinBox_value_changed"]
 [connection signal="item_selected" from="SettingsDialog/Grid/DisplayColorSpaceOption" to="." method="_on_DisplayColorSpaceOption_item_selected"]

@@ -17,7 +17,7 @@ void fragment() {
   vec3 center = texture(TEXTURE, UV).rgb;
   
   // exposure adjustment
-  vec3 gamma_corrected = pow(center, vec3(gamma_correction));
+  vec3 gamma_corrected = pow(center, 1.0 / vec3(gamma_correction));
   vec3 exposure_adjusted = min(gamma_corrected * pow(2, exposure), vec3(1.0));
 
   float luminance = get_luminance(exposure_adjusted);

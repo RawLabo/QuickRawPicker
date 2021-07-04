@@ -20,7 +20,6 @@ func _on_Reset_pressed():
   
 func update_settings_dialog():
   $SettingsDialog/Grid/BpsOption.select(0 if Settings.bps == 16 else 1)
-  $SettingsDialog/Grid/AutoBrightOption.select(0 if Settings.auto_bright else 1)
   $SettingsDialog/Grid/ShowThumbFirstOption.select(0 if Settings.show_thumb_first else 1)
   $SettingsDialog/Grid/CacheRoundSpinBox.value = Settings.cache_round
   $SettingsDialog/Grid/DisplayColorSpaceOption.select(int(Settings.output_color))
@@ -66,10 +65,6 @@ func _on_BpsOption_item_selected(index):
   Settings.bps = 16 if index == 0 else 8
   Settings.save_settings()
   Settings.update_title()
-
-func _on_AutoBrightOption_item_selected(index):
-  Settings.auto_bright = index == 0
-  Settings.save_settings()
 
 func _on_ShowThumbFirstOption_item_selected(index):
   Settings.show_thumb_first = index == 0

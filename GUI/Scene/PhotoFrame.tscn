@@ -156,7 +156,7 @@ margin_left = 17.0
 margin_top = 2.0
 margin_right = 71.0
 margin_bottom = 29.0
-text = "ΔGamma:"
+text = "Gamma:"
 
 [node name="Value" type="Label" parent="TopContainer/Gamma"]
 margin_left = 75.0
