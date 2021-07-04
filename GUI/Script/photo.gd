@@ -2,6 +2,7 @@ class_name Photo
 
 var file_path : String
 var file_name : String
+var file_mod_time : int
 var width : int
 var height : int
 var aperture : float
@@ -47,14 +48,15 @@ class PhotoSorter:
       return true
     return false
     
-  static func sort_ascending(a, b):
-    if a.timestamp < b.timestamp:
+  static func mod_time_sort_descending(a, b):
+    if a.file_mod_time > b.file_mod_time:
       return true
     return false
     
 func _init(dir_path, name):
   file_name = name
   file_path = dir_path + "/" + file_name
+  file_mod_time = Util.get_file_mod_time(file_path)
   
   thumb_texture = ImageTexture.new()
   full_texture = ImageTexture.new()

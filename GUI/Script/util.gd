@@ -11,9 +11,13 @@ onready var Nodes = {
   "PhotoList": get_node("/root/Main/LeftPanel/PhotoList"),
   "Grid": get_node("/root/Main/Grid")  
 }
+onready var _f = File.new()
 
 const log_thd = 2
 
+func get_file_mod_time(path):
+  return _f.get_modified_time(path)
+  
 func log(msg, mark = "", level = LogLevel.Info):
   var data = ""
   if typeof(msg) == TYPE_ARRAY:

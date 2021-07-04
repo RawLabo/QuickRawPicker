@@ -1,7 +1,8 @@
 extends Node
 
+const auto_bright = false
+
 var bps = 16
-var auto_bright = false
 var show_thumb_first = true
 var cache_round = 2
 var output_color = OutputColors.SRGB
@@ -67,7 +68,6 @@ func update_title():
   
 func reset():
   bps = 16
-  auto_bright = false
   show_thumb_first = true
   cache_round = 2
   output_color = OutputColors.SRGB
@@ -78,7 +78,6 @@ func save_settings():
   var file = File.new()
   var content = JSON.print({
     "bps": bps,
-    "auto_bright": auto_bright,
     "show_thumb_first": show_thumb_first,
     "cache_round": cache_round,
     "output_color": output_color,
@@ -98,7 +97,6 @@ func load_settings():
     var dict = JSON.parse(content).result
     
     bps = dict.get("bps", 16)
-    auto_bright = dict.get("auto_bright", false)
     show_thumb_first = dict.get("show_thumb_first", true)
     cache_round = dict.get("cache_round", 2)
     output_color = dict.get("output_color", OutputColors.SRGB)

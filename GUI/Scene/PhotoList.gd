@@ -61,7 +61,7 @@ func update_dir(dir_path):
 
       file_name = dir.get_next()
       
-  photos.invert()
+  photos.sort_custom(Photo.PhotoSorter, "mod_time_sort_descending")
   
 func get_selected_photos():
   var result = []
