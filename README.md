@@ -20,7 +20,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 **[🔽Download](https://github.com/qdwang/QuickRawPicker/releases/latest) the latest precompiled binaries.**
 > You may need to run `xattr -dr com.apple.quarantine QuickRawPicker.app` to fix the **"file is damaged"** issue under macOS.
 
-![QuickRawPicker-screenshot](https://user-images.githubusercontent.com/403616/122661158-f258e880-d1b9-11eb-9be0-6eb7c0e0175b.jpg)
+![QuickRawPicker-v0 1 5](https://user-images.githubusercontent.com/403616/124418930-23771280-dd8f-11eb-9f58-ca88221a03c5.jpg)
 
 ## Features
 * Compare multiple (up to 100) photos of multiple scales at the same time.
@@ -66,14 +66,14 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 ### Workflow 1 - rate raw photos
 Rate your raw photos with the fast QuickRawPicker and then edit them in Bridge, Lightroom or Rawtherapee.
 
-https://user-images.githubusercontent.com/403616/123539236-4855ff00-d76b-11eb-9c7e-583e490c62b4.mp4
+https://user-images.githubusercontent.com/403616/124418975-3a1d6980-dd8f-11eb-84dc-61edf32fd425.mp4
 
 > The rating operation is performed by pressing `3` on keyboard.
 
 ### Workflow 2 - mark raw photos and export
 Mark your raw photos and then copy them to the folder desired.
 
-https://user-images.githubusercontent.com/403616/123539349-e5189c80-d76b-11eb-94b2-c85aba85ee54.mp4
+https://user-images.githubusercontent.com/403616/124419023-50c3c080-dd8f-11eb-8931-8b7a4d2afb2d.mp4
 
 > The marking operation is performed by holding `alt` and clicking mouse left button.
 
