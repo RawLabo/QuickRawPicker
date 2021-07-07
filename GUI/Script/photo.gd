@@ -7,6 +7,7 @@ var width : int
 var height : int
 var aperture : float
 var shutter_speed : float
+var shutter_speed_str : String
 var iso_speed : float
 var focal_len : float
 var timestamp : int
@@ -197,11 +198,11 @@ func get_datetime():
   return "%d-%02d-%02d %02d:%02d" % [time["year"], time["month"], time["day"], time["hour"], time["minute"]]
 
 func get_list_info():
-  return "%s\n%d x %d\nF%.1f / %ss / ISO%1.f\n%.1fmm\n%s %s%s\n%s" % [
+  return "%s\n%d x %d\nF%.1f   %ss   ISO%1.f\n%.1fmm\n%s %s%s\n%s" % [
     file_name,
     width, height,
     aperture,
-    shutter_speed,
+    shutter_speed_str,
     iso_speed,
     focal_len,
     maker,
@@ -211,10 +212,10 @@ func get_list_info():
   ]
   
 func get_bar_info():
-  return "%s / F%.1f / %ss / ISO%1.f / %.1fmm / %s" % [
+  return "%s, F%.1f, %ss, ISO%1.f, %.1fmm, %s" % [
     file_name,
     aperture,
-    shutter_speed,
+    shutter_speed_str,
     iso_speed,
     focal_len,
     model + (" + " + lens_info if len(lens_info) > 0 else "")

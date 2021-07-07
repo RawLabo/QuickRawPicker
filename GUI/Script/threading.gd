@@ -39,6 +39,7 @@ func get_raw_thumb(args):
     photo.height = info[1]
     photo.aperture = info[2]
     photo.shutter_speed = info[3]
+    photo.shutter_speed_str = Util.float2frac(info[3])
     photo.iso_speed = info[4]
     photo.focal_len = info[5]
     photo.timestamp = info[6]
