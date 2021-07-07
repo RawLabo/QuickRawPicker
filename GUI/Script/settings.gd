@@ -7,6 +7,8 @@ var show_thumb_first = true
 var cache_round = 2
 var output_color = OutputColors.SRGB
 var rating_type = RatingType.XMP
+var open_folder = ""
+var export_folder = ""
 
 var select_color = Color(1, 1, 1)
 var mark_color = Color(0.5, 1, 0.3)
@@ -81,7 +83,9 @@ func save_settings():
     "show_thumb_first": show_thumb_first,
     "cache_round": cache_round,
     "output_color": output_color,
-    "rating_type": rating_type
+    "rating_type": rating_type,
+    "open_folder": open_folder,
+    "export_folder": export_folder
   })
   file.open("user://settings.cfg", File.WRITE_READ)
   file.store_string(content)
@@ -101,5 +105,7 @@ func load_settings():
     cache_round = dict.get("cache_round", 2)
     output_color = dict.get("output_color", OutputColors.SRGB)
     rating_type = dict.get("rating_type", RatingType.XMP)
+    open_folder = dict.get("open_folder", "")
+    export_folder = dict.get("export_folder", "")
     
   file.close()

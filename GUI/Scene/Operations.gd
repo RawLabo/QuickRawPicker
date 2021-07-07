@@ -30,6 +30,7 @@ func _on_Fn_id_pressed(id):
     # export selected
     dialog_type = DialogType.ExportByCopy
     $Dialog.window_title = "Copy selected photos to folder"
+    $Dialog.current_dir = Settings.export_folder
     $Dialog.popup_centered_clamped(Vector2(1200, 800), 0.9)
     
   elif id == 200:
@@ -48,15 +49,20 @@ func _on_Fn_id_pressed(id):
 func _on_OpenFolder_pressed():
   dialog_type = DialogType.OpenDir
   $Dialog.window_title = "Open folder with RAW images"
+  $Dialog.current_dir = Settings.open_folder
   $Dialog.popup_centered_clamped(Vector2(1200, 800), 0.9)
 
 func _on_Dialog_dir_selected(dir):
   if dialog_type == DialogType.OpenDir:
+    Settings.open_folder = dir
     Util.Nodes["PhotoList"].show_folder_images(dir)
   elif dialog_type == DialogType.ExportByCopy:
+    Settings.export_folder = dir
     var photos = Util.Nodes["PhotoList"].get_marked_photos()
     Threading.pending_jobs.append(["export_files", photos, self, [dir, $ExportProgress/ProgressBar]])
     $ExportProgress.popup_centered()
+
+  Settings.save_settings()
 
 func _on_Operations_file_exported(_photos):
   $ExportProgress.visible = false

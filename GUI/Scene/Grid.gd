@@ -89,14 +89,13 @@ func _input(event):
     var with_alt = event.alt
     var with_shift = event.shift
     
-    var with_enter = event.scancode == KEY_ENTER
     var with_c = event.scancode == KEY_C
     var with_up = event.scancode == KEY_UP
     var with_down = event.scancode == KEY_DOWN
     var with_zoom_in = [KEY_EQUAL, KEY_PERIOD, KEY_E].has(event.scancode)
     var with_zoom_out = [KEY_MINUS, KEY_COMMA, KEY_Q].has(event.scancode)
     
-    if with_c or with_enter:
+    if with_c:
       Util.Nodes["PhotoList"]._on_Compare_pressed()
     if with_up:
       Util.Nodes["PhotoList"].show_prev()
