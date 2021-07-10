@@ -7,10 +7,9 @@ signal photo_mark_changed(photo, mark)
 var photos = []
 
 func show_folder_images(dir_path):
+  Util.log("show_folder_images")
+  
   $List.clear()
-  
-  Util.log(dir_path, "open_folder", Util.LogLevel.Verbose)
-  
   update_dir(dir_path)
   
   for photo in photos:
@@ -19,6 +18,8 @@ func show_folder_images(dir_path):
 func _on_PhotoList_thumb_parsed(photo):
   $List.add_item(photo.get_list_info(), photo.thumb_texture)
   if $List.get_item_count() == photos.size():
+    Util.log("_on_PhotoList_thumb_parsed_all")
+    
     photos.sort_custom(Photo.PhotoSorter, "sort_descending")
     for idx in range(photos.size()):
       $List.set_item_text(idx, photos[idx].get_list_info())
@@ -33,6 +34,8 @@ func index_limit(index):
     return index
     
 func show_next():
+  Util.log("show_next")
+  
   var selected_index_lst = $List.get_selected_items()
   var last_index = selected_index_lst[-1] if selected_index_lst.size() > 0 else -1
   var next_index = index_limit(last_index + 1)
@@ -40,6 +43,8 @@ func show_next():
   _on_Compare_pressed()
   
 func show_prev():
+  Util.log("show_prev")
+  
   var selected_index_lst = $List.get_selected_items()
   var first_index = selected_index_lst[0] if selected_index_lst.size() > 0 else 1
   var prev_index = index_limit(first_index - 1)
@@ -47,6 +52,8 @@ func show_prev():
   _on_Compare_pressed()
   
 func update_dir(dir_path):
+  Util.log("update_dir")
+  
   photos = []
   
   var dir = Directory.new()
@@ -71,6 +78,8 @@ func get_selected_photos():
   return result
   
 func get_marked_photos():
+  Util.log("get_marked_photos")
+  
   var result = []
   for photo in photos:
     if photo.ui_marked:
@@ -80,6 +89,8 @@ func get_marked_photos():
 
 var compare_round = 0
 func _on_Compare_pressed():
+  Util.log("_on_Compare_pressed")
+  
   compare_round += 1
   var selected_photos = get_selected_photos()
   for photo in photos:

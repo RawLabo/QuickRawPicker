@@ -15,6 +15,7 @@ func _ready():
     $SettingsDialog/Grid/RatingTypeOption.add_item(key)
   
 func _on_Reset_pressed():
+  Util.log("_on_Reset_pressed")
   Settings.reset()
   update_settings_dialog()
   
