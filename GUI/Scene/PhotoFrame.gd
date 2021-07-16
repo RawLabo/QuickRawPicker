@@ -91,6 +91,7 @@ func init(w, h, input_photo, is_overlay = false):
   if not photo.has_processed():
     Threading.pending_jobs.append(["get_raw_image", photo, self])
   else:
+    call_deferred("update_focus", true)
     $LoadingLabel.visible = false
     $TopContainer.visible = true
     
@@ -100,11 +101,24 @@ func init(w, h, input_photo, is_overlay = false):
   
 
 func _on_PhotoFrame_image_parsed(_photo):
+  update_focus(true)
+  
   $LoadingLabel.visible = false
   $TopContainer.visible = true
   gamma = 2.2
   update_shader()
 
+func update_focus(init = false):
+  if init:
+    var pos = photo.get_sprite_focus_pos()
+    if pos:
+      $Photo/FocusPos.position = pos
+    else:
+      $Photo/FocusPos.visible = false
+      
+  if $Photo/FocusPos.visible:
+    $Focus.global_position = $Photo/FocusPos.global_position
+    
 func update_top_info():
   $TopContainer/Size/Value.text = "%d%%" % (scale_options[scale_index] * 100)
   $TopContainer/Exposure/Value.text = "%.1f" % EV
@@ -130,7 +144,6 @@ func rescale(is_scale_up, index = -1):
   var factor = scale_options[scale_index]
   
   $Photo.scale = Vector2(factor, factor)
-  
   reposition(($Photo.position - rect_min_size / 2) * (factor / pre_factor - 1))
   
 
@@ -158,6 +171,7 @@ func reposition(pos):
       
     $Photo.position = vec_int(new_pos)
   
+  update_focus()
   update_top_info()
 
 

@@ -49,6 +49,7 @@ func get_raw_thumb(args):
     photo.model = info[8]
     photo.lens_info = info[9]
     photo.raw_xmp = info[10]
+    photo.focus_loc = info[11]
     
     var image = Image.new()
     var need_half_raw = data_arr.size() == 0

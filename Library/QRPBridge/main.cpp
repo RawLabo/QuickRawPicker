@@ -71,11 +71,33 @@ inline void pool_byte_copy(godot_variant* dst, const void* src, int size) {
 	api->godot_pool_byte_array_destroy(&tmp);
 }
 
+inline void focus_location_fetch(godot_variant* focus_loc, const LibRaw* lr_ptr) {
+	godot_array loc_arr;
+	api->godot_array_new(&loc_arr);
+
+	godot_variant x, y;
+
+	switch (lr_ptr->imgdata.idata.maker_index) {
+		case LibRaw_cameramaker_index::LIBRAW_CAMERAMAKER_Sony:
+		api->godot_variant_new_int(&x, lr_ptr->imgdata.makernotes.sony.FocusLocation[2]);
+		api->godot_variant_new_int(&y, lr_ptr->imgdata.makernotes.sony.FocusLocation[3]);
+		api->godot_array_append(&loc_arr, &x);
+		api->godot_array_append(&loc_arr, &y);
+		break;
+	}
+
+	api->godot_variant_new_array(focus_loc, &loc_arr);
+
+	api->godot_variant_destroy(&x);
+	api->godot_variant_destroy(&y);
+	api->godot_array_destroy(&loc_arr);
+}
+
 inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	godot_array info_arr;
 	api->godot_array_new(&info_arr);
 
-	godot_variant width, height, aperture, shutter_speed, iso_speed, focal_len, timestamp, lens_info, maker, model,  xmp;
+	godot_variant width, height, aperture, shutter_speed, iso_speed, focal_len, timestamp, lens_info, maker, model, xmp, focus_loc;
 
 	api->godot_variant_new_int(&width, lr_ptr->imgdata.sizes.iwidth);
 	api->godot_variant_new_int(&height, lr_ptr->imgdata.sizes.iheight);
@@ -88,7 +110,8 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	string2var(&lr_ptr->imgdata.idata.model[0], &model);
 	string2var(&lr_ptr->imgdata.lens.Lens[0], &lens_info);
 	string2var(lr_ptr->imgdata.idata.xmpdata, &xmp, lr_ptr->imgdata.idata.xmplen);
-	
+	focus_location_fetch(&focus_loc, lr_ptr);
+
 	api->godot_array_append(&info_arr, &width);
 	api->godot_array_append(&info_arr, &height);
 	api->godot_array_append(&info_arr, &aperture);
@@ -100,6 +123,7 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	api->godot_array_append(&info_arr, &model);
 	api->godot_array_append(&info_arr, &lens_info);
 	api->godot_array_append(&info_arr, &xmp);
+	api->godot_array_append(&info_arr, &focus_loc);
 
 	// set
 	api->godot_variant_new_array(info, &info_arr);
@@ -116,6 +140,7 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	api->godot_variant_destroy(&model);
 	api->godot_variant_destroy(&lens_info);
 	api->godot_variant_destroy(&xmp);
+	api->godot_variant_destroy(&focus_loc);
 
 	api->godot_array_destroy(&info_arr);
 }
