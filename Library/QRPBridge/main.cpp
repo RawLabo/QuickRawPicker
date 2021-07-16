@@ -3,28 +3,31 @@
 #include <libraw/libraw.h>
 #include <turbojpeg.h>
 
-const godot_gdnative_core_api_struct* api = NULL;
-const godot_gdnative_ext_nativescript_api_struct* nativescript_api = NULL;
+const godot_gdnative_core_api_struct *api = NULL;
+const godot_gdnative_ext_nativescript_api_struct *nativescript_api = NULL;
 
 #if _WINDLL
 #include <locale>
 #include <codecvt>
-inline std::wstring char2wchar(const char* data) {
+inline std::wstring char2wchar(const char *data)
+{
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 	std::wstring result = converter.from_bytes(data);
 	return result;
 }
 #endif
 
-inline void print(const char* data) {
+inline void print(const char *data)
+{
 	godot_string x;
 	api->godot_string_new(&x);
 	api->godot_string_parse_utf8(&x, data);
 	api->godot_print(&x);
-	
+
 	api->godot_string_destroy(&x);
 }
-inline void print(int value) {
+inline void print(int value)
+{
 	godot_string x;
 	api->godot_string_new(&x);
 	api->godot_string_parse_utf8(&x, std::to_string(value).c_str());
@@ -33,7 +36,8 @@ inline void print(int value) {
 	api->godot_string_destroy(&x);
 }
 
-inline void string2var(const char* data, godot_variant* dst, int len = -1) {
+inline void string2var(const char *data, godot_variant *dst, int len = -1)
+{
 	godot_string tmp;
 	api->godot_string_new(&tmp);
 	if (len > 0)
@@ -46,21 +50,23 @@ inline void string2var(const char* data, godot_variant* dst, int len = -1) {
 	api->godot_string_destroy(&tmp);
 }
 
-inline const char* var2char_ptr(godot_variant* var) {
+inline const char *var2char_ptr(godot_variant *var)
+{
 	godot_string gd_str = api->godot_variant_as_string(var);
 	godot_char_string gd_c_str = api->godot_string_utf8(&gd_str);
 
-	const char* ret = api->godot_char_string_get_data(&gd_c_str);
+	const char *ret = api->godot_char_string_get_data(&gd_c_str);
 
 	return ret;
 }
 
-inline void pool_byte_copy(godot_variant* dst, const void* src, int size) {
+inline void pool_byte_copy(godot_variant *dst, const void *src, int size)
+{
 	godot_pool_byte_array tmp;
 	api->godot_pool_byte_array_new(&tmp);
 	api->godot_pool_byte_array_resize(&tmp, size);
-	godot_pool_byte_array_write_access* ptr_access = api->godot_pool_byte_array_write(&tmp);
-	uint8_t* tmp_ptr = api->godot_pool_byte_array_write_access_ptr(ptr_access);
+	godot_pool_byte_array_write_access *ptr_access = api->godot_pool_byte_array_write(&tmp);
+	uint8_t *tmp_ptr = api->godot_pool_byte_array_write_access_ptr(ptr_access);
 	memcpy(tmp_ptr, src, size);
 
 	// set
@@ -71,16 +77,45 @@ inline void pool_byte_copy(godot_variant* dst, const void* src, int size) {
 	api->godot_pool_byte_array_destroy(&tmp);
 }
 
-inline void focus_location_fetch(godot_variant* focus_loc, const LibRaw* lr_ptr) {
+inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
+{
 	godot_array loc_arr;
 	api->godot_array_new(&loc_arr);
 
 	godot_variant x, y;
 
-	switch (lr_ptr->imgdata.idata.maker_index) {
-		case LibRaw_cameramaker_index::LIBRAW_CAMERAMAKER_Sony:
-		api->godot_variant_new_int(&x, lr_ptr->imgdata.makernotes.sony.FocusLocation[2]);
-		api->godot_variant_new_int(&y, lr_ptr->imgdata.makernotes.sony.FocusLocation[3]);
+	int flip = lr_ptr->imgdata.sizes.flip;
+
+	switch (lr_ptr->imgdata.idata.maker_index)
+	{
+	case LibRaw_cameramaker_index::LIBRAW_CAMERAMAKER_Sony:
+		auto focus_loc = lr_ptr->imgdata.makernotes.sony.FocusLocation;
+		if (focus_loc[0] == 0)
+			break;
+			
+		int pos_x, pos_y;
+		switch (flip)
+		{
+		case 5:
+			pos_x = focus_loc[3] - focus_loc[1] / 2;
+			pos_y = focus_loc[0] / 2 - focus_loc[2];
+			break;
+		case 6:
+			pos_x = focus_loc[1] / 2 - focus_loc[3];
+			pos_y = focus_loc[2] - focus_loc[0] / 2;
+			break;
+		case 3:
+			pos_x = focus_loc[0] / 2 - focus_loc[2];
+			pos_y = focus_loc[1] / 2 - focus_loc[3];
+			break;
+		default:
+			pos_x = focus_loc[2] - focus_loc[0] / 2;
+			pos_y = focus_loc[3] - focus_loc[1] / 2;
+			break;
+		}
+
+		api->godot_variant_new_int(&x, pos_x);
+		api->godot_variant_new_int(&y, pos_y);
 		api->godot_array_append(&loc_arr, &x);
 		api->godot_array_append(&loc_arr, &y);
 		break;
@@ -93,7 +128,8 @@ inline void focus_location_fetch(godot_variant* focus_loc, const LibRaw* lr_ptr)
 	api->godot_array_destroy(&loc_arr);
 }
 
-inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
+inline void info_fetch(godot_variant *info, const LibRaw *lr_ptr)
+{
 	godot_array info_arr;
 	api->godot_array_new(&info_arr);
 
@@ -145,8 +181,9 @@ inline void info_fetch(godot_variant* info, const LibRaw* lr_ptr) {
 	api->godot_array_destroy(&info_arr);
 }
 
-void _get_info_with_thumb(const char* path, godot_variant* info, godot_variant* data) {
-	LibRaw* lr_ptr = new LibRaw();
+void _get_info_with_thumb(const char *path, godot_variant *info, godot_variant *data)
+{
+	LibRaw *lr_ptr = new LibRaw();
 
 #if _WINDLL
 	int result = lr_ptr->open_file(char2wchar(path).c_str());
@@ -154,17 +191,20 @@ void _get_info_with_thumb(const char* path, godot_variant* info, godot_variant* 
 	int result = lr_ptr->open_file(path);
 #endif
 
-	if (result == 0) {
+	if (result == 0)
+	{
 		info_fetch(info, lr_ptr);
 
 		int unpack_result = lr_ptr->unpack_thumb();
-		if (unpack_result == 0) {
-			libraw_processed_image_t* image = lr_ptr->dcraw_make_mem_thumb();
+		if (unpack_result == 0)
+		{
+			libraw_processed_image_t *image = lr_ptr->dcraw_make_mem_thumb();
 
 			int flip = lr_ptr->imgdata.sizes.flip;
-			if (flip != 0) {
+			if (flip != 0)
+			{
 				unsigned long dstSizes = 0;
-				unsigned char* dstBufs = nullptr;
+				unsigned char *dstBufs = nullptr;
 
 				tjhandle _jpegRotator = tjInitTransform();
 				tjtransform transform;
@@ -176,25 +216,27 @@ void _get_info_with_thumb(const char* path, godot_variant* info, godot_variant* 
 				else if (flip == 6)
 					transform.op = TJXOP_ROT90;
 
-				tjTransform(_jpegRotator, (unsigned char*)&image->data, image->data_size, 1, &dstBufs, &dstSizes, &transform, TJFLAG_FASTDCT);
+				tjTransform(_jpegRotator, (unsigned char *)&image->data, image->data_size, 1, &dstBufs, &dstSizes, &transform, TJFLAG_FASTDCT);
 				pool_byte_copy(data, dstBufs, dstSizes);
 
 				tjDestroy(_jpegRotator);
 				tjFree(dstBufs);
 			}
-			else {
+			else
+			{
 				pool_byte_copy(data, &image->data, image->data_size);
 			}
 
 			LibRaw::dcraw_clear_mem(image);
 		}
 	}
-	
+
 	lr_ptr->recycle();
 	delete lr_ptr;
 }
 
-void _get_image_data(const char* path, godot_variant* data, int bps, bool set_half, bool auto_bright, int output_color) {
+void _get_image_data(const char *path, godot_variant *data, int bps, bool set_half, bool auto_bright, int output_color)
+{
 	LibRaw *lr_ptr = new LibRaw();
 
 	lr_ptr->imgdata.params.fbdd_noiserd = 0;
@@ -209,7 +251,8 @@ void _get_image_data(const char* path, godot_variant* data, int bps, bool set_ha
 	if (set_half)
 		lr_ptr->imgdata.params.half_size = 1;
 
-	if (!auto_bright) {
+	if (!auto_bright)
+	{
 		lr_ptr->imgdata.params.no_auto_bright = 1;
 		lr_ptr->imgdata.params.bright = 1;
 		lr_ptr->imgdata.params.gamm[0] = 1;
@@ -222,11 +265,12 @@ void _get_image_data(const char* path, godot_variant* data, int bps, bool set_ha
 	int result = lr_ptr->open_file(path);
 #endif
 
-	if (result == 0) {
+	if (result == 0)
+	{
 		lr_ptr->unpack();
 		lr_ptr->dcraw_process();
 
-		libraw_processed_image_t* image = lr_ptr->dcraw_make_mem_image();
+		libraw_processed_image_t *image = lr_ptr->dcraw_make_mem_image();
 
 		pool_byte_copy(data, &image->data, image->data_size);
 
@@ -237,37 +281,46 @@ void _get_image_data(const char* path, godot_variant* data, int bps, bool set_ha
 	delete lr_ptr;
 }
 
-extern "C" {
-	void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options* p_options) {
+extern "C"
+{
+	void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *p_options)
+	{
 		api = p_options->api_struct;
 
-		for (unsigned int i = 0; i < api->num_extensions; i++) {
-			switch (api->extensions[i]->type) {
-			case GDNATIVE_EXT_NATIVESCRIPT: {
-				nativescript_api = (godot_gdnative_ext_nativescript_api_struct*)api->extensions[i];
-			}; break;
+		for (unsigned int i = 0; i < api->num_extensions; i++)
+		{
+			switch (api->extensions[i]->type)
+			{
+			case GDNATIVE_EXT_NATIVESCRIPT:
+			{
+				nativescript_api = (godot_gdnative_ext_nativescript_api_struct *)api->extensions[i];
+			};
+			break;
 			default:
 				break;
 			};
 		};
 	}
-	void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_options* p_options) {
+	void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_options *p_options)
+	{
 		api = NULL;
 		nativescript_api = NULL;
 	}
 
-	GDCALLINGCONV void* default_ctor(godot_object* p_instance, void* p_method_data) { return NULL; }
-	GDCALLINGCONV void default_dector(godot_object* p_instance, void* p_method_data, void* p_user_data) {}
-	
-	godot_variant get_info_with_thumb(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args) {
-		const char* path = var2char_ptr(*p_args);
+	GDCALLINGCONV void *default_ctor(godot_object *p_instance, void *p_method_data) { return NULL; }
+	GDCALLINGCONV void default_dector(godot_object *p_instance, void *p_method_data, void *p_user_data) {}
+
+	godot_variant get_info_with_thumb(godot_object *p_instance, void *p_method_data, void *p_user_data, int p_num_args, godot_variant **p_args)
+	{
+		const char *path = var2char_ptr(*p_args);
 
 		_get_info_with_thumb(path, *(p_args + 1), *(p_args + 2));
 		return **p_args;
 	}
 
-	godot_variant get_image_data(godot_object* p_instance, void* p_method_data, void* p_user_data, int p_num_args, godot_variant** p_args) {
-		const char* path = var2char_ptr(*p_args);
+	godot_variant get_image_data(godot_object *p_instance, void *p_method_data, void *p_user_data, int p_num_args, godot_variant **p_args)
+	{
+		const char *path = var2char_ptr(*p_args);
 		int bps = (int)api->godot_variant_as_int(*(p_args + 2));
 		bool set_half = api->godot_variant_as_bool(*(p_args + 3));
 		bool auto_bright = api->godot_variant_as_bool(*(p_args + 4));
@@ -277,22 +330,22 @@ extern "C" {
 		return **p_args;
 	}
 
-	void GDN_EXPORT godot_nativescript_init(void* p_handle) {
-		godot_instance_create_func create = { NULL, NULL, NULL };
+	void GDN_EXPORT godot_nativescript_init(void *p_handle)
+	{
+		godot_instance_create_func create = {NULL, NULL, NULL};
 		create.create_func = &default_ctor;
-		godot_instance_destroy_func destroy = { NULL, NULL, NULL };
+		godot_instance_destroy_func destroy = {NULL, NULL, NULL};
 		destroy.destroy_func = &default_dector;
 		nativescript_api->godot_nativescript_register_class(p_handle, "QRPBridge", "Reference", create, destroy);
 
-		godot_method_attributes attributes = { GODOT_METHOD_RPC_MODE_DISABLED };
+		godot_method_attributes attributes = {GODOT_METHOD_RPC_MODE_DISABLED};
 
-		godot_instance_method get_image_data_m = { NULL, NULL, NULL };
+		godot_instance_method get_image_data_m = {NULL, NULL, NULL};
 		get_image_data_m.method = &get_image_data;
 		nativescript_api->godot_nativescript_register_method(p_handle, "QRPBridge", "get_image_data", attributes, get_image_data_m);
 
-		godot_instance_method get_info_with_thumb_m = { NULL, NULL, NULL };
+		godot_instance_method get_info_with_thumb_m = {NULL, NULL, NULL};
 		get_info_with_thumb_m.method = &get_info_with_thumb;
 		nativescript_api->godot_nativescript_register_method(p_handle, "QRPBridge", "get_info_with_thumb", attributes, get_info_with_thumb_m);
 	}
-
 }

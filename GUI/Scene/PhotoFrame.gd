@@ -110,9 +110,8 @@ func _on_PhotoFrame_image_parsed(_photo):
 
 func update_focus(init = false):
   if init:
-    var pos = photo.get_sprite_focus_pos()
-    if pos:
-      $Photo/FocusPos.position = pos
+    if photo.focus_loc.size():
+      $Photo/FocusPos.position = Vector2(photo.focus_loc[0], photo.focus_loc[1])
     else:
       $Photo/FocusPos.visible = false
       

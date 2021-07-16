@@ -198,15 +198,6 @@ func get_datetime():
   var time = OS.get_datetime_from_unix_time(timestamp + OS.get_time_zone_info()["bias"] / 60 * 3600)
   return "%d-%02d-%02d %02d:%02d" % [time["year"], time["month"], time["day"], time["hour"], time["minute"]]
 
-func get_sprite_focus_pos():
-  if focus_loc.size() == 0:
-    return null
-    
-  if width > height:
-    return Vector2(focus_loc[0] - width / 2, focus_loc[1] - height / 2)
-  else:
-    return Vector2(width / 2 - focus_loc[1], focus_loc[0] - height / 2)
-  
 func get_list_info():
   return "%s\n%d x %d\nF%.1f   %ss   ISO%1.f\n%.1fmm\n%s %s%s\n%s" % [
     file_name,
