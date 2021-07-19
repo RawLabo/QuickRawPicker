@@ -84,33 +84,57 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 
 	godot_variant x, y;
 
-	int flip = lr_ptr->imgdata.sizes.flip;
+	ushort width, height, left, top;
+	bool af_data_valid = false;
 
 	switch (lr_ptr->imgdata.idata.maker_index)
 	{
+	case LibRaw_cameramaker_index::LIBRAW_CAMERAMAKER_Olympus:
+	{
+		width = lr_ptr->imgdata.sizes.iwidth;
+		height = lr_ptr->imgdata.sizes.iheight;
+		left = (ushort)(width * lr_ptr->imgdata.makernotes.olympus.AFPointSelected[1]);
+		top = (ushort)(height * lr_ptr->imgdata.makernotes.olympus.AFPointSelected[2]);
+
+		if (left != 0 || top != 0)
+			af_data_valid = true;
+		break;
+	}
 	case LibRaw_cameramaker_index::LIBRAW_CAMERAMAKER_Sony:
+	{
 		auto focus_loc = lr_ptr->imgdata.makernotes.sony.FocusLocation;
-		if (focus_loc[0] == 0)
-			break;
-			
+		width = focus_loc[0];
+		height = focus_loc[1];
+		left = focus_loc[2];
+		top = focus_loc[3];
+
+		if (width != 0)
+			af_data_valid = true;
+		break;
+	}
+	}
+
+	if (af_data_valid)
+	{
 		int pos_x, pos_y;
-		switch (flip)
+
+		switch (lr_ptr->imgdata.sizes.flip)
 		{
 		case 5:
-			pos_x = focus_loc[3] - focus_loc[1] / 2;
-			pos_y = focus_loc[0] / 2 - focus_loc[2];
+			pos_x = top - height / 2;
+			pos_y = width / 2 - left;
 			break;
 		case 6:
-			pos_x = focus_loc[1] / 2 - focus_loc[3];
-			pos_y = focus_loc[2] - focus_loc[0] / 2;
+			pos_x = height / 2 - top;
+			pos_y = left - width / 2;
 			break;
 		case 3:
-			pos_x = focus_loc[0] / 2 - focus_loc[2];
-			pos_y = focus_loc[1] / 2 - focus_loc[3];
+			pos_x = width / 2 - left;
+			pos_y = height / 2 - top;
 			break;
 		default:
-			pos_x = focus_loc[2] - focus_loc[0] / 2;
-			pos_y = focus_loc[3] - focus_loc[1] / 2;
+			pos_x = left - width / 2;
+			pos_y = top - height / 2;
 			break;
 		}
 
@@ -118,7 +142,6 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 		api->godot_variant_new_int(&y, pos_y);
 		api->godot_array_append(&loc_arr, &x);
 		api->godot_array_append(&loc_arr, &y);
-		break;
 	}
 
 	api->godot_variant_new_array(focus_loc, &loc_arr);
