@@ -89,6 +89,30 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 
 	switch (lr_ptr->imgdata.idata.maker_index)
 	{
+	case LibRaw_cameramaker_index::LIBRAW_CAMERAMAKER_Nikon:
+	{
+		auto afdata = lr_ptr->imgdata.makernotes.common.afdata; 
+		if (afdata->AFInfoData_version >= 300) {
+			int16_t AFImageWidth;
+			int16_t AFImageHeight;
+			int16_t AFAreaXPosition;
+			int16_t AFAreaYPosition;
+			memcpy(&AFImageWidth, afdata->AFInfoData + 38, sizeof(AFImageWidth));
+			memcpy(&AFImageHeight, afdata->AFInfoData + 40, sizeof(AFImageHeight));
+			memcpy(&AFAreaXPosition, afdata->AFInfoData + 42, sizeof(AFAreaXPosition));
+			memcpy(&AFAreaYPosition, afdata->AFInfoData + 44, sizeof(AFAreaYPosition));
+			
+			if (AFImageWidth > 0 && AFImageHeight > 0) {
+				af_data_valid = true;
+				
+				width = AFImageWidth;
+				height = AFImageHeight;
+				left = AFAreaXPosition;
+				top = AFAreaYPosition;
+			}
+		}
+		break;
+	}
 	case LibRaw_cameramaker_index::LIBRAW_CAMERAMAKER_Olympus:
 	{
 		width = lr_ptr->imgdata.sizes.iwidth;
