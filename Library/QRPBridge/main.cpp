@@ -35,6 +35,15 @@ inline void print(int value)
 
 	api->godot_string_destroy(&x);
 }
+inline void print(double value)
+{
+	godot_string x;
+	api->godot_string_new(&x);
+	api->godot_string_parse_utf8(&x, std::to_string(value).c_str());
+	api->godot_print(&x);
+
+	api->godot_string_destroy(&x);
+}
 
 inline void string2var(const char *data, godot_variant *dst, int len = -1)
 {
@@ -77,6 +86,37 @@ inline void pool_byte_copy(godot_variant *dst, const void *src, int size)
 	api->godot_pool_byte_array_destroy(&tmp);
 }
 
+inline std::string get_hex(char *data, int start, int len)
+{
+	char const hex_chars[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+	std::string result;
+	for (int i = start; i < start + len; ++i)
+	{
+		char const byte = data[i];
+
+		result += hex_chars[(byte & 0xF0) >> 4];
+		result += hex_chars[(byte & 0x0F) >> 0];
+		result += " ";
+	}
+
+	return result;
+}
+
+int get_pana_addr_offset(char *start_addr, int16_t count, uint16_t target_tag)
+{
+	int result = 0;
+	for (int i = 0; i < count; ++i)
+	{
+		uint16_t tag;
+		memcpy(&tag, start_addr + 12 * i, sizeof(tag));
+		if (tag == target_tag)
+		{
+			memcpy(&result, start_addr + 12 * i + 8, sizeof(result));
+			break;
+		}
+	}
+	return result;
+}
 inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 {
 	godot_array loc_arr;
@@ -89,10 +129,92 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 
 	switch (lr_ptr->imgdata.idata.maker_index)
 	{
+	case LibRaw_cameramaker_index::LIBRAW_CAMERAMAKER_Panasonic:
+	{
+		const unsigned char offset = 0xc;
+
+		int16_t entity_count;
+		memcpy(&entity_count, lr_ptr->imgdata.thumbnail.thumb + 20, sizeof(entity_count));
+		int ExifOffset = get_pana_addr_offset(lr_ptr->imgdata.thumbnail.thumb + 22, entity_count, 0x8769);
+		if (ExifOffset == 0)
+			break;
+
+		auto addr_exif_start = lr_ptr->imgdata.thumbnail.thumb + offset + ExifOffset;
+
+		int16_t exif_count;
+		memcpy(&exif_count, addr_exif_start, sizeof(exif_count));
+		int MakerNotesOffset = get_pana_addr_offset(addr_exif_start + 2, exif_count, 0x927c);
+		if (MakerNotesOffset == 0)
+			break;
+
+		auto addr_makernote_start = lr_ptr->imgdata.thumbnail.thumb + offset + MakerNotesOffset;
+
+		int16_t makernote_count;
+		memcpy(&makernote_count, addr_makernote_start + 12, sizeof(makernote_count));
+		int AFPointPositionOffset = get_pana_addr_offset(addr_makernote_start + 14, makernote_count, 0x004d);
+		if (AFPointPositionOffset == 0)
+			break;
+
+		int p_left, p_width, p_top, p_height;
+		memcpy(&p_left, lr_ptr->imgdata.thumbnail.thumb + offset + AFPointPositionOffset, sizeof(p_left));
+		memcpy(&p_width, lr_ptr->imgdata.thumbnail.thumb + offset + AFPointPositionOffset + 4, sizeof(p_width));
+		memcpy(&p_top, lr_ptr->imgdata.thumbnail.thumb + offset + AFPointPositionOffset + 8, sizeof(p_top));
+		memcpy(&p_height, lr_ptr->imgdata.thumbnail.thumb + offset + AFPointPositionOffset + 12, sizeof(p_height));
+
+		af_data_valid = true;
+		width = lr_ptr->imgdata.sizes.iwidth;
+		height = lr_ptr->imgdata.sizes.iheight;
+		left = width * p_left / p_width;
+		top = height * p_top / p_height;
+
+		break;
+	}
+	case LibRaw_cameramaker_index::LIBRAW_CAMERAMAKER_Canon:
+	{
+		auto afdata = lr_ptr->imgdata.makernotes.common.afdata;
+		int16_t NumAFPoints;
+		int16_t AFAreaXPosition = 0;
+		int16_t AFAreaYPosition = 0;
+		int x_count = 0, y_count = 0;
+
+		memcpy(&NumAFPoints, afdata->AFInfoData + 4, sizeof(NumAFPoints));
+		// print(get_hex(afdata->AFInfoData, 16 + NumAFPoints * 2 * 4, 12).c_str());
+
+		for (int i = 0; i < NumAFPoints * 2; i += 2)
+		{
+			int16_t tmp_x, tmp_y;
+			memcpy(&tmp_x, afdata->AFInfoData + 16 + NumAFPoints * 2 * 2 + i, sizeof(tmp_x));
+			memcpy(&tmp_y, afdata->AFInfoData + 16 + NumAFPoints * 2 * 3 + i, sizeof(tmp_y));
+
+			if (tmp_x > 0)
+			{
+				AFAreaXPosition += tmp_x;
+				x_count += 1;
+			}
+			if (tmp_y > 0)
+			{
+				AFAreaYPosition += tmp_y;
+				y_count += 1;
+			}
+			break;
+		}
+
+		if (x_count > 0 && y_count > 0)
+		{
+			af_data_valid = true;
+			width = lr_ptr->imgdata.sizes.iwidth;
+			height = lr_ptr->imgdata.sizes.iheight;
+			left = width / 2 + AFAreaXPosition / x_count;
+			top = height / 2 + AFAreaYPosition / y_count;
+		}
+
+		break;
+	}
 	case LibRaw_cameramaker_index::LIBRAW_CAMERAMAKER_Nikon:
 	{
-		auto afdata = lr_ptr->imgdata.makernotes.common.afdata; 
-		if (afdata->AFInfoData_version >= 300) {
+		auto afdata = lr_ptr->imgdata.makernotes.common.afdata;
+		if (afdata->AFInfoData_version >= 300)
+		{
 			int16_t AFImageWidth;
 			int16_t AFImageHeight;
 			int16_t AFAreaXPosition;
@@ -101,10 +223,11 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 			memcpy(&AFImageHeight, afdata->AFInfoData + 40, sizeof(AFImageHeight));
 			memcpy(&AFAreaXPosition, afdata->AFInfoData + 42, sizeof(AFAreaXPosition));
 			memcpy(&AFAreaYPosition, afdata->AFInfoData + 44, sizeof(AFAreaYPosition));
-			
-			if (AFImageWidth > 0 && AFImageHeight > 0) {
+
+			if (AFImageWidth > 0 && AFImageHeight > 0)
+			{
 				af_data_valid = true;
-				
+
 				width = AFImageWidth;
 				height = AFImageHeight;
 				left = AFAreaXPosition;
@@ -240,9 +363,8 @@ void _get_info_with_thumb(const char *path, godot_variant *info, godot_variant *
 
 	if (result == 0)
 	{
-		info_fetch(info, lr_ptr);
-
 		int unpack_result = lr_ptr->unpack_thumb();
+		info_fetch(info, lr_ptr);
 		if (unpack_result == 0)
 		{
 			libraw_processed_image_t *image = lr_ptr->dcraw_make_mem_thumb();
