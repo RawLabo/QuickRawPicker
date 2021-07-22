@@ -35,15 +35,6 @@ inline void print(int value)
 
 	api->godot_string_destroy(&x);
 }
-inline void print(double value)
-{
-	godot_string x;
-	api->godot_string_new(&x);
-	api->godot_string_parse_utf8(&x, std::to_string(value).c_str());
-	api->godot_print(&x);
-
-	api->godot_string_destroy(&x);
-}
 
 inline void string2var(const char *data, godot_variant *dst, int len = -1)
 {
@@ -84,22 +75,6 @@ inline void pool_byte_copy(godot_variant *dst, const void *src, int size)
 	// clean up
 	api->godot_pool_byte_array_write_access_destroy(ptr_access);
 	api->godot_pool_byte_array_destroy(&tmp);
-}
-
-inline std::string get_hex(char *data, int start, int len)
-{
-	char const hex_chars[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-	std::string result;
-	for (int i = start; i < start + len; ++i)
-	{
-		char const byte = data[i];
-
-		result += hex_chars[(byte & 0xF0) >> 4];
-		result += hex_chars[(byte & 0x0F) >> 0];
-		result += " ";
-	}
-
-	return result;
 }
 
 int get_pana_addr_offset(char *start_addr, int16_t count, uint16_t target_tag)
@@ -172,40 +147,34 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 	case LibRaw_cameramaker_index::LIBRAW_CAMERAMAKER_Canon:
 	{
 		auto afdata = lr_ptr->imgdata.makernotes.common.afdata;
-		int16_t NumAFPoints;
-		int16_t AFAreaXPosition = 0;
-		int16_t AFAreaYPosition = 0;
-		int x_count = 0, y_count = 0;
+		int16_t *NumAFPoints = (int16_t *)(afdata->AFInfoData + 4);
+		int AFAreaXPosition = 0;
+		int AFAreaYPosition = 0;
+		int af_count = 0;
 
-		memcpy(&NumAFPoints, afdata->AFInfoData + 4, sizeof(NumAFPoints));
-		// print(get_hex(afdata->AFInfoData, 16 + NumAFPoints * 2 * 4, 12).c_str());
-
-		for (int i = 0; i < NumAFPoints * 2; i += 2)
+		for (int i = 0; i < *NumAFPoints * 2; i += 2)
 		{
-			int16_t tmp_x, tmp_y;
-			memcpy(&tmp_x, afdata->AFInfoData + 16 + NumAFPoints * 2 * 2 + i, sizeof(tmp_x));
-			memcpy(&tmp_y, afdata->AFInfoData + 16 + NumAFPoints * 2 * 3 + i, sizeof(tmp_y));
+			int16_t *tmp_x = (int16_t *)(afdata->AFInfoData + 16 + *NumAFPoints * 2 * 2 + i);
+			int16_t *tmp_y = (int16_t *)(afdata->AFInfoData + 16 + *NumAFPoints * 2 * 3 + i);
 
-			if (tmp_x > 0)
+			if (*tmp_x != 0 || *tmp_y != 0)
 			{
-				AFAreaXPosition += tmp_x;
-				x_count += 1;
+				AFAreaXPosition += *tmp_x;
+				AFAreaYPosition += *tmp_y;
+				af_count += 1;
 			}
-			if (tmp_y > 0)
-			{
-				AFAreaYPosition += tmp_y;
-				y_count += 1;
-			}
-			break;
 		}
 
-		if (x_count > 0 && y_count > 0)
+		if (af_count > 0)
 		{
 			af_data_valid = true;
 			width = lr_ptr->imgdata.sizes.iwidth;
 			height = lr_ptr->imgdata.sizes.iheight;
-			left = width / 2 + AFAreaXPosition / x_count;
-			top = height / 2 + AFAreaYPosition / y_count;
+			left = width / 2 + AFAreaXPosition / af_count;
+			if (afdata->AFInfoData_tag == 0x003c)
+				top = height / 2 + AFAreaYPosition / af_count;
+			else
+				top = height / 2 - AFAreaYPosition / af_count;
 		}
 
 		break;
@@ -365,6 +334,7 @@ void _get_info_with_thumb(const char *path, godot_variant *info, godot_variant *
 	{
 		int unpack_result = lr_ptr->unpack_thumb();
 		info_fetch(info, lr_ptr);
+		
 		if (unpack_result == 0)
 		{
 			libraw_processed_image_t *image = lr_ptr->dcraw_make_mem_thumb();
