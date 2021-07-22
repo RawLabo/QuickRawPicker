@@ -77,16 +77,15 @@ inline void pool_byte_copy(godot_variant *dst, const void *src, int size)
 	api->godot_pool_byte_array_destroy(&tmp);
 }
 
-int get_pana_addr_offset(char *start_addr, int16_t count, uint16_t target_tag)
+int *get_pana_addr_offset(char *start_addr, int16_t count, uint16_t target_tag)
 {
-	int result = 0;
+	int *result = nullptr;
 	for (int i = 0; i < count; ++i)
 	{
-		uint16_t tag;
-		memcpy(&tag, start_addr + 12 * i, sizeof(tag));
-		if (tag == target_tag)
+		uint16_t *tag = (uint16_t *)(start_addr + 12 * i);
+		if (*tag == target_tag)
 		{
-			memcpy(&result, start_addr + 12 * i + 8, sizeof(result));
+			result = (int *)(start_addr + 12 * i + 8);
 			break;
 		}
 	}
@@ -108,39 +107,35 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 	{
 		const unsigned char offset = 0xc;
 
-		int16_t entity_count;
-		memcpy(&entity_count, lr_ptr->imgdata.thumbnail.thumb + 20, sizeof(entity_count));
-		int ExifOffset = get_pana_addr_offset(lr_ptr->imgdata.thumbnail.thumb + 22, entity_count, 0x8769);
-		if (ExifOffset == 0)
+		int16_t *entity_count = (int16_t *)(lr_ptr->imgdata.thumbnail.thumb + 20);
+		int *ExifOffset = get_pana_addr_offset(lr_ptr->imgdata.thumbnail.thumb + 22, *entity_count, 0x8769);
+		if (ExifOffset == nullptr)
 			break;
 
-		auto addr_exif_start = lr_ptr->imgdata.thumbnail.thumb + offset + ExifOffset;
+		auto addr_exif_start = lr_ptr->imgdata.thumbnail.thumb + offset + *ExifOffset;
 
-		int16_t exif_count;
-		memcpy(&exif_count, addr_exif_start, sizeof(exif_count));
-		int MakerNotesOffset = get_pana_addr_offset(addr_exif_start + 2, exif_count, 0x927c);
-		if (MakerNotesOffset == 0)
+		int16_t *exif_count = (int16_t *)addr_exif_start;
+		int *MakerNotesOffset = get_pana_addr_offset(addr_exif_start + 2, *exif_count, 0x927c);
+		if (MakerNotesOffset == nullptr)
 			break;
 
-		auto addr_makernote_start = lr_ptr->imgdata.thumbnail.thumb + offset + MakerNotesOffset;
+		auto addr_makernote_start = lr_ptr->imgdata.thumbnail.thumb + offset + *MakerNotesOffset;
 
-		int16_t makernote_count;
-		memcpy(&makernote_count, addr_makernote_start + 12, sizeof(makernote_count));
-		int AFPointPositionOffset = get_pana_addr_offset(addr_makernote_start + 14, makernote_count, 0x004d);
-		if (AFPointPositionOffset == 0)
+		int16_t *makernote_count = (int16_t *)(addr_makernote_start + 12);
+		int *AFPointPositionOffset = get_pana_addr_offset(addr_makernote_start + 14, *makernote_count, 0x004d);
+		if (AFPointPositionOffset == nullptr)
 			break;
 
-		int p_left, p_width, p_top, p_height;
-		memcpy(&p_left, lr_ptr->imgdata.thumbnail.thumb + offset + AFPointPositionOffset, sizeof(p_left));
-		memcpy(&p_width, lr_ptr->imgdata.thumbnail.thumb + offset + AFPointPositionOffset + 4, sizeof(p_width));
-		memcpy(&p_top, lr_ptr->imgdata.thumbnail.thumb + offset + AFPointPositionOffset + 8, sizeof(p_top));
-		memcpy(&p_height, lr_ptr->imgdata.thumbnail.thumb + offset + AFPointPositionOffset + 12, sizeof(p_height));
+		int *p_left = (int *)(lr_ptr->imgdata.thumbnail.thumb + offset + *AFPointPositionOffset);
+		int *p_width = p_left + 1;
+		int *p_top = p_left + 2;
+		int *p_height = p_left + 3;
 
 		af_data_valid = true;
 		width = lr_ptr->imgdata.sizes.iwidth;
 		height = lr_ptr->imgdata.sizes.iheight;
-		left = width * p_left / p_width;
-		top = height * p_top / p_height;
+		left = width * *p_left / *p_width;
+		top = height * *p_top / *p_height;
 
 		break;
 	}
@@ -184,23 +179,19 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 		auto afdata = lr_ptr->imgdata.makernotes.common.afdata;
 		if (afdata->AFInfoData_version >= 300)
 		{
-			int16_t AFImageWidth;
-			int16_t AFImageHeight;
-			int16_t AFAreaXPosition;
-			int16_t AFAreaYPosition;
-			memcpy(&AFImageWidth, afdata->AFInfoData + 38, sizeof(AFImageWidth));
-			memcpy(&AFImageHeight, afdata->AFInfoData + 40, sizeof(AFImageHeight));
-			memcpy(&AFAreaXPosition, afdata->AFInfoData + 42, sizeof(AFAreaXPosition));
-			memcpy(&AFAreaYPosition, afdata->AFInfoData + 44, sizeof(AFAreaYPosition));
+			int16_t *AFImageWidth = (int16_t *)(afdata->AFInfoData + 38);
+			int16_t *AFImageHeight = AFImageWidth + 1;
+			int16_t *AFAreaXPosition = AFImageWidth + 2;
+			int16_t *AFAreaYPosition = AFImageWidth + 3;
 
-			if (AFImageWidth > 0 && AFImageHeight > 0)
+			if (*AFImageWidth > 0 && *AFImageHeight > 0)
 			{
 				af_data_valid = true;
 
-				width = AFImageWidth;
-				height = AFImageHeight;
-				left = AFAreaXPosition;
-				top = AFAreaYPosition;
+				width = *AFImageWidth;
+				height = *AFImageHeight;
+				left = *AFAreaXPosition;
+				top = *AFAreaYPosition;
 			}
 		}
 		break;
@@ -334,7 +325,7 @@ void _get_info_with_thumb(const char *path, godot_variant *info, godot_variant *
 	{
 		int unpack_result = lr_ptr->unpack_thumb();
 		info_fetch(info, lr_ptr);
-		
+
 		if (unpack_result == 0)
 		{
 			libraw_processed_image_t *image = lr_ptr->dcraw_make_mem_thumb();
