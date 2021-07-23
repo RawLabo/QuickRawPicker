@@ -71,50 +71,56 @@ func vec_int(vec):
   return Vector2(int(vec.x), int(vec.y))
     
 func init(w, h, input_photo, is_overlay = false):
+  # set photo; update rating; set mark
   photo = input_photo
   photo.update_rating()
   if photo.ui_marked:
     mark()
     
+  # init frame size and scale params
   rect_min_size = Vector2(w, h)
   scale_options[0] = min(rect_min_size.x / photo.width, rect_min_size.y / photo.height)
   
+  # set $Photo properties
   $Photo.position = vec_int(rect_min_size / 2)
   $Photo.texture = photo.full_texture
   $Photo.scale = Vector2(scale_options[0], scale_options[0])
   
+  # set shader
   gamma = 2.2 if photo.has_processed() else 1.0
   update_shader()
   
+  # set Labels
   $InfoLabel.text = photo.get_bar_info()
   
+  # init AF location
+  if photo.focus_loc.size():
+    $Photo/FocusPos.position = Vector2(photo.focus_loc[0], photo.focus_loc[1])
+  else:
+    $Photo/FocusPos.visible = false
+  
+  # init raw image
   if not photo.has_processed():
     Threading.pending_jobs.append(["get_raw_image", photo, self])
   else:
-    call_deferred("update_focus", true)
+    call_deferred("update_focus")
     $LoadingLabel.visible = false
     $TopContainer.visible = true
     
+  # main scene overlay
   if is_overlay:
     mouse_filter = Control.MOUSE_FILTER_STOP
     $TopContainer.visible = false
   
-
 func _on_PhotoFrame_image_parsed(_photo):
-  update_focus(true)
-  
   $LoadingLabel.visible = false
   $TopContainer.visible = true
   gamma = 2.2
   update_shader()
+  
+  call_deferred("update_focus")
 
-func update_focus(init = false):
-  if init:
-    if photo.focus_loc.size():
-      $Photo/FocusPos.position = Vector2(photo.focus_loc[0], photo.focus_loc[1])
-    else:
-      $Photo/FocusPos.visible = false
-      
+func update_focus():
   if $Photo/FocusPos.visible:
     $Focus.global_position = $Photo/FocusPos.global_position
     
@@ -128,6 +134,7 @@ func reset_size():
   rescale(true, 1 if scale_index == 0 else 0)
 
 func rescale(is_scale_up, index = -1):
+  var prev_scale_index = scale_index
   if index > -1:
     scale_index = index
   else:
@@ -143,7 +150,10 @@ func rescale(is_scale_up, index = -1):
   var factor = scale_options[scale_index]
   
   $Photo.scale = Vector2(factor, factor)
-  reposition(($Photo.position - rect_min_size / 2) * (factor / pre_factor - 1))
+  if prev_scale_index == 0 and scale_index == 1 and $Photo/FocusPos.visible:
+    reposition(-$Photo/FocusPos.position)
+  else:    
+    reposition(($Photo.position - rect_min_size / 2) * (factor / pre_factor - 1))
   
 
 func reposition(pos):
