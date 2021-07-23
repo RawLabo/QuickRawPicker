@@ -93,11 +93,6 @@ int *get_pana_addr_offset(char *start_addr, int16_t count, uint16_t target_tag)
 }
 inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 {
-	godot_array loc_arr;
-	api->godot_array_new(&loc_arr);
-
-	godot_variant x, y;
-
 	ushort width, height, left, top;
 	bool af_data_valid = false;
 
@@ -221,6 +216,9 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 	}
 	}
 
+	godot_array loc_arr;
+	api->godot_array_new(&loc_arr);
+
 	if (af_data_valid)
 	{
 		int pos_x, pos_y;
@@ -245,16 +243,16 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 			break;
 		}
 
+		godot_variant x, y;
 		api->godot_variant_new_int(&x, pos_x);
 		api->godot_variant_new_int(&y, pos_y);
 		api->godot_array_append(&loc_arr, &x);
 		api->godot_array_append(&loc_arr, &y);
+		api->godot_variant_destroy(&x);
+		api->godot_variant_destroy(&y);
 	}
 
 	api->godot_variant_new_array(focus_loc, &loc_arr);
-
-	api->godot_variant_destroy(&x);
-	api->godot_variant_destroy(&y);
 	api->godot_array_destroy(&loc_arr);
 }
 
