@@ -111,6 +111,7 @@ func init(w, h, input_photo, is_overlay = false):
   if is_overlay:
     mouse_filter = Control.MOUSE_FILTER_STOP
     $TopContainer.visible = false
+    $Focus.visible = false
   
 func _on_PhotoFrame_image_parsed(_photo):
   $LoadingLabel.visible = false
@@ -120,6 +121,9 @@ func _on_PhotoFrame_image_parsed(_photo):
   
   call_deferred("update_focus")
 
+func toggle_focus_point():
+  $Focus.visible = not $Focus.visible
+  
 func update_focus():
   if $Photo/FocusPos.visible:
     $Focus.global_position = $Photo/FocusPos.global_position

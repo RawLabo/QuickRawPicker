@@ -111,6 +111,7 @@ func _input(event):
         
     if hovering_frame:
       var with_f = event.scancode == KEY_F
+      var with_a = event.scancode == KEY_A
       var with_h = event.scancode == KEY_H
       var with_s = event.scancode == KEY_S
       
@@ -118,6 +119,8 @@ func _input(event):
       
       if with_f:
         Util.Nodes["Main"].show_fullscreen_photo(hovering_frame)
+      elif with_a:
+        hovering_frame.toggle_focus_point()
       elif with_h:
         hovering_frame.toggle_highlight()
       elif with_s:
