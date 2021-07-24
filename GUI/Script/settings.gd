@@ -7,6 +7,7 @@ var show_thumb_first = true
 var cache_round = 2
 var output_color = OutputColors.SRGB
 var rating_type = RatingType.XMP
+var language = "en_US"
 var open_folder = ""
 var export_folder = ""
 
@@ -16,7 +17,11 @@ var version = "v0.1.7"
 
 onready var project_name = ProjectSettings.get_setting("application/config/name")
 
-var extension_filter = [
+const Language = {
+  "en_US": 0,
+  "zh_CN": 1
+}
+const extension_filter = [
   "3fr",
   "mdc",
   "ari",
@@ -66,7 +71,7 @@ func _ready():
   update_title()
   
 func update_title():
-  OS.set_window_title("%s %s / bit:%s / colorspace:%s" % [project_name, version, bps, OutputColors.keys()[output_color]])
+  OS.set_window_title("%s %s / %s %s / %s %s" % [project_name, version, tr("display_bit:"), bps, tr("display_color_space:"), OutputColors.keys()[output_color]])
   
 func reset():
   bps = 16
@@ -74,6 +79,7 @@ func reset():
   cache_round = 2
   output_color = OutputColors.SRGB
   rating_type = RatingType.XMP
+  language = OS.get_locale()
   save_settings()
   
 func save_settings():
@@ -84,9 +90,12 @@ func save_settings():
     "cache_round": cache_round,
     "output_color": output_color,
     "rating_type": rating_type,
+    "language": language,
     "open_folder": open_folder,
     "export_folder": export_folder
   })
+  set_locale()
+  
   file.open("user://settings.cfg", File.WRITE_READ)
   file.store_string(content)
   file.close()
@@ -105,7 +114,16 @@ func load_settings():
     cache_round = dict.get("cache_round", 2)
     output_color = dict.get("output_color", OutputColors.SRGB)
     rating_type = dict.get("rating_type", RatingType.XMP)
+    language = dict.get("language", OS.get_locale())
     open_folder = dict.get("open_folder", "")
     export_folder = dict.get("export_folder", "")
     
+    set_locale()
+    
   file.close()
+
+func set_locale():
+  if language == "zh":
+    language = "zh_CN"
+    
+  TranslationServer.set_locale(language)

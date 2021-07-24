@@ -66,7 +66,7 @@ margin_left = -45.0
 margin_top = -13.5
 margin_right = 45.0
 margin_bottom = 13.5
-text = "Loading..."
+text = "loading..."
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -132,7 +132,7 @@ margin_left = 17.0
 margin_top = 2.0
 margin_right = 44.0
 margin_bottom = 29.0
-text = "EV:"
+text = "ev:"
 
 [node name="Value" type="Label" parent="TopContainer/Exposure"]
 margin_left = 48.0
@@ -163,7 +163,7 @@ margin_left = 17.0
 margin_top = 2.0
 margin_right = 71.0
 margin_bottom = 29.0
-text = "Gamma:"
+text = "gamma:"
 
 [node name="Value" type="Label" parent="TopContainer/Gamma"]
 margin_left = 75.0
@@ -187,7 +187,7 @@ margin_bottom = 32.0
 margin_top = 2.0
 margin_right = 63.0
 margin_bottom = 29.0
-text = "Rating:"
+text = "rating:"
 
 [node name="RatingCombox" type="OptionButton" parent="TopContainer/Rating"]
 margin_left = 67.0
@@ -196,9 +196,9 @@ margin_right = 116.0
 margin_bottom = 29.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "None"
+text = "none"
 flat = true
-items = [ "None", null, false, 0, null, "1", null, false, 1, null, "2", null, false, 2, null, "3", null, false, 3, null, "4", null, false, 4, null, "5", null, false, 5, null ]
+items = [ "none", null, false, 0, null, "1", null, false, 1, null, "2", null, false, 2, null, "3", null, false, 3, null, "4", null, false, 4, null, "5", null, false, 5, null ]
 selected = 0
 
 [node name="Highlight" type="Button" parent="TopContainer"]

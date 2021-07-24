@@ -51,6 +51,12 @@ window/energy_saving/keep_screen_on=false
 
 singletons=[  ]
 
+[locale]
+
+translations=PoolStringArray( "res://Asset/Translation/translation.en_US.translation", "res://Asset/Translation/translation.zh_CN.translation" )
+translation_remaps={
+}
+
 [logging]
 
 file_logging/enable_file_logging=true

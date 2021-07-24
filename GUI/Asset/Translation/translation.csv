@@ -1,0 +1,28 @@
+keys,en_US,zh_CN
+Cancel,Cancel,取消
+Select Current Folder,Select Current Folder,选择当前文件夹
+Create Folder,Create Folder,创建文件夹
+Path:,Path:,路径:
+Directories & Files:,Directories & Files:,目录和文件:
+open_folder,OpenFolder,打开文件夹
+fn,Fn,功能
+open_folder_with_Raw_images,Open folder with Raw images,打开含有Raw文件的目录
+copy_marked_photos_to_folder,Copy marked photos to folder,复制已标记的照片到目录
+loading...,Loading...,读取中...
+true,True,是
+false,False,否
+ev:,EV:,曝光:
+gamma:,Gamma:,伽马值:
+rating:,Rating:,评分:
+none,None,无
+export_marked,Export Marked,导出已标记的
+settings,Settings,设置
+open_logs_folder,Open logs folder,打开日志目录
+about,About,关于
+display_bit:,Display bit:,显示位深度:
+loading_thumbnail:,Loading thumbnail:,读取中缩略图显示:
+cache_round:,Cache round:,缓存轮数:
+display_color_space:,Display color space:,显示色彩空间:
+rating_type:,Rating type:,评分类型:
+lang:,Language:,语言:
+reset,Reset,重置

@@ -34,9 +34,9 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -250.0
 margin_top = -150.0
-margin_right = 182.0
-margin_bottom = 187.0
-window_title = "Settings"
+margin_right = 149.0
+margin_bottom = 200.0
+window_title = "settings"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -46,10 +46,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -119.228
-margin_top = -130.41
-margin_right = 93.7723
-margin_bottom = 85.5902
+margin_left = -130.736
+margin_top = -146.255
+margin_right = 82.2646
+margin_bottom = 69.7455
 custom_constants/vseparation = 12
 custom_constants/hseparation = 8
 columns = 2
@@ -59,14 +59,14 @@ __meta__ = {
 
 [node name="BpsLabel" type="Label" parent="SettingsDialog/Grid"]
 margin_top = 3.0
-margin_right = 128.0
+margin_right = 130.0
 margin_bottom = 17.0
-text = "Display bit:"
+text = "display_bit:"
 align = 2
 
 [node name="BpsOption" type="OptionButton" parent="SettingsDialog/Grid"]
-margin_left = 136.0
-margin_right = 210.0
+margin_left = 138.0
+margin_right = 212.0
 margin_bottom = 20.0
 text = "16"
 items = [ "16", null, false, 0, null, "8", null, false, 1, null ]
@@ -74,18 +74,18 @@ selected = 0
 
 [node name="ShowThumbFirstLabel" type="Label" parent="SettingsDialog/Grid"]
 margin_top = 35.0
-margin_right = 128.0
+margin_right = 130.0
 margin_bottom = 49.0
-text = "Show thumbnail:"
+text = "loading_thumbnail:"
 align = 2
 
 [node name="ShowThumbFirstOption" type="OptionButton" parent="SettingsDialog/Grid"]
-margin_left = 136.0
+margin_left = 138.0
 margin_top = 32.0
-margin_right = 210.0
+margin_right = 212.0
 margin_bottom = 52.0
-text = "True"
-items = [ "True", null, false, 0, null, "False", null, false, 1, null ]
+text = "true"
+items = [ "true", null, false, 0, null, "false", null, false, 1, null ]
 selected = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -93,15 +93,15 @@ __meta__ = {
 
 [node name="CacheRoundLabel" type="Label" parent="SettingsDialog/Grid"]
 margin_top = 69.0
-margin_right = 128.0
+margin_right = 130.0
 margin_bottom = 83.0
-text = "Cache round:"
+text = "cache_round:"
 align = 2
 
 [node name="CacheRoundSpinBox" type="SpinBox" parent="SettingsDialog/Grid"]
-margin_left = 136.0
+margin_left = 138.0
 margin_top = 64.0
-margin_right = 210.0
+margin_right = 212.0
 margin_bottom = 88.0
 min_value = 1.0
 max_value = 20.0
@@ -110,47 +110,62 @@ rounded = true
 
 [node name="DisplayColorSpaceLabel" type="Label" parent="SettingsDialog/Grid"]
 margin_top = 103.0
-margin_right = 128.0
+margin_right = 130.0
 margin_bottom = 117.0
-text = "Display color space:"
+text = "display_color_space:"
 align = 2
 
 [node name="DisplayColorSpaceOption" type="OptionButton" parent="SettingsDialog/Grid"]
-margin_left = 136.0
+margin_left = 138.0
 margin_top = 100.0
-margin_right = 210.0
+margin_right = 212.0
 margin_bottom = 120.0
 
 [node name="RatingType" type="Label" parent="SettingsDialog/Grid"]
 margin_top = 135.0
-margin_right = 128.0
+margin_right = 130.0
 margin_bottom = 149.0
-text = "Rating type:"
+text = "rating_type:"
 align = 2
 
 [node name="RatingTypeOption" type="OptionButton" parent="SettingsDialog/Grid"]
-margin_left = 136.0
+margin_left = 138.0
 margin_top = 132.0
-margin_right = 210.0
+margin_right = 212.0
 margin_bottom = 152.0
 
-[node name="OpenLogFolder" type="Button" parent="SettingsDialog/Grid"]
+[node name="LanguageLabel" type="Label" parent="SettingsDialog/Grid"]
+margin_top = 167.0
+margin_right = 130.0
+margin_bottom = 181.0
+text = "lang:"
+align = 2
+
+[node name="LanguageOption" type="OptionButton" parent="SettingsDialog/Grid"]
+margin_left = 138.0
 margin_top = 164.0
-margin_right = 128.0
+margin_right = 212.0
 margin_bottom = 184.0
-text = "Open logs folder"
+text = "English"
+items = [ "English", null, false, 0, null, "中文", null, false, 1, null ]
+selected = 0
+
+[node name="Control" type="Control" parent="SettingsDialog/Grid"]
+margin_top = 196.0
+margin_right = 130.0
+margin_bottom = 216.0
 
 [node name="Reset" type="Button" parent="SettingsDialog/Grid"]
-margin_left = 136.0
-margin_top = 164.0
-margin_right = 210.0
-margin_bottom = 184.0
-text = "Reset"
+margin_left = 138.0
+margin_top = 196.0
+margin_right = 212.0
+margin_bottom = 216.0
+text = "reset"
 
 [node name="AboutDialog" type="AcceptDialog" parent="."]
 margin_right = 83.0
 margin_bottom = 58.0
-window_title = "About"
+window_title = "about"
 
 [node name="ExportProgress" type="PopupDialog" parent="."]
 anchor_left = 0.5
@@ -199,16 +214,16 @@ __meta__ = {
 margin_right = 599.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
-text = "OpenFolder"
+text = "open_folder"
 
 [node name="Fn" type="MenuButton" parent="Container"]
 margin_left = 601.0
 margin_right = 1200.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
-text = "Fn"
+text = "fn"
 flat = false
-items = [ "Export Marked", null, 0, false, false, 100, 0, null, "", false, "Settings", null, 0, false, false, 200, 0, null, "", false, "", null, 0, false, true, 0, 0, null, "", true, "Github", null, 0, false, false, 301, 0, null, "", false, "About", null, 0, false, false, 300, 0, null, "", false ]
+items = [ "export_marked", null, 0, false, false, 100, 0, null, "", false, "settings", null, 0, false, false, 200, 0, null, "", false, "", null, 0, false, true, 0, 0, null, "", true, "open_logs_folder", null, 0, false, false, 301, 0, null, "", false, "about", null, 0, false, false, 300, 0, null, "", false ]
 
 [connection signal="file_exported" from="." to="." method="_on_Operations_file_exported"]
 [connection signal="dir_selected" from="Dialog" to="." method="_on_Dialog_dir_selected"]
@@ -217,6 +232,6 @@ items = [ "Export Marked", null, 0, false, false, 100, 0, null, "", false, "Sett
 [connection signal="value_changed" from="SettingsDialog/Grid/CacheRoundSpinBox" to="." method="_on_CacheRoundSpinBox_value_changed"]
 [connection signal="item_selected" from="SettingsDialog/Grid/DisplayColorSpaceOption" to="." method="_on_DisplayColorSpaceOption_item_selected"]
 [connection signal="item_selected" from="SettingsDialog/Grid/RatingTypeOption" to="." method="_on_RatingTypeOption_item_selected"]
-[connection signal="pressed" from="SettingsDialog/Grid/OpenLogFolder" to="." method="_on_OpenLogFolder_pressed"]
+[connection signal="item_selected" from="SettingsDialog/Grid/LanguageOption" to="." method="_on_LanguageOption_item_selected"]
 [connection signal="pressed" from="SettingsDialog/Grid/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="pressed" from="Container/OpenFolder" to="." method="_on_OpenFolder_pressed"]

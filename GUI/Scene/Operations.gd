@@ -25,12 +25,13 @@ func update_settings_dialog():
   $SettingsDialog/Grid/CacheRoundSpinBox.value = Settings.cache_round
   $SettingsDialog/Grid/DisplayColorSpaceOption.select(int(Settings.output_color))
   $SettingsDialog/Grid/RatingTypeOption.select(int(Settings.rating_type))
+  $SettingsDialog/Grid/LanguageOption.select(Settings.Language[Settings.language])
   
 func _on_Fn_id_pressed(id):
   if id == 100:
     # export selected
     dialog_type = DialogType.ExportByCopy
-    $Dialog.window_title = "Copy selected photos to folder"
+    $Dialog.window_title = "copy_marked_photos_to_folder"
     $Dialog.current_dir = Settings.export_folder
     $Dialog.popup_centered_clamped(Vector2(1200, 800), 0.9)
     
@@ -44,12 +45,12 @@ func _on_Fn_id_pressed(id):
     $AboutDialog.popup_centered()
   
   elif id == 301:
-    OS.shell_open("https://github.com/qdwang/QuickRawPicker")
+    OS.shell_open(OS.get_user_data_dir())
   
   
 func _on_OpenFolder_pressed():
   dialog_type = DialogType.OpenDir
-  $Dialog.window_title = "Open folder with RAW images"
+  $Dialog.window_title = "open_folder_with_Raw_images"
   $Dialog.current_dir = Settings.open_folder
   $Dialog.popup_centered_clamped(Vector2(1200, 800), 0.9)
 
@@ -92,3 +93,8 @@ func _on_RatingTypeOption_item_selected(index):
   
 func _on_OpenLogFolder_pressed():
   OS.shell_open(OS.get_user_data_dir())
+
+func _on_LanguageOption_item_selected(index):
+  Settings.language = Settings.Language.keys()[index]
+  Settings.save_settings()
+  Settings.update_title()
