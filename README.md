@@ -13,7 +13,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 
 ## Why QuickRawPicker?
 * **To save time.** QuickRawPicker is very fast for checking multiple raw photos at the same time. It is speed oriented and built with C++ and Godot game engine. With the 16-bit texture feature, it is easy to check if the raw photo is overexposed or too noisy in dark areas.
-* **To save money.** You can easily use QuickRawPicker as a pre-step to Rawtherapee or Darktable. This is because QuickRawPicker has XMP and PP3 ratings and is compatible with most free raw editing software on the market.
+* **To save money.** You can easily use QuickRawPicker as a pre-step to Rawtherapee or Darktable for that QuickRawPicker has XMP and PP3 ratings and is compatible with most free raw editing softwares on the market.
 * **Cross platforms.** Most major desktop platforms are natively supported. **(Windows x64 | Linux x64 | macOS Intel / Apple silicon)**
 * **Small size and ease of use.** The zip package is only about 30MB, no installation and no complicated setup.
 
