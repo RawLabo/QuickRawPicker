@@ -68,7 +68,7 @@ func get_hovering_frame(pos):
   return null
   
 func frame_op(is_up, with_shift, with_alt, with_ctrl):
-  Util.log("frame_op", {"is_up": is_up, "shift": with_shift, "alt": with_alt, "ctrl": with_ctrl})
+#  Util.log("frame_op", {"is_up": is_up, "shift": with_shift, "alt": with_alt, "ctrl": with_ctrl})
   for frame in get_children():
     if with_shift and hovering_frame != frame:
       continue
