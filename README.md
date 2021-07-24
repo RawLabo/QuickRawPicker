@@ -45,7 +45,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 ### In thumbnail list
 |Key|Description|
 |---|-----------|
-|Alt + LeftClick|Toggle mark at the pointing photo|
+|Alt + LeftClick|**Toggle mark at the pointing photo**|
 |Shift + LeftClick|Select multiple photos from start to end to compare|
 |Command/Ctrl + LeftClick|Pick multiple photos to compare|
 
@@ -62,7 +62,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 |Key_A|Toggle the AF point of the pointing photo|
 |Key_H|Turn the highlight area of the pointing photo into red color|
 |Key_S|Turn the shadow area of the pointing photo into green color|
-|1,2,3,4,5|Rate the pointing photo|
+|1,2,3,4,5|**Rate the pointing photo**|
 
 ## Sample workflows
 ### Workflow 1 - rate raw photos
