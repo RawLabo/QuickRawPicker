@@ -13,14 +13,14 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 
 ## Why QuickRawPicker?
 * **To save time.** QuickRawPicker is very fast for checking multiple raw photos at the same time. It is speed oriented and built with C++ and Godot game engine. With the 16-bit texture feature, it is easy to check if the raw photo is overexposed or too noisy in dark areas.
-* **To save money.** You can easily use QuickRawPicker as a pre-step to Rawtherapee or Darktable. This is because QuickRawPicker has XMP and PP3 ratings and is compatible with most free raw editing software on the market.
+* **To save money.** You can easily use QuickRawPicker as a pre-step to Rawtherapee or Darktable for that QuickRawPicker has XMP and PP3 ratings and is compatible with most free raw editing softwares on the market.
 * **Cross platforms.** Most major desktop platforms are natively supported. **(Windows x64 | Linux x64 | macOS Intel / Apple silicon)**
 * **Small size and ease of use.** The zip package is only about 30MB, no installation and no complicated setup.
 
 **[🔽Download](https://github.com/qdwang/QuickRawPicker/releases/latest) the latest precompiled binaries.**
 > You may need to run `xattr -dr com.apple.quarantine QuickRawPicker.app` to fix the **"file is damaged"** issue under macOS.
 
-![QuickRawPicker-v0 1 5](https://user-images.githubusercontent.com/403616/124418930-23771280-dd8f-11eb-9f58-ca88221a03c5.jpg)
+![QuickRawPicker-v0 1 7-Windows-x86_64](https://user-images.githubusercontent.com/403616/126796723-4b8fa0f6-8e29-429c-9dbc-6b59e4883d56.jpg)
 
 ## Features
 * Compare multiple (up to 100) photos of multiple scales at the same time.
@@ -45,7 +45,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 ### In thumbnail list
 |Key|Description|
 |---|-----------|
-|Alt + LeftClick|Toggle mark at the pointing photo|
+|Alt + LeftClick|**Toggle mark at the pointing photo**|
 |Shift + LeftClick|Select multiple photos from start to end to compare|
 |Command/Ctrl + LeftClick|Pick multiple photos to compare|
 
@@ -62,7 +62,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 |Key_A|Toggle the AF point of the pointing photo|
 |Key_H|Turn the highlight area of the pointing photo into red color|
 |Key_S|Turn the shadow area of the pointing photo into green color|
-|1,2,3,4,5|Rate the pointing photo|
+|1,2,3,4,5|**Rate the pointing photo**|
 
 ## Sample workflows
 ### Workflow 1 - rate raw photos
