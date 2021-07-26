@@ -126,7 +126,7 @@ func toggle_focus_point():
   
 func update_focus():
   if $Photo/FocusPos.visible:
-    $Focus.global_position = $Photo/FocusPos.global_position
+    $Focus.global_position = vec_int($Photo/FocusPos.global_position)
     
 func update_top_info():
   $TopContainer/Size/Value.text = "%d%%" % (scale_options[scale_index] * 100)
