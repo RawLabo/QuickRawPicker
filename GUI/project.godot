@@ -53,7 +53,7 @@ singletons=[  ]
 
 [locale]
 
-translations=PoolStringArray( "res://Asset/Translation/translation.en_US.translation", "res://Asset/Translation/translation.zh_CN.translation" )
+translations=PoolStringArray( "res://Asset/Translation/translation.en_US.translation", "res://Asset/Translation/translation.zh_CN.translation", "res://Asset/Translation/zh_CN.po", "res://Asset/Translation/ja.po", "res://Asset/Translation/translation.ja_JP.translation" )
 translation_remaps={
 }
 

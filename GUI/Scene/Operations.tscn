@@ -17,16 +17,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Dialog" type="FileDialog" parent="."]
-margin_right = 338.0
-margin_bottom = 162.0
-rect_min_size = Vector2( 250, 87.5 )
-window_title = ""
-resizable = true
-mode_overrides_title = false
-mode = 2
-access = 2
-
 [node name="SettingsDialog" type="WindowDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -112,7 +102,7 @@ rounded = true
 margin_top = 103.0
 margin_right = 130.0
 margin_bottom = 117.0
-text = "display_color_space:"
+text = "color_space:"
 align = 2
 
 [node name="DisplayColorSpaceOption" type="OptionButton" parent="SettingsDialog/Grid"]
@@ -147,7 +137,7 @@ margin_top = 164.0
 margin_right = 212.0
 margin_bottom = 184.0
 text = "English"
-items = [ "English", null, false, 0, null, "中文", null, false, 1, null ]
+items = [ "English", null, false, 0, null, "中文", null, false, 1, null, "日本語", null, false, 2, null ]
 selected = 0
 
 [node name="Control" type="Control" parent="SettingsDialog/Grid"]
@@ -161,11 +151,6 @@ margin_top = 196.0
 margin_right = 212.0
 margin_bottom = 216.0
 text = "reset"
-
-[node name="AboutDialog" type="AcceptDialog" parent="."]
-margin_right = 83.0
-margin_bottom = 58.0
-window_title = "about"
 
 [node name="ExportProgress" type="PopupDialog" parent="."]
 anchor_left = 0.5
@@ -221,12 +206,11 @@ margin_left = 601.0
 margin_right = 1200.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
-text = "fn"
+text = "Fn"
 flat = false
 items = [ "export_marked", null, 0, false, false, 100, 0, null, "", false, "settings", null, 0, false, false, 200, 0, null, "", false, "", null, 0, false, true, 0, 0, null, "", true, "open_logs_folder", null, 0, false, false, 301, 0, null, "", false, "about", null, 0, false, false, 300, 0, null, "", false ]
 
 [connection signal="file_exported" from="." to="." method="_on_Operations_file_exported"]
-[connection signal="dir_selected" from="Dialog" to="." method="_on_Dialog_dir_selected"]
 [connection signal="item_selected" from="SettingsDialog/Grid/BpsOption" to="." method="_on_BpsOption_item_selected"]
 [connection signal="item_selected" from="SettingsDialog/Grid/ShowThumbFirstOption" to="." method="_on_ShowThumbFirstOption_item_selected"]
 [connection signal="value_changed" from="SettingsDialog/Grid/CacheRoundSpinBox" to="." method="_on_CacheRoundSpinBox_value_changed"]

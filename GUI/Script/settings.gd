@@ -7,7 +7,7 @@ var show_thumb_first = true
 var cache_round = 2
 var output_color = OutputColors.SRGB
 var rating_type = RatingType.XMP
-var language = "en_US"
+onready var language = get_fixed_locale()
 var open_folder = ""
 var export_folder = ""
 
@@ -19,7 +19,8 @@ onready var project_name = ProjectSettings.get_setting("application/config/name"
 
 const Language = {
   "en_US": 0,
-  "zh_CN": 1
+  "zh_CN": 1,
+  "ja_JP": 2
 }
 const extension_filter = [
   "3fr",
@@ -71,7 +72,7 @@ func _ready():
   update_title()
   
 func update_title():
-  OS.set_window_title("%s %s / %s %s / %s %s" % [project_name, version, tr("display_bit:"), bps, tr("display_color_space:"), OutputColors.keys()[output_color]])
+  OS.set_window_title("%s %s / %s %s / %s %s" % [project_name, version, tr("display_bit:"), bps, tr("color_space:"), OutputColors.keys()[output_color]])
   
 func reset():
   bps = 16
@@ -79,7 +80,7 @@ func reset():
   cache_round = 2
   output_color = OutputColors.SRGB
   rating_type = RatingType.XMP
-  language = OS.get_locale()
+  language = get_fixed_locale()
   save_settings()
   
 func save_settings():
@@ -94,7 +95,7 @@ func save_settings():
     "open_folder": open_folder,
     "export_folder": export_folder
   })
-  set_locale()
+  TranslationServer.set_locale(language)
   
   file.open("user://settings.cfg", File.WRITE_READ)
   file.store_string(content)
@@ -114,16 +115,25 @@ func load_settings():
     cache_round = dict.get("cache_round", 2)
     output_color = dict.get("output_color", OutputColors.SRGB)
     rating_type = dict.get("rating_type", RatingType.XMP)
-    language = dict.get("language", OS.get_locale())
+    language = dict.get("language", get_fixed_locale())
     open_folder = dict.get("open_folder", "")
     export_folder = dict.get("export_folder", "")
     
-    set_locale()
+    TranslationServer.set_locale(language)
     
   file.close()
 
-func set_locale():
-  if language == "zh":
-    language = "zh_CN"
+func get_fixed_locale():
+  var locale = OS.get_locale()
+  var fix_mapping = {
+    "en": "en_US",
+    "zh": "zh_CN",
+    "ja": "ja_JP"  
+  }
+  if fix_mapping.has(locale):
+    return fix_mapping[locale]
+  elif Language.has(locale):
+    return locale
+  else:
+    return "en_US"
     
-  TranslationServer.set_locale(language)

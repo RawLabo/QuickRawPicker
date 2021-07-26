@@ -6,8 +6,6 @@ enum DialogType { OpenDir, ExportByCopy }
 var dialog_type = DialogType.OpenDir
 
 func _ready():
-  $AboutDialog.get_child(1).align = HALIGN_CENTER
-  $AboutDialog.dialog_text = "%s %s\nCopyright © 2021 qdwang.  All rights reserved.\nLicense: LGPL-2.1" % [Settings.project_name, Settings.version]
   $Container/Fn.get_popup().connect("id_pressed", self, "_on_Fn_id_pressed")
   for key in Settings.OutputColors.keys():
     $SettingsDialog/Grid/DisplayColorSpaceOption.add_item(key)
@@ -27,13 +25,44 @@ func update_settings_dialog():
   $SettingsDialog/Grid/RatingTypeOption.select(int(Settings.rating_type))
   $SettingsDialog/Grid/LanguageOption.select(Settings.Language[Settings.language])
   
+func popup_about_dialog():
+  var about = AcceptDialog.new()
+  about.name = "AboutDialog"
+  about.get_child(1).align = HALIGN_CENTER
+  about.dialog_text = "%s %s\nCopyright © 2021 qdwang.  All rights reserved.\nLicense: LGPL-2.1" % [Settings.project_name, Settings.version]
+  about.window_title = "about"
+  
+  if has_node("AboutDialog"):
+    remove_child($AboutDialog)
+    
+  add_child(about)
+  about.popup_centered()
+  
+func gen_file_dialog():
+  # workaround for FileDialog locale issue
+  var dialog = FileDialog.new()
+  dialog.mode_overrides_title = false
+  dialog.resizable = true
+  dialog.mode = FileDialog.MODE_OPEN_DIR
+  dialog.access = FileDialog.ACCESS_FILESYSTEM
+  dialog.name = "FDialog"
+  
+  if has_node("FDialog"):
+    $FDialog.disconnect("dir_selected", self, "_on_Dialog_dir_selected")
+    remove_child($FDialog)
+  
+  add_child(dialog)
+  dialog.connect("dir_selected", self, "_on_Dialog_dir_selected")
+  return dialog
+
 func _on_Fn_id_pressed(id):
   if id == 100:
     # export selected
     dialog_type = DialogType.ExportByCopy
-    $Dialog.window_title = "copy_marked_photos_to_folder"
-    $Dialog.current_dir = Settings.export_folder
-    $Dialog.popup_centered_clamped(Vector2(1200, 800), 0.9)
+    var dialog = gen_file_dialog()
+    dialog.window_title = "copy_marked_photos_to_folder"
+    dialog.current_dir = Settings.export_folder
+    dialog.popup_centered_clamped(Vector2(1200, 800), 0.9)
     
   elif id == 200:
     # settings
@@ -42,7 +71,7 @@ func _on_Fn_id_pressed(id):
     
   elif id == 300:
     # about
-    $AboutDialog.popup_centered()
+    popup_about_dialog()
   
   elif id == 301:
     OS.shell_open(OS.get_user_data_dir())
@@ -50,9 +79,10 @@ func _on_Fn_id_pressed(id):
   
 func _on_OpenFolder_pressed():
   dialog_type = DialogType.OpenDir
-  $Dialog.window_title = "open_folder_with_Raw_images"
-  $Dialog.current_dir = Settings.open_folder
-  $Dialog.popup_centered_clamped(Vector2(1200, 800), 0.9)
+  var dialog = gen_file_dialog()
+  dialog.window_title = "open_folder_with_Raw_images"
+  dialog.current_dir = Settings.open_folder
+  dialog.popup_centered_clamped(Vector2(1200, 800), 0.9)
 
 func _on_Dialog_dir_selected(dir):
   if dialog_type == DialogType.OpenDir:
