@@ -33,7 +33,7 @@ func get_raw_thumb(args):
   
   var file_path = photo.file_path.replace("/", "\\") if Util.is_windows else photo.file_path
   
-  Util.log("get_info_with_thumb_before", {"name": photo.file_name, "thread": args[1].get_id()})
+  Util.log("get_info_with_thumb_before", {"name": photo.file_name, "thread": args[1].get_id()}, false)
   Util.Bridge.get_info_with_thumb(file_path, info, data_arr)
   
   if info.size() > 0:
@@ -68,7 +68,7 @@ func get_raw_thumb(args):
         
     if need_half_raw:
       var data = []
-      Util.log("get_image_data_half_before", {"name": photo.file_name, "thread": args[1].get_id()})
+      Util.log("get_image_data_half_before", {"name": photo.file_name, "thread": args[1].get_id()}, false)
       Util.Bridge.get_image_data(photo.file_path, data, 8, true, true, Settings.OutputColors.SRGB)
       image.create_from_data(photo.width / 2, photo.height / 2, false, Image.FORMAT_RGB8, data)
     
@@ -89,7 +89,7 @@ func get_raw_image(args):
   
   var data = []
   var file_path = photo.file_path.replace("/", "\\") if Util.is_windows else photo.file_path
-  Util.log("get_image_data_before", {"name": photo.file_name, "thread": args[1].get_id()})
+  Util.log("get_image_data_before", {"name": photo.file_name, "thread": args[1].get_id()}, false)
   Util.Bridge.get_image_data(file_path, data, Settings.bps, false, Settings.auto_bright, Settings.output_color)
   
   var image = Image.new()

@@ -1,10 +1,8 @@
 extends Node
 
-enum LogLevel {Error, Critical, Info, Verbose}
-
 onready var Bridge = preload("res://Asset/Lib/main_nativescript.gdns").new()
 onready var is_windows = true if OS.get_name() == "Windows" else false
-onready var log_level = LogLevel.keys()
+onready var log_file = File.new()
 onready var Nodes = {
   "Main": get_node("/root/Main"),
   "PhotoList": get_node("/root/Main/LeftPanel/PhotoList"),
@@ -12,14 +10,20 @@ onready var Nodes = {
 }
 onready var _f = File.new()
 
-const log_thd = 2
-
+func _ready():
+  log_file.open("user://logs/debug_info.log", File.WRITE)
+  log_file.close()
+  
 func get_file_mod_time(path):
   return _f.get_modified_time(path)
   
-func log(mark, data = null, level = LogLevel.Info):
-  if level <= log_thd:
-    print("%s %s %s" % [log_level[level], mark, JSON.print(data) if data else ""])
+func log(mark, data = null, close_file = true):
+  if not log_file.is_open():
+    log_file.open("user://logs/debug_info.log", File.READ_WRITE)
+  log_file.seek_end()
+  log_file.store_string("%s %s\n" % [mark, JSON.print(data) if data else ""])
+  if close_file:
+    log_file.close()
 
 func float2frac(x):
   var right = x - floor(x)
