@@ -24,7 +24,7 @@ fixed_column_width = 1
 margin_top = 670.0
 margin_right = 1200.0
 margin_bottom = 700.0
-text = "Compare"
+text = "compare"
 
 [connection signal="photo_mark_changed" from="." to="." method="_on_PhotoList_photo_mark_changed"]
 [connection signal="photo_selection_changed" from="." to="." method="_on_PhotoList_photo_selection_changed"]
