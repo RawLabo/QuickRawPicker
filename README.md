@@ -44,7 +44,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 ### In thumbnail list
 |Key|Description|
 |---|-----------|
-|Alt + LeftClick|**Toggle mark at the pointing photo**|
+|Alt + LeftClick|**Toggle mark on the pointing photo**|
 |Shift + LeftClick|Select multiple photos from start to end to compare|
 |Command/Ctrl + LeftClick|Pick multiple photos to compare|
 
@@ -55,12 +55,12 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 |Command/Ctrl + Resize|Adjust all photos' EV|
 |Alt + Resize|Adjust all photos' Gamma|
 |Shift + **one of the above three**|Resize/adjust the pointing photo|
-|Alt + LeftClick|Toggle mark at the pointing photo|
-|Command/Ctrl + LeftClick|Toggle selection at the pointing photo|
+|Alt + LeftClick|Toggle mark on the pointing photo|
+|Command/Ctrl + LeftClick|Toggle selection on the pointing photo|
 |Key_F|View the pointing photo at fullscreen|
-|Key_A|Toggle the AF point of the pointing photo|
-|Key_H|Turn the highlight area of the pointing photo into red color|
-|Key_S|Turn the shadow area of the pointing photo into green color|
+|Key_A|Toggle the AF point on the pointing photo|
+|Key_H|Turn the highlight area on the pointing photo into red color|
+|Key_S|Turn the shadow area on the pointing photo into green color|
 |1,2,3,4,5|**Rate the pointing photo**|
 
 ## Workflows
@@ -69,3 +69,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 
 ## Need any help, support or discussion
 **[👉 Go github discussions](https://github.com/qdwang/QuickRawPicker/discussions)**
+
+## Credits
+1. [LibRaw](https://github.com/LibRaw/LibRaw) Licensed LGPL-2.1
+2. [libjpeg-turbo](https://libjpeg-turbo.org/) Licensed BSD
