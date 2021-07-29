@@ -32,7 +32,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 * Display as low contrast texture.
 * Display color space setting available.
 * Export marked photos by copying.
-* Display AF point for different cameras' raw, including Sony, Panasonic, Canon, Nikon, Olympus.
+* Display AF point for different cameras' raw files, including Sony, Panasonic, Canon, Nikon, Olympus.
 
 ## Shortcut list
 
@@ -64,20 +64,9 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 |Key_S|Turn the shadow area of the pointing photo into green color|
 |1,2,3,4,5|**Rate the pointing photo**|
 
-## Sample workflows
-### Workflow 1 - rate raw photos
-Rate your raw photos with the fast QuickRawPicker and then edit them in Bridge, Lightroom or Rawtherapee.
-
-https://user-images.githubusercontent.com/403616/124418975-3a1d6980-dd8f-11eb-84dc-61edf32fd425.mp4
-
-> The rating operation is performed by pressing `3` on keyboard.
-
-### Workflow 2 - mark raw photos and export
-Mark your raw photos and then copy them to the folder desired.
-
-https://user-images.githubusercontent.com/403616/124419023-50c3c080-dd8f-11eb-8931-8b7a4d2afb2d.mp4
-
-> The marking operation is performed by holding `alt` and clicking mouse left button.
+## Workflows
+1. **By rating**. By Rating your raw photos in QuickRawPicker, the rating score will be written into the sidecar file `xmp` or `pp3`. And then you can filter and edit them in Adobe Bridge, Lightroom, Darktable or Rawtherapee directly.
+2. **By export**. By marking your raw photos in QuickRawPicker, you can later export all the marked photo files to a desired folder. You can usually use this method to check the raw files on the SD card and export the marked ones to your hard drive on computer.
 
 ## Need any help, support or discussion
 **[👉 Go github discussions](https://github.com/qdwang/QuickRawPicker/discussions)**
