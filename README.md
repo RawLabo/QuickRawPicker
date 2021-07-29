@@ -29,8 +29,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 * Adjust EV and shift Gamma.
 * Draw highlight area and shadow area.
 * Display as 16 bit texture on screen.
-* Display as low contrast texture.
-* Display color space setting available.
+* Color space setting available.
 * Export marked photos by copying.
 * Display AF point for different cameras' raw files, including Sony, Panasonic, Canon, Nikon, Olympus.
 
