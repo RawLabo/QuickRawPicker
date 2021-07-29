@@ -66,7 +66,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 
 ## Workflows
 1. **By rating**. By Rating your raw photos in QuickRawPicker, the rating score will be written into the sidecar file `xmp` or `pp3`. And then you can filter and edit them in Adobe Bridge, Lightroom, Darktable or Rawtherapee directly. [demo](https://github.com/qdwang/QuickRawPicker/discussions/4)
-2. **By export**. By marking your raw photos in QuickRawPicker, you can later export all the marked photo files to a desired folder. You can usually use this method to check the raw files on the SD card and export the marked ones to your hard drive on computer. [demo](https://github.com/qdwang/QuickRawPicker/discussions/2)
+2. **By marking and exporting**. By marking your raw photos in QuickRawPicker, you can later export all the marked photo files to a desired folder. Usually this method can used to check the raw files on the SD card directly and export the marked ones to your hard drive on computer. [demo](https://github.com/qdwang/QuickRawPicker/discussions/2)
 
 ## Need any help, support or discussion
 **[👉 Go github discussions](https://github.com/qdwang/QuickRawPicker/discussions)**
