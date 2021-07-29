@@ -71,5 +71,6 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 **[👉 Go github discussions](https://github.com/qdwang/QuickRawPicker/discussions)**
 
 ## Credits
-1. [LibRaw](https://github.com/LibRaw/LibRaw) Licensed LGPL-2.1
-2. [libjpeg-turbo](https://libjpeg-turbo.org/) Licensed BSD
+1. [godot](https://github.com/godotengine/godot) Licensed MIT
+2. [LibRaw](https://github.com/LibRaw/LibRaw) Licensed LGPL-2.1
+3. [libjpeg-turbo](https://libjpeg-turbo.org/) Licensed BSD
