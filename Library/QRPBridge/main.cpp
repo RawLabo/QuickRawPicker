@@ -407,6 +407,9 @@ void _get_image_data(const char *path, godot_variant *data, int bps, bool set_ha
 	if (result == 0)
 	{
 		lr_ptr->unpack();
+		if (lr_ptr->imgdata.idata.filters == LIBRAW_XTRANS)
+			lr_ptr->imgdata.params.user_qual = 0;
+
 		lr_ptr->dcraw_process();
 
 		libraw_processed_image_t *image = lr_ptr->dcraw_make_mem_image();
