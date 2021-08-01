@@ -265,7 +265,7 @@ inline void info_fetch(godot_variant *info, const LibRaw *lr_ptr)
 	godot_array info_arr;
 	api->godot_array_new(&info_arr);
 
-	godot_variant width, height, aperture, shutter_speed, iso_speed, focal_len, timestamp, lens_info, maker, model, xmp, focus_loc;
+	godot_variant width, height, aperture, shutter_speed, iso_speed, focal_len, timestamp, lens_info, maker, model, xmp, focus_loc, thumb_format;
 
 	api->godot_variant_new_int(&width, lr_ptr->imgdata.sizes.iwidth);
 	api->godot_variant_new_int(&height, lr_ptr->imgdata.sizes.iheight);
@@ -279,6 +279,7 @@ inline void info_fetch(godot_variant *info, const LibRaw *lr_ptr)
 	string2var(&lr_ptr->imgdata.lens.Lens[0], &lens_info);
 	string2var(lr_ptr->imgdata.idata.xmpdata, &xmp, lr_ptr->imgdata.idata.xmplen);
 	focus_location_fetch(&focus_loc, lr_ptr);
+	api->godot_variant_new_int(&thumb_format, lr_ptr->imgdata.thumbnail.tformat);
 
 	api->godot_array_append(&info_arr, &width);
 	api->godot_array_append(&info_arr, &height);
@@ -292,6 +293,7 @@ inline void info_fetch(godot_variant *info, const LibRaw *lr_ptr)
 	api->godot_array_append(&info_arr, &lens_info);
 	api->godot_array_append(&info_arr, &xmp);
 	api->godot_array_append(&info_arr, &focus_loc);
+	api->godot_array_append(&info_arr, &thumb_format);
 
 	// set
 	api->godot_variant_new_array(info, &info_arr);
@@ -309,6 +311,7 @@ inline void info_fetch(godot_variant *info, const LibRaw *lr_ptr)
 	api->godot_variant_destroy(&lens_info);
 	api->godot_variant_destroy(&xmp);
 	api->godot_variant_destroy(&focus_loc);
+	api->godot_variant_destroy(&thumb_format);
 
 	api->godot_array_destroy(&info_arr);
 }
@@ -326,14 +329,18 @@ void _get_info_with_thumb(const char *path, godot_variant *info, godot_variant *
 	if (result == 0)
 	{
 		int unpack_result = lr_ptr->unpack_thumb();
-		info_fetch(info, lr_ptr);
+		bool is_jpeg = lr_ptr->imgdata.thumbnail.tformat == LibRaw_thumbnail_formats::LIBRAW_THUMBNAIL_JPEG;
+		bool is_bmp = lr_ptr->imgdata.thumbnail.tformat == LibRaw_thumbnail_formats::LIBRAW_THUMBNAIL_BITMAP || 
+				      lr_ptr->imgdata.thumbnail.tformat == LibRaw_thumbnail_formats::LIBRAW_THUMBNAIL_BITMAP16;
 
-		if (unpack_result == 0)
+		info_fetch(info, lr_ptr);
+		
+		if (unpack_result == 0 && (is_jpeg || is_bmp))
 		{
 			libraw_processed_image_t *image = lr_ptr->dcraw_make_mem_thumb();
 
 			int flip = lr_ptr->imgdata.sizes.flip;
-			if (flip != 0)
+			if (flip != 0 && is_jpeg)
 			{
 				unsigned long dstSizes = 0;
 				unsigned char *dstBufs = nullptr;

@@ -50,28 +50,32 @@ func get_raw_thumb(args):
     photo.lens_info = info[9]
     photo.raw_xmp = info[10]
     photo.focus_loc = info[11]
+    var is_thumb_jpeg = info[12] == 1
+    var is_thumb_bmp = info[12] == 2 or info[12] == 3
     
     var image = Image.new()
-    var need_half_raw = data_arr.size() == 0
-    if not need_half_raw:
-      var err = image.load_jpg_from_buffer(data_arr)
-      if err != OK:
-        err = image.load_bmp_from_buffer(data_arr)
-        
-      if err == OK:
-        var size = image.get_size()
-        if size.y > size.x:
-          photo.width = info[1]
-          photo.height = info[0]
-      else:
-        need_half_raw = true
+    var need_half_raw = true
+    if data_arr.size() > 0:
+      if is_thumb_jpeg:
+        need_half_raw = image.load_jpg_from_buffer(data_arr) != OK
+      elif is_thumb_bmp:
+        need_half_raw = image.load_bmp_from_buffer(data_arr) != OK
         
     if need_half_raw:
       var data = []
       Util.log("get_image_data_half_before", {"name": photo.file_name, "thread": args[1].get_id()}, false)
       Util.Bridge.get_image_data(photo.file_path, data, 8, true, true, Settings.OutputColors.SRGB)
-      image.create_from_data(photo.width / 2, photo.height / 2, false, Image.FORMAT_RGB8, data)
-    
+      if data.size() > 0:
+        image.create_from_data(photo.width / 2, photo.height / 2, false, Image.FORMAT_RGB8, data)
+      else:
+        image.create(30, 20, false, Image.FORMAT_RGB8)
+        image.fill(Color.firebrick)
+    else:
+      var size = image.get_size()
+      if size.y > size.x:
+        photo.width = info[1]
+        photo.height = info[0]
+      
     var size = image.get_size()
     var k = size.x / 180
     image.resize(180, size.y / k, Image.INTERPOLATE_CUBIC)
