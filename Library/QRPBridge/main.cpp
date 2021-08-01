@@ -102,6 +102,10 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 	{
 		const unsigned char offset = 0xc;
 
+		int *make_len = (int *)(lr_ptr->imgdata.thumbnail.thumb + 26);
+		if (*make_len != 10) // only handle Panasonic cameras for now
+			break;
+
 		int16_t *entity_count = (int16_t *)(lr_ptr->imgdata.thumbnail.thumb + 20);
 		int *ExifOffset = get_pana_addr_offset(lr_ptr->imgdata.thumbnail.thumb + 22, *entity_count, 0x8769);
 		if (ExifOffset == nullptr)
@@ -330,11 +334,11 @@ void _get_info_with_thumb(const char *path, godot_variant *info, godot_variant *
 	{
 		int unpack_result = lr_ptr->unpack_thumb();
 		bool is_jpeg = lr_ptr->imgdata.thumbnail.tformat == LibRaw_thumbnail_formats::LIBRAW_THUMBNAIL_JPEG;
-		bool is_bmp = lr_ptr->imgdata.thumbnail.tformat == LibRaw_thumbnail_formats::LIBRAW_THUMBNAIL_BITMAP || 
-				      lr_ptr->imgdata.thumbnail.tformat == LibRaw_thumbnail_formats::LIBRAW_THUMBNAIL_BITMAP16;
+		bool is_bmp = lr_ptr->imgdata.thumbnail.tformat == LibRaw_thumbnail_formats::LIBRAW_THUMBNAIL_BITMAP ||
+					  lr_ptr->imgdata.thumbnail.tformat == LibRaw_thumbnail_formats::LIBRAW_THUMBNAIL_BITMAP16;
 
 		info_fetch(info, lr_ptr);
-		
+
 		if (unpack_result == 0 && (is_jpeg || is_bmp))
 		{
 			libraw_processed_image_t *image = lr_ptr->dcraw_make_mem_thumb();
