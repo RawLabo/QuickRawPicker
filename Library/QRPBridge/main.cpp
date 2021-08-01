@@ -137,34 +137,38 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 	case LibRaw_cameramaker_index::LIBRAW_CAMERAMAKER_Canon:
 	{
 		auto afdata = lr_ptr->imgdata.makernotes.common.afdata;
-		int16_t *NumAFPoints = (int16_t *)(afdata->AFInfoData + 4);
-		int AFAreaXPosition = 0;
-		int AFAreaYPosition = 0;
-		int af_count = 0;
 
-		for (int i = 0; i < *NumAFPoints * 2; i += 2)
+		if (afdata->AFInfoData_tag == 0x0026 || afdata->AFInfoData_tag == 0x003c)
 		{
-			int16_t *tmp_x = (int16_t *)(afdata->AFInfoData + 16 + *NumAFPoints * 2 * 2 + i);
-			int16_t *tmp_y = (int16_t *)(afdata->AFInfoData + 16 + *NumAFPoints * 2 * 3 + i);
+			int16_t *NumAFPoints = (int16_t *)(afdata->AFInfoData + 4);
+			int AFAreaXPosition = 0;
+			int AFAreaYPosition = 0;
+			int af_count = 0;
 
-			if (*tmp_x != 0 || *tmp_y != 0)
+			for (int i = 0; i < *NumAFPoints * 2; i += 2)
 			{
-				AFAreaXPosition += *tmp_x;
-				AFAreaYPosition += *tmp_y;
-				af_count += 1;
-			}
-		}
+				int16_t *tmp_x = (int16_t *)(afdata->AFInfoData + 16 + *NumAFPoints * 2 * 2 + i);
+				int16_t *tmp_y = (int16_t *)(afdata->AFInfoData + 16 + *NumAFPoints * 2 * 3 + i);
 
-		if (af_count > 0)
-		{
-			af_data_valid = true;
-			width = lr_ptr->imgdata.sizes.iwidth;
-			height = lr_ptr->imgdata.sizes.iheight;
-			left = width / 2 + AFAreaXPosition / af_count;
-			if (afdata->AFInfoData_tag == 0x003c)
-				top = height / 2 + AFAreaYPosition / af_count;
-			else
-				top = height / 2 - AFAreaYPosition / af_count;
+				if (*tmp_x != 0 || *tmp_y != 0)
+				{
+					AFAreaXPosition += *tmp_x;
+					AFAreaYPosition += *tmp_y;
+					af_count += 1;
+				}
+			}
+
+			if (af_count > 0)
+			{
+				af_data_valid = true;
+				width = lr_ptr->imgdata.sizes.iwidth;
+				height = lr_ptr->imgdata.sizes.iheight;
+				left = width / 2 + AFAreaXPosition / af_count;
+				if (afdata->AFInfoData_tag == 0x003c)
+					top = height / 2 + AFAreaYPosition / af_count;
+				else
+					top = height / 2 - AFAreaYPosition / af_count;
+			}
 		}
 
 		break;
