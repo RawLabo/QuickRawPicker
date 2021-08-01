@@ -36,6 +36,7 @@ func get_raw_thumb(args):
   Util.log("get_info_with_thumb_before", {"name": photo.file_name, "thread": args[1].get_id()}, false)
   Util.Bridge.get_info_with_thumb(file_path, info, data_arr)
   
+  var image = Image.new()
   if info.size() > 0:
     photo.width = info[0]
     photo.height = info[1]
@@ -53,7 +54,6 @@ func get_raw_thumb(args):
     var is_thumb_jpeg = info[12] == 1
     var is_thumb_bmp = info[12] == 2 or info[12] == 3
     
-    var image = Image.new()
     var need_half_raw = true
     if data_arr.size() > 0:
       if is_thumb_jpeg:
@@ -75,12 +75,17 @@ func get_raw_thumb(args):
       if size.y > size.x:
         photo.width = info[1]
         photo.height = info[0]
-      
-    var size = image.get_size()
-    var k = size.x / 180
-    image.resize(180, size.y / k, Image.INTERPOLATE_CUBIC)
-    photo.thumb_texture.create_from_image(image, 0)
-      
+  
+  else:
+    photo.width = 30
+    photo.height = 20
+    image.create(30, 20, false, Image.FORMAT_RGB8)
+    image.fill(Color.firebrick)
+        
+  var size = image.get_size()
+  var k = size.x / 180
+  image.resize(180, size.y / k, Image.INTERPOLATE_CUBIC)
+  photo.thumb_texture.create_from_image(image, 0)
   call_deferred("thread_end", "thumb_parsed", args)
 
 func get_raw_image(args):
