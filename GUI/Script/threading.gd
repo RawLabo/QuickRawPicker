@@ -67,22 +67,20 @@ func get_raw_thumb(args):
       Util.Bridge.get_image_data(photo.file_path, data, 8, true, true, Settings.OutputColors.SRGB)
       if data.size() > 0:
         image.create_from_data(photo.width / 2, photo.height / 2, false, Image.FORMAT_RGB8, data)
-      else:
-        image.create(30, 20, false, Image.FORMAT_RGB8)
-        image.fill(Color.firebrick)
     else:
       var size = image.get_size()
       if size.y > size.x:
         photo.width = info[1]
         photo.height = info[0]
-  
-  else:
+        
+  var size = image.get_size()
+  if size.x == 0:
     photo.width = 30
     photo.height = 20
     image.create(30, 20, false, Image.FORMAT_RGB8)
     image.fill(Color.firebrick)
-        
-  var size = image.get_size()
+    size = image.get_size()
+    
   var k = size.x / 180
   image.resize(180, size.y / k, Image.INTERPOLATE_CUBIC)
   photo.thumb_texture.create_from_image(image, 0)
