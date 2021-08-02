@@ -1,3 +1,4 @@
+#include <sstream>
 #include <string>
 #include <gdnative_api_struct.gen.h>
 #include <libraw/libraw.h>
@@ -33,6 +34,16 @@ inline void print(int value)
 	api->godot_string_parse_utf8(&x, std::to_string(value).c_str());
 	api->godot_print(&x);
 
+	api->godot_string_destroy(&x);
+}
+inline void print(void *value)
+{
+	godot_string x;
+	api->godot_string_new(&x);
+	std::stringstream ss;
+	ss << value;
+	api->godot_string_parse_utf8(&x, ss.str().c_str());
+	api->godot_print(&x);
 	api->godot_string_destroy(&x);
 }
 
@@ -366,7 +377,8 @@ void _get_info_with_thumb(const char *path, godot_variant *info, godot_variant *
 			}
 			else
 			{
-				pool_byte_copy(data, &image->data, image->data_size);
+				if ((uintptr_t)&image->data > 0xff && (uintptr_t)&image->data_size > 0xff)
+					pool_byte_copy(data, &image->data, image->data_size);
 			}
 
 			LibRaw::dcraw_clear_mem(image);
