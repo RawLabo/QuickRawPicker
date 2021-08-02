@@ -114,6 +114,9 @@ inline void focus_location_fetch(godot_variant *focus_loc, const LibRaw *lr_ptr)
 		const unsigned char offset = 0xc;
 
 		int *make_len = (int *)(lr_ptr->imgdata.thumbnail.thumb + 26);
+		if ((uintptr_t)make_len <= 0xff)
+			break;
+
 		if (*make_len != 10) // only handle Panasonic cameras for now
 			break;
 
