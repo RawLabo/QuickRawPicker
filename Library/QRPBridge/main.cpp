@@ -334,8 +334,7 @@ void _get_info_with_thumb(const char *path, godot_variant *info, godot_variant *
 	{
 		int unpack_result = lr_ptr->unpack_thumb();
 		bool is_jpeg = lr_ptr->imgdata.thumbnail.tformat == LibRaw_thumbnail_formats::LIBRAW_THUMBNAIL_JPEG;
-		bool is_bmp = lr_ptr->imgdata.thumbnail.tformat == LibRaw_thumbnail_formats::LIBRAW_THUMBNAIL_BITMAP ||
-					  lr_ptr->imgdata.thumbnail.tformat == LibRaw_thumbnail_formats::LIBRAW_THUMBNAIL_BITMAP16;
+		bool is_bmp = lr_ptr->imgdata.thumbnail.tformat == LibRaw_thumbnail_formats::LIBRAW_THUMBNAIL_BITMAP;
 
 		info_fetch(info, lr_ptr);
 

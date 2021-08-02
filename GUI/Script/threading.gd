@@ -52,7 +52,7 @@ func get_raw_thumb(args):
     photo.raw_xmp = info[10]
     photo.focus_loc = info[11]
     var is_thumb_jpeg = info[12] == 1
-    var is_thumb_bmp = info[12] == 2 or info[12] == 3
+    var is_thumb_bmp = info[12] == 2
     
     var need_half_raw = true
     if data_arr.size() > 0:
