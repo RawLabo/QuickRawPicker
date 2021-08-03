@@ -71,6 +71,9 @@ func _ready():
   load_settings()
   update_title()
   
+func _exit_tree():
+  save_settings()
+  
 func update_title():
   OS.set_window_title("%s %s / %s %s / %s %s" % [project_name, version, tr("display_bit:"), bps, tr("color_space:"), OutputColors.keys()[output_color]])
   
@@ -93,7 +96,14 @@ func save_settings():
     "rating_type": rating_type,
     "language": language,
     "open_folder": open_folder,
-    "export_folder": export_folder
+    "export_folder": export_folder,
+    "window_props": [
+      OS.window_position.x,
+      OS.window_position.y,
+      OS.window_size.x,
+      OS.window_size.y,
+      OS.window_maximized
+    ]
   })
   TranslationServer.set_locale(language)
   
@@ -119,6 +129,15 @@ func load_settings():
     open_folder = dict.get("open_folder", "")
     export_folder = dict.get("export_folder", "")
     
+    # apply settings
+    var window_props = dict.get("window_props", [])
+    if window_props.size() >= 5:
+      if window_props[4]:
+        OS.window_maximized = true
+      else:
+        OS.window_position = Vector2(window_props[0], window_props[1])
+        OS.window_size = Vector2(window_props[2], window_props[3])
+      
     TranslationServer.set_locale(language)
     
   file.close()

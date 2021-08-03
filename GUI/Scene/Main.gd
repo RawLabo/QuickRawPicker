@@ -2,7 +2,6 @@ extends Control
 
 func _ready():
   Util.log("program_started")
-  OS.window_maximized = true
 
 func show_fullscreen_photo(photo_frame):
   Util.log("show_fullscreen_photo")
