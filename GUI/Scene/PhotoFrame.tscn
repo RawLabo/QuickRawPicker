@@ -96,10 +96,11 @@ margin_left = 328.0
 margin_right = 380.0
 margin_bottom = 32.0
 
-[node name="+" type="Button" parent="TopContainer/Size"]
-margin_right = 13.0
+[node name="-" type="Button" parent="TopContainer/Size"]
+margin_left = 39.0
+margin_right = 52.0
 margin_bottom = 32.0
-text = "+"
+text = "-"
 flat = true
 
 [node name="Value" type="Label" parent="TopContainer/Size"]
@@ -109,11 +110,10 @@ margin_right = 35.0
 margin_bottom = 29.0
 text = "0%"
 
-[node name="-" type="Button" parent="TopContainer/Size"]
-margin_left = 39.0
-margin_right = 52.0
+[node name="+" type="Button" parent="TopContainer/Size"]
+margin_right = 13.0
 margin_bottom = 32.0
-text = "-"
+text = "+"
 flat = true
 
 [node name="Exposure" type="HBoxContainer" parent="TopContainer"]
@@ -121,10 +121,11 @@ margin_left = 388.0
 margin_right = 453.0
 margin_bottom = 32.0
 
-[node name="+" type="Button" parent="TopContainer/Exposure"]
-margin_right = 13.0
+[node name="-" type="Button" parent="TopContainer/Exposure"]
+margin_left = 52.0
+margin_right = 65.0
 margin_bottom = 32.0
-text = "+"
+text = "-"
 flat = true
 
 [node name="Label" type="Label" parent="TopContainer/Exposure"]
@@ -140,11 +141,10 @@ margin_top = 2.0
 margin_right = 48.0
 margin_bottom = 29.0
 
-[node name="-" type="Button" parent="TopContainer/Exposure"]
-margin_left = 52.0
-margin_right = 65.0
+[node name="+" type="Button" parent="TopContainer/Exposure"]
+margin_right = 13.0
 margin_bottom = 32.0
-text = "-"
+text = "+"
 flat = true
 
 [node name="Gamma" type="HBoxContainer" parent="TopContainer"]
@@ -152,10 +152,11 @@ margin_left = 461.0
 margin_right = 553.0
 margin_bottom = 32.0
 
-[node name="+" type="Button" parent="TopContainer/Gamma"]
-margin_right = 13.0
+[node name="-" type="Button" parent="TopContainer/Gamma"]
+margin_left = 79.0
+margin_right = 92.0
 margin_bottom = 32.0
-text = "+"
+text = "-"
 flat = true
 
 [node name="Label" type="Label" parent="TopContainer/Gamma"]
@@ -171,11 +172,10 @@ margin_top = 2.0
 margin_right = 75.0
 margin_bottom = 29.0
 
-[node name="-" type="Button" parent="TopContainer/Gamma"]
-margin_left = 79.0
-margin_right = 92.0
+[node name="+" type="Button" parent="TopContainer/Gamma"]
+margin_right = 13.0
 margin_bottom = 32.0
-text = "-"
+text = "+"
 flat = true
 
 [node name="Rating" type="HBoxContainer" parent="TopContainer"]
@@ -222,12 +222,12 @@ toggle_mode = true
 text = "S"
 
 [connection signal="image_parsed" from="." to="." method="_on_PhotoFrame_image_parsed"]
-[connection signal="pressed" from="TopContainer/Size/+" to="." method="_on_size_plus_pressed"]
 [connection signal="pressed" from="TopContainer/Size/-" to="." method="_on_size_minus_pressed"]
-[connection signal="pressed" from="TopContainer/Exposure/+" to="." method="_on_exposure_plus_pressed"]
+[connection signal="pressed" from="TopContainer/Size/+" to="." method="_on_size_plus_pressed"]
 [connection signal="pressed" from="TopContainer/Exposure/-" to="." method="_on_exposure_minus_pressed"]
-[connection signal="pressed" from="TopContainer/Gamma/+" to="." method="_on_gamma_plus_pressed"]
+[connection signal="pressed" from="TopContainer/Exposure/+" to="." method="_on_exposure_plus_pressed"]
 [connection signal="pressed" from="TopContainer/Gamma/-" to="." method="_on_gamma_minus_pressed"]
+[connection signal="pressed" from="TopContainer/Gamma/+" to="." method="_on_gamma_plus_pressed"]
 [connection signal="item_selected" from="TopContainer/Rating/RatingCombox" to="." method="_on_RatingCombox_item_selected"]
 [connection signal="toggled" from="TopContainer/Highlight" to="." method="_on_Highlight_toggled"]
 [connection signal="toggled" from="TopContainer/Shadow" to="." method="_on_Shadow_toggled"]
