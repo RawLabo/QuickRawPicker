@@ -6,7 +6,7 @@ var bps = 16
 var show_thumb_first = true
 var cache_round = 2
 var output_color = OutputColors.SRGB
-var rating_type = RatingType.XMP
+var rating_type = RatingType.AdobeXMP
 onready var language = get_fixed_locale()
 var open_folder = ""
 var export_folder = ""
@@ -54,8 +54,9 @@ const extension_filter = [
 ]
 
 enum RatingType {
-  XMP = 0,
-  PP3 = 1
+  AdobeXMP = 0,
+  PP3 = 1,
+  darktableXMP = 2
 }
 enum OutputColors {
   RAW = 0,
@@ -82,9 +83,10 @@ func reset():
   show_thumb_first = true
   cache_round = 2
   output_color = OutputColors.SRGB
-  rating_type = RatingType.XMP
+  rating_type = RatingType.AdobeXMP
   language = get_fixed_locale()
   save_settings()
+  update_title()
   
 func save_settings():
   var file = File.new()
@@ -124,7 +126,7 @@ func load_settings():
     show_thumb_first = dict.get("show_thumb_first", true)
     cache_round = dict.get("cache_round", 2)
     output_color = dict.get("output_color", OutputColors.SRGB)
-    rating_type = dict.get("rating_type", RatingType.XMP)
+    rating_type = dict.get("rating_type", RatingType.AdobeXMP)
     language = dict.get("language", get_fixed_locale())
     open_folder = dict.get("open_folder", "")
     export_folder = dict.get("export_folder", "")

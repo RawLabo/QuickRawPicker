@@ -72,10 +72,11 @@ func get_buffer():
   
 func update_rating():
   rating = get_xmp_rating(raw_xmp)
-  if Settings.rating_type == Settings.RatingType.XMP:
-    update_xmp_rating()
-  elif Settings.rating_type == Settings.RatingType.PP3:
+  if Settings.rating_type == Settings.RatingType.PP3:
     update_pp3_rating()
+  else:
+    update_xmp_rating()
+    
     
 func get_xmp_rating(content):
   var index1 = content.find(xmp_rating_tag)
@@ -88,8 +89,14 @@ func get_xmp_rating(content):
     
   return 0
   
+func get_xmp_path():
+  if Settings.rating_type == Settings.RatingType.darktableXMP:
+    return file_path + ".xmp"
+  else:
+    return file_path.substr(0, file_path.find_last(".")) + ".xmp"
+  
 func update_xmp_rating():
-  var xmp_path = file_path.substr(0, file_path.find_last(".")) + ".xmp"
+  var xmp_path = get_xmp_path()
   var file = File.new()
   var err = file.open(xmp_path, File.READ)
   if err == OK:
@@ -101,7 +108,7 @@ func update_xmp_rating():
 func set_xmp_rating(score):
   rating = score
   
-  var xmp_path =  file_path.substr(0, file_path.find_last(".")) + ".xmp"
+  var xmp_path = get_xmp_path()
   var file = File.new()
   var err = file.open(xmp_path, File.READ_WRITE)
   if err != 0:
@@ -155,12 +162,11 @@ func set_pp3_rating(score):
   file.store_string(content)
   file.close()
   
-  
 func set_rating(score):
-  if Settings.rating_type == Settings.RatingType.XMP:
-    set_xmp_rating(score)
-  elif Settings.rating_type == Settings.RatingType.PP3:
+  if Settings.rating_type == Settings.RatingType.PP3:
     set_pp3_rating(score)
+  else:
+    set_xmp_rating(score)
   
 func has_processed():
   return full_texture.get_data() != null
