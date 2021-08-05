@@ -29,7 +29,7 @@ var ui_marked := false
 const old_xmp_rating_tag = "xmp:Rating>"
 const xmp_rating_tag = "xmp:Rating="
 const xmp_tag = "xmlns:xmp="
-const xmp_template = """
+const xmp_template = """<?xml version="1.0" encoding="UTF-8"?>
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="QuickRawPicker">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
