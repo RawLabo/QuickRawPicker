@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Asset/Theme/sysinfo.tres" type="Theme" id=1]
+[ext_resource path="res://Scene/SysInfo.gd" type="Script" id=2]
+
+[node name="SysInfo" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 30 )
+mouse_filter = 2
+theme = ExtResource( 1 )
+custom_constants/separation = 0
+alignment = 2
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FPS" type="Label" parent="."]
+margin_left = 1152.0
+margin_top = 336.0
+margin_right = 1168.0
+margin_bottom = 363.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Driver" type="Label" parent="."]
+margin_left = 1168.0
+margin_top = 336.0
+margin_right = 1184.0
+margin_bottom = 363.0
+
+[node name="VMem" type="Label" parent="."]
+margin_left = 1184.0
+margin_top = 336.0
+margin_right = 1200.0
+margin_bottom = 363.0

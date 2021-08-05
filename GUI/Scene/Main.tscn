@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scene/Main.gd" type="Script" id=1]
 [ext_resource path="res://Asset/Theme/default.tres" type="Theme" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scene/Operations.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scene/Grid.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scene/PhotoFrame.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scene/SysInfo.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Slide"
@@ -75,3 +76,8 @@ margin_bottom = 30.0
 
 [node name="PhotoFrame" parent="." instance=ExtResource( 6 )]
 visible = false
+
+[node name="SysInfo" parent="." instance=ExtResource( 7 )]
+visible = false
+anchor_bottom = 0.0
+margin_bottom = 27.0

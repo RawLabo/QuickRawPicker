@@ -27,3 +27,6 @@ func _input(event):
     elif event.scancode == KEY_F11:
       Util.log("toggle_fullscreen_mode")
       OS.window_fullscreen = not OS.window_fullscreen
+    elif event.scancode == KEY_F12:
+      Util.log("toggle_sysinfo")
+      $SysInfo.visible = not $SysInfo.visible
