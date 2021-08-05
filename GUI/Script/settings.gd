@@ -8,6 +8,7 @@ var cache_round = 2
 var output_color = OutputColors.SRGB
 var rating_type = RatingType.AdobeXMP
 onready var language = get_fixed_locale()
+var renderer = "GLES3"
 var open_folder = ""
 var export_folder = ""
 
@@ -85,10 +86,13 @@ func reset():
   output_color = OutputColors.SRGB
   rating_type = RatingType.AdobeXMP
   language = get_fixed_locale()
+  renderer = "GLES3"
   save_settings()
   update_title()
   
 func save_settings():
+  save_renderer()
+  
   var file = File.new()
   var content = JSON.print({
     "bps": bps,
@@ -116,6 +120,8 @@ func save_settings():
   Util.Nodes["PhotoList"].clean_cache()
   
 func load_settings():
+  load_renderer()
+  
   var file = File.new()
   var err = file.open("user://settings.cfg", File.READ)
   if err == OK:
@@ -144,6 +150,20 @@ func load_settings():
     
   file.close()
 
+func load_renderer():
+  renderer = "GLES3"
+  var config = ConfigFile.new()
+  var err = config.load("user://config.cfg")
+  if err == OK:
+    renderer = config.get_value("rendering", "quality/driver/driver_name", "GLES3")
+  
+func save_renderer():
+  var config = ConfigFile.new()
+  config.load("user://config.cfg")
+  config.set_value("rendering", "quality/driver/driver_name", renderer)
+  config.save("user://config.cfg")
+    
+  
 func get_fixed_locale():
   var locale = OS.get_locale()
   var fix_mapping = {

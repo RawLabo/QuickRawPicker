@@ -24,6 +24,7 @@ func update_settings_dialog():
   $SettingsDialog/Grid/DisplayColorSpaceOption.select(int(Settings.output_color))
   $SettingsDialog/Grid/RatingTypeOption.select(int(Settings.rating_type))
   $SettingsDialog/Grid/LanguageOption.select(Settings.Language[Settings.language])
+  $SettingsDialog/Grid/RendererOption.select(0 if Settings.renderer == "GLES3" else 1)
   
 func popup_about_dialog():
   var about = AcceptDialog.new()
@@ -128,3 +129,8 @@ func _on_LanguageOption_item_selected(index):
   Settings.language = Settings.Language.keys()[index]
   Settings.save_settings()
   Settings.update_title()
+
+func _on_RendererOption_item_selected(index):
+  Settings.renderer = $SettingsDialog/Grid/RendererOption.get_item_text(index)
+  Settings.save_settings()
+  

@@ -25,7 +25,7 @@ anchor_bottom = 0.5
 margin_left = -250.0
 margin_top = -200.0
 margin_right = 150.0
-margin_bottom = 160.0
+margin_bottom = 200.0
 window_title = "settings"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -139,16 +139,32 @@ text = "English"
 items = [ "English", null, false, 0, null, "中文", null, false, 1, null, "日本語", null, false, 2, null ]
 selected = 0
 
-[node name="Control" type="Control" parent="SettingsDialog/Grid"]
-margin_top = 196.0
+[node name="RendererLabel" type="Label" parent="SettingsDialog/Grid"]
+margin_top = 199.0
 margin_right = 180.0
-margin_bottom = 216.0
+margin_bottom = 213.0
+text = "renderer:"
+align = 2
 
-[node name="Reset" type="Button" parent="SettingsDialog/Grid"]
+[node name="RendererOption" type="OptionButton" parent="SettingsDialog/Grid"]
 margin_left = 188.0
 margin_top = 196.0
 margin_right = 262.0
 margin_bottom = 216.0
+text = "GLES3"
+items = [ "GLES3", null, false, 0, null, "GLES2", null, false, 1, null ]
+selected = 0
+
+[node name="Control" type="Control" parent="SettingsDialog/Grid"]
+margin_top = 228.0
+margin_right = 180.0
+margin_bottom = 248.0
+
+[node name="Reset" type="Button" parent="SettingsDialog/Grid"]
+margin_left = 188.0
+margin_top = 228.0
+margin_right = 262.0
+margin_bottom = 248.0
 text = "reset"
 
 [node name="ExportProgress" type="PopupDialog" parent="."]
@@ -216,5 +232,6 @@ items = [ "export_marked", null, 0, false, false, 100, 0, null, "", false, "sett
 [connection signal="item_selected" from="SettingsDialog/Grid/DisplayColorSpaceOption" to="." method="_on_DisplayColorSpaceOption_item_selected"]
 [connection signal="item_selected" from="SettingsDialog/Grid/RatingTypeOption" to="." method="_on_RatingTypeOption_item_selected"]
 [connection signal="item_selected" from="SettingsDialog/Grid/LanguageOption" to="." method="_on_LanguageOption_item_selected"]
+[connection signal="item_selected" from="SettingsDialog/Grid/RendererOption" to="." method="_on_RendererOption_item_selected"]
 [connection signal="pressed" from="SettingsDialog/Grid/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="pressed" from="Container/OpenFolder" to="." method="_on_OpenFolder_pressed"]

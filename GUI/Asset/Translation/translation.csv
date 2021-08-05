@@ -19,5 +19,6 @@ cache_round:,Cache round:,缓存轮数:,キャッシュ回数:
 color_space:,Color space:,色彩空间:,カラースペース:
 rating_type:,Rating type:,评分类型:,評価タイプ:
 lang:,Language:,语言:,言語:
+renderer:,Renderer:,渲染器:,レンダラー:
 reset,Reset,重置,リセット
 compare,Compare,比较,比較
