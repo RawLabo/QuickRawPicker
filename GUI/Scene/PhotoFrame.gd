@@ -121,6 +121,10 @@ func _on_PhotoFrame_image_parsed(_photo):
   
   call_deferred("update_focus")
 
+func toggle_180_rotation():
+  $Photo.rotation_degrees += -180 if $Photo.rotation_degrees == 180 else 180
+  update_focus()
+  
 func toggle_focus_point():
   $Focus.visible = not $Focus.visible
   
@@ -155,7 +159,7 @@ func rescale(is_scale_up, index = -1):
   
   $Photo.scale = Vector2(factor, factor)
   if prev_scale_index == 0 and scale_index == 1 and $Photo/FocusPos.visible:
-    reposition(-$Photo/FocusPos.position)
+    reposition((1 if $Photo.rotation_degrees == 180 else -1) * $Photo/FocusPos.position)
   else:    
     reposition(($Photo.position - rect_min_size / 2) * (factor / pre_factor - 1))
   
