@@ -20,6 +20,6 @@ color_space:,Color space:,色彩空间:,カラースペース:
 rating_type:,Rating type:,评分类型:,評価タイプ:
 lang:,Language:,语言:,言語:
 renderer:,Renderer:,渲染器:,レンダラー:
-export_associated:,Export associated:,导出相关联:,エクスポート関連:
+export_associated:,Export associated:,导出相关联文件:,関連ファイルの書き出し:
 reset,Reset,重置,リセット
 compare,Compare,比较,比較
