@@ -4,3 +4,4 @@ Build/
 .vscode/
 Samples/
 .DS_Store
+*.translation

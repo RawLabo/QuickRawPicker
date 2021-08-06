@@ -25,6 +25,7 @@ func update_settings_dialog():
   $SettingsDialog/Grid/RatingTypeOption.select(int(Settings.rating_type))
   $SettingsDialog/Grid/LanguageOption.select(Settings.Language[Settings.language])
   $SettingsDialog/Grid/RendererOption.select(0 if Settings.renderer == "GLES3" else 1)
+  $SettingsDialog/Grid/ExportAssociatedLabelEdit.text = Settings.export_associated
   
 func popup_about_dialog():
   var about = AcceptDialog.new()
@@ -92,7 +93,8 @@ func _on_Dialog_dir_selected(dir):
   elif dialog_type == DialogType.ExportByCopy:
     Settings.export_folder = dir
     var photos = Util.Nodes["PhotoList"].get_marked_photos()
-    Threading.pending_jobs.append(["export_files", photos, self, [dir, $ExportProgress/ProgressBar]])
+    var export_patterns = Settings.export_associated.split("/", false)
+    Threading.pending_jobs.append(["export_files", photos, self, [dir, export_patterns, $ExportProgress/ProgressBar]])
     $ExportProgress.popup_centered()
 
   Settings.save_settings()
@@ -134,3 +136,6 @@ func _on_RendererOption_item_selected(index):
   Settings.renderer = $SettingsDialog/Grid/RendererOption.get_item_text(index)
   Settings.save_settings()
   
+func _on_ExportAssociatedLabelEdit_text_changed(new_text):
+  Settings.export_associated = new_text
+  Settings.save_settings()

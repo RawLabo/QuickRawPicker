@@ -16,14 +16,28 @@ func _physics_process(_delta):
 func export_files(args):
   var photos = args[0]
   var dir = args[3][0]
-  var progress_bar = args[3][1]
+  var export_patterns = args[3][1]
+  var progress_bar = args[3][2]
   
   var directory = Directory.new()
   progress_bar.max_value = photos.size()
   for i in range(photos.size()):
     progress_bar.value = i
     directory.copy(photos[i].file_path, dir + "/" + photos[i].file_name)
-    
+    for pattern in export_patterns:
+      var file_name = photos[i].file_name
+      if pattern[0] == "$":
+        file_name = file_name.rsplit(".", true, 1)[0] + pattern.right(1)
+      elif pattern[0] == "#":
+        file_name = file_name + pattern.right(1)
+      
+      if file_name == photos[i].file_name:
+        continue
+        
+      var file_path = photos[i].file_path.replace(photos[i].file_name, "") + file_name
+      if directory.file_exists(file_path):
+        directory.copy(file_path, dir + "/" + file_name)
+
   call_deferred("thread_end", "file_exported", args)
 
 func get_raw_thumb(args):

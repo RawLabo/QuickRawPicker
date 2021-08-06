@@ -9,6 +9,7 @@ var output_color = OutputColors.SRGB
 var rating_type = RatingType.AdobeXMP
 onready var language = get_fixed_locale()
 var renderer = "GLES3"
+var export_associated = ""
 var open_folder = ""
 var export_folder = ""
 
@@ -87,6 +88,7 @@ func reset():
   rating_type = RatingType.AdobeXMP
   language = get_fixed_locale()
   renderer = "GLES3"
+  export_associated = ""
   save_settings()
   update_title()
   
@@ -101,6 +103,7 @@ func save_settings():
     "output_color": output_color,
     "rating_type": rating_type,
     "language": language,
+    "export_associated": export_associated,
     "open_folder": open_folder,
     "export_folder": export_folder,
     "window_props": [
@@ -134,6 +137,7 @@ func load_settings():
     output_color = dict.get("output_color", OutputColors.SRGB)
     rating_type = dict.get("rating_type", RatingType.AdobeXMP)
     language = dict.get("language", get_fixed_locale())
+    export_associated = dict.get("export_associated", "")
     open_folder = dict.get("open_folder", "")
     export_folder = dict.get("export_folder", "")
     
