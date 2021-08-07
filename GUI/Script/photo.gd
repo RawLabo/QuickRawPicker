@@ -205,8 +205,7 @@ func get_datetime():
   return "%d-%02d-%02d %02d:%02d" % [time["year"], time["month"], time["day"], time["hour"], time["minute"]]
 
 func get_list_info():
-  return "%s\n%d x %d\nF%.1f   %ss   ISO%1.f\n%.1fmm\n%s %s%s\n%s" % [
-    file_name,
+  return "%d x %d\nF%.1f   %ss   ISO%1.f\n%.1fmm\n%s %s%s\n%s\n%s" % [
     width, height,
     aperture,
     shutter_speed_str,
@@ -215,7 +214,8 @@ func get_list_info():
     maker,
     model,
     " + " + lens_info if len(lens_info) > 0 else "",
-    get_datetime()
+    get_datetime(),
+    file_name
   ]
   
 func get_bar_info():

@@ -100,10 +100,13 @@ func _input(event):
     
     if with_c:
       Util.Nodes["PhotoList"]._on_Compare_pressed()
-    if with_up:
+      return
+    elif with_up:
       Util.Nodes["PhotoList"].show_prev()
+      return
     elif with_down:
       Util.Nodes["PhotoList"].show_next()
+      return
     
     if with_zoom_in or with_zoom_out:
       var is_up = with_zoom_in
