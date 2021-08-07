@@ -40,6 +40,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 |---|-----------|
 |Key_C|Compare the selected photos|
 |Key_F11|Toggle the fullscreen mode|
+|Key_F12|Toggle the system info|
 
 ### In thumbnail list
 |Key|Description|
