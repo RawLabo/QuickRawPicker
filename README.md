@@ -58,10 +58,17 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 |Alt + LeftClick|Toggle mark on the pointing photo|
 |Command/Ctrl + LeftClick|Toggle selection on the pointing photo|
 |Key_F|View the pointing photo at fullscreen|
+|Key_R|Rotate the pointing photo for 180 degree|
 |Key_A|Toggle the AF point on the pointing photo|
 |Key_H|Turn the highlight area on the pointing photo into red color|
 |Key_S|Turn the shadow area on the pointing photo into green color|
 |1,2,3,4,5|**Rate the pointing photo**|
+
+### Settings explaination
+|Item|Description|
+|----|-----------|
+|Renderer|For most cases, GLES3 is the best choice. However, if your graphics card is too old, you have black screens when opening photos or performance problems when opening too many photos at the same time, you can still choose to use GLES2.|
+|Export associated|The delimiter must be `/`<br>`$` means the raw file name without the extension(Like `DSC00032`)<br>`#` means the raw file name.(Like `DSC00032.ARW`)<br>For example:<br>`$.JPG` means also copy a file named `DSC00032.JPG`<br>`#.xmp` means also copy a file named `DSC00032.ARW.xmp`<br>`$.xmp` means also copy a file named `DSC00032.xmp`|
 
 ## Workflows
 1. **By rating**. By Rating your raw photos in QuickRawPicker, the rating score will be written into the sidecar file `xmp` or `pp3`. And then you can filter and edit them in Adobe Bridge, Lightroom, Darktable or Rawtherapee directly. [demo](https://github.com/qdwang/QuickRawPicker/discussions/4)
