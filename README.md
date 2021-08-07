@@ -64,7 +64,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 |Key_S|Turn the shadow area on the pointing photo into green color|
 |1,2,3,4,5|**Rate the pointing photo**|
 
-### Settings explaination
+### Settings explanation
 |Item|Description|
 |----|-----------|
 |Renderer|For most cases, GLES3 is the best choice. However, if your graphics card is too old, you have black screens when opening photos or performance problems when opening too many photos at the same time, you can still choose to use GLES2.|
