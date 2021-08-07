@@ -15,7 +15,7 @@ var export_folder = ""
 
 var select_color = Color(1, 1, 1)
 var mark_color = Color(0.5, 1, 0.3)
-var version = "v0.1.10"
+var version = "v0.1.11"
 
 onready var project_name = ProjectSettings.get_setting("application/config/name")
 
