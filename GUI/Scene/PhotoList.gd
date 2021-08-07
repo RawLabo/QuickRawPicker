@@ -120,6 +120,9 @@ func clean_cache():
     
 func _on_List_gui_input(event):
   with_alt = event.alt
+  if event is InputEventMouseButton and event.pressed and \
+     event.doubleclick and get_selected_photos().size() == 1:
+    _on_Compare_pressed()
 
 func _on_PhotoList_photo_mark_changed(photo, mark):
   var idx = photos.find(photo)
