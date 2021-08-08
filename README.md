@@ -30,7 +30,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 * Draw highlight area and shadow area.
 * Display as 16 bit texture on screen.
 * Color space setting available.
-* Export marked photos by copying.
+* Export marked photos and associated files(Like `.JPG` and `.xmp`) by copying.
 * Display AF point for different cameras' raw files, including Sony, Panasonic, Canon, Nikon, Olympus.
 
 ## Shortcut list
