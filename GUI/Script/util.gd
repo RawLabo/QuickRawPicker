@@ -66,3 +66,11 @@ func gcd(a, b):
     
   return gcd(b, a % b)
   
+func path_fix(path):
+  return path.replace("/", "\\") if is_windows else path
+
+func copy_file(from, to):
+  if is_windows:
+    return OS.execute("xcopy", ["/i", "/d", "/y", path_fix(from), path_fix(to)])
+  else:
+    return OS.execute("cp", ["-n", from, to])

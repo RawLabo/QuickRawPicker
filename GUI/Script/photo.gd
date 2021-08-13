@@ -57,7 +57,7 @@ class PhotoSorter:
     
 func _init(dir_path, name):
   file_name = name
-  file_path = dir_path + "/" + file_name
+  file_path = Util.path_fix(dir_path + "/" + file_name)
   file_mod_time = Util.get_file_mod_time(file_path)
   
   thumb_texture = ImageTexture.new()

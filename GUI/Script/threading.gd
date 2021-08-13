@@ -19,11 +19,12 @@ func export_files(args):
   var export_patterns = args[3][1]
   var progress_bar = args[3][2]
   
-  var directory = Directory.new()
   progress_bar.max_value = photos.size()
   for i in range(photos.size()):
     progress_bar.value = i
-    directory.copy(photos[i].file_path, dir + "/" + photos[i].file_name)
+    # copy raw file
+    Util.copy_file(photos[i].file_path, dir)
+    
     for pattern in export_patterns:
       var file_name = photos[i].file_name
       if pattern[0] == "$":
@@ -35,8 +36,9 @@ func export_files(args):
         continue
         
       var file_path = photos[i].file_path.replace(photos[i].file_name, "") + file_name
-      if directory.file_exists(file_path):
-        directory.copy(file_path, dir + "/" + file_name)
+      if Util._d.file_exists(file_path):
+        # copy associated files
+        Util.copy_file(file_path, dir)
 
   call_deferred("thread_end", "file_exported", args)
 
@@ -45,10 +47,8 @@ func get_raw_thumb(args):
   var info = []
   var data_arr = []
   
-  var file_path = photo.file_path.replace("/", "\\") if Util.is_windows else photo.file_path
-  
   Util.log("get_info_with_thumb_before", {"name": photo.file_name, "thread": args[1].get_id()}, false)
-  Util.Bridge.get_info_with_thumb(file_path, info, data_arr)
+  Util.Bridge.get_info_with_thumb(photo.file_path, info, data_arr)
   
   var image = Image.new()
   if info.size() > 0:
@@ -109,9 +109,8 @@ func get_raw_image(args):
     photo.full_texture.create_from_image(img, 0)
   
   var data = []
-  var file_path = photo.file_path.replace("/", "\\") if Util.is_windows else photo.file_path
   Util.log("get_image_data_before", {"name": photo.file_name, "thread": args[1].get_id()}, false)
-  Util.Bridge.get_image_data(file_path, data, Settings.bps, false, Settings.auto_bright, Settings.output_color)
+  Util.Bridge.get_image_data(photo.file_path, data, Settings.bps, false, Settings.auto_bright, Settings.output_color)
   
   var image = Image.new()
   image.create_from_data(photo.width, photo.height, false, Image.FORMAT_RGBH if Settings.bps == 16 else Image.FORMAT_RGB8, data)
