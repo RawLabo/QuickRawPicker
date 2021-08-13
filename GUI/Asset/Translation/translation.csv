@@ -19,7 +19,11 @@ cache_round:,Cache round:,缓存轮数:,キャッシュ回数:
 color_space:,Color space:,色彩空间:,カラースペース:
 rating_type:,Rating type:,评分类型:,評価タイプ:
 lang:,Language:,语言:,言語:
-renderer:,Renderer(restart needed):,渲染器(需要重启):,レンダラー(再起動が必要):
+renderer:,Renderer(restart needed):,渲染器(此项需要重启):,レンダラー(再起動が必要):
+render,Render,渲染,レンダー
 export_associated:,Export associated:,导出相关联文件:,関連ファイルの書き出し:
 reset,Reset,重置,リセット
 compare,Compare,比较,比較
+general,General,通用,一般
+shadow_thld:,Shadow Threshold:,阴影阈值:,シャドー閾値:
+highlight_thld:,Highlight Threshold:,高光阈值:,ハイライトの閾値:

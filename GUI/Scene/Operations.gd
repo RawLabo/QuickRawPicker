@@ -8,9 +8,9 @@ var dialog_type = DialogType.OpenDir
 func _ready():
   $Container/Fn.get_popup().connect("id_pressed", self, "_on_Fn_id_pressed")
   for key in Settings.OutputColors.keys():
-    $SettingsDialog/Grid/DisplayColorSpaceOption.add_item(key)
+    $SettingsDialog/Tabs/general/DisplayColorSpaceOption.add_item(key)
   for key in Settings.RatingType.keys():
-    $SettingsDialog/Grid/RatingTypeOption.add_item(key)
+    $SettingsDialog/Tabs/general/RatingTypeOption.add_item(key)
   
 func _on_Reset_pressed():
   Util.log("_on_Reset_pressed")
@@ -18,14 +18,16 @@ func _on_Reset_pressed():
   update_settings_dialog()
   
 func update_settings_dialog():
-  $SettingsDialog/Grid/BpsOption.select(0 if Settings.bps == 16 else 1)
-  $SettingsDialog/Grid/ShowThumbFirstOption.select(0 if Settings.show_thumb_first else 1)
-  $SettingsDialog/Grid/CacheRoundSpinBox.value = Settings.cache_round
-  $SettingsDialog/Grid/DisplayColorSpaceOption.select(int(Settings.output_color))
-  $SettingsDialog/Grid/RatingTypeOption.select(int(Settings.rating_type))
-  $SettingsDialog/Grid/LanguageOption.select(Settings.Language[Settings.language])
-  $SettingsDialog/Grid/RendererOption.select(0 if Settings.renderer == "GLES3" else 1)
-  $SettingsDialog/Grid/ExportAssociatedLabelEdit.text = Settings.export_associated
+  $SettingsDialog/Tabs/general/BpsOption.select(0 if Settings.bps == 16 else 1)
+  $SettingsDialog/Tabs/general/ShowThumbFirstOption.select(0 if Settings.show_thumb_first else 1)
+  $SettingsDialog/Tabs/general/CacheRoundSpinBox.value = Settings.cache_round
+  $SettingsDialog/Tabs/general/DisplayColorSpaceOption.select(int(Settings.output_color))
+  $SettingsDialog/Tabs/general/RatingTypeOption.select(int(Settings.rating_type))
+  $SettingsDialog/Tabs/general/LanguageOption.select(Settings.Language[Settings.language])
+  $SettingsDialog/Tabs/general/ExportAssociatedLabelEdit.text = Settings.export_associated
+  $SettingsDialog/Tabs/render/RendererOption.select(0 if Settings.renderer == "GLES3" else 1)
+  $SettingsDialog/Tabs/render/ShadowThldBox.value = Settings.shadow_thld
+  $SettingsDialog/Tabs/render/HighlightThldBox.value = Settings.highlight_thld
   
 func popup_about_dialog():
   var about = AcceptDialog.new()
@@ -133,9 +135,23 @@ func _on_LanguageOption_item_selected(index):
   Settings.update_title()
 
 func _on_RendererOption_item_selected(index):
-  Settings.renderer = $SettingsDialog/Grid/RendererOption.get_item_text(index)
+  Settings.renderer = $SettingsDialog/Tabs/render/RendererOption.get_item_text(index)
   Settings.save_settings()
   
 func _on_ExportAssociatedLabelEdit_text_changed(new_text):
   Settings.export_associated = new_text
   Settings.save_settings()
+
+func _on_ShadowThldBox_value_changed(value):
+  Settings.shadow_thld = value
+  Settings.save_settings()
+
+func _on_HighlightThldBox_value_changed(value):
+  Settings.highlight_thld = value
+  Settings.save_settings()
+
+func _on_ShadowThldBox_focus_exited():
+  $SettingsDialog/Tabs/render/ShadowThldBox.value = Settings.shadow_thld
+
+func _on_HighlightThldBox_focus_exited():
+  $SettingsDialog/Tabs/render/HighlightThldBox.value = Settings.highlight_thld

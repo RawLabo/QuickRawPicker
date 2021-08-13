@@ -12,6 +12,8 @@ var renderer = "GLES3"
 var export_associated = ""
 var open_folder = ""
 var export_folder = ""
+var shadow_thld = 0.1
+var highlight_thld = 99.9
 
 var select_color = Color(1, 1, 1)
 var mark_color = Color(0.5, 1, 0.3)
@@ -89,6 +91,8 @@ func reset():
   language = get_fixed_locale()
   renderer = "GLES3"
   export_associated = ""
+  shadow_thld = 0.1
+  highlight_thld = 99.9
   save_settings()
   update_title()
   
@@ -112,7 +116,9 @@ func save_settings():
       OS.window_size.x,
       OS.window_size.y,
       OS.window_maximized
-    ]
+    ],
+    "shadow_thld": shadow_thld,
+    "highlight_thld": highlight_thld
   })
   TranslationServer.set_locale(language)
   
@@ -140,6 +146,8 @@ func load_settings():
     export_associated = dict.get("export_associated", "")
     open_folder = dict.get("open_folder", "")
     export_folder = dict.get("export_folder", "")
+    shadow_thld = dict.get("shadow_thld", 0.1)
+    highlight_thld = dict.get("highlight_thld", 99.9)
     
     # apply settings
     var window_props = dict.get("window_props", [])
