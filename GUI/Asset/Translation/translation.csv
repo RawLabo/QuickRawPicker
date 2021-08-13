@@ -26,4 +26,4 @@ reset,Reset,重置,リセット
 compare,Compare,比较,比較
 general,General,通用,一般
 shadow_thld:,Shadow Threshold:,阴影阈值:,シャドー閾値:
-highlight_thld:,Highlight Threshold:,高光阈值:,ハイライトの閾値:
+highlight_thld:,Highlight Threshold:,高光阈值:,ハイライト閾値:
