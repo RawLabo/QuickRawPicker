@@ -27,7 +27,8 @@ func update_settings_dialog():
   $SettingsDialog/Tabs/general/ExportAssociatedLabelEdit.text = Settings.export_associated
   $SettingsDialog/Tabs/render/RendererOption.select(0 if Settings.renderer == "GLES3" else 1)
   $SettingsDialog/Tabs/render/ShadowThldBox.value = Settings.shadow_thld
-  $SettingsDialog/Tabs/render/HighlightThldBox.value = Settings.highlight_thld
+  $SettingsDialog/Tabs/render/HighlightBox/HighlightThldBox.value = Settings.highlight_thld
+  $SettingsDialog/Tabs/render/HighlightBox/OneChannel.pressed = Settings.highlight_one_channel
   
 func popup_about_dialog():
   var about = AcceptDialog.new()
@@ -154,4 +155,8 @@ func _on_ShadowThldBox_focus_exited():
   $SettingsDialog/Tabs/render/ShadowThldBox.value = Settings.shadow_thld
 
 func _on_HighlightThldBox_focus_exited():
-  $SettingsDialog/Tabs/render/HighlightThldBox.value = Settings.highlight_thld
+  $SettingsDialog/Tabs/render/HighlightBox/HighlightThldBox.value = Settings.highlight_thld
+
+func _on_OneChannel_toggled(button_pressed):
+  Settings.highlight_one_channel = button_pressed
+  Settings.save_settings()

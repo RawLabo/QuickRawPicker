@@ -5,13 +5,12 @@ code = "shader_type canvas_item;
 
 uniform float exposure = 0.0;
 uniform float gamma_correction = 1.0;
-uniform float shadow_draw = 1.0;
-uniform float highlight_draw = 1.0;
 
-float get_luminance(vec3 color) {
-  // BT.2020
-  return 0.2627 * color.r + 0.6780 * color.g + 0.0593 * color.b;
-}
+uniform float shadow_enable = 1.0;
+uniform float highlight_enable = 1.0;
+uniform float shadow_thld = 0.01;
+uniform float highlight_thld = 0.99;
+uniform float highlight_one_channel = 0;
 
 void fragment() {
   vec3 center = texture(TEXTURE, UV).rgb;
@@ -20,18 +19,26 @@ void fragment() {
   vec3 gamma_corrected = pow(center, 1.0 / vec3(gamma_correction));
   vec3 exposure_adjusted = min(gamma_corrected * pow(2, exposure), vec3(1.0));
 
-  float luminance = get_luminance(exposure_adjusted);
+  float rs = 1.0 - step(shadow_thld, exposure_adjusted.r);
+  float gs = 1.0 - step(shadow_thld, exposure_adjusted.g);
+  float bs = 1.0 - step(shadow_thld, exposure_adjusted.b);
+  
+  float rh = step(highlight_thld, exposure_adjusted.r);
+  float gh = step(highlight_thld, exposure_adjusted.g);
+  float bh = step(highlight_thld, exposure_adjusted.b);
+  
   // draw shadow pixels
   vec3 shadow_drawed = mix(
     exposure_adjusted, 
     vec3(0.0, 1.0, 0.0), 
-    (1.0 - step(0.01, luminance)) * shadow_draw
+    shadow_enable * rs * gs * bs
   );
+  
   // draw highlight pixels
   vec3 highlight_drawed = mix(
     shadow_drawed, 
-    vec3(1.0, 0.0, 0.0), 
-    step(0.99, luminance) * highlight_draw
+    vec3(1.0, 0.0, 0.0),
+    highlight_enable * mix(rh * gh * bh, 1.0 - (1.0 - rh) * (1.0 - gh) * (1.0 - bh), highlight_one_channel)
   );
   
   COLOR.rgb = highlight_drawed;
@@ -42,5 +49,8 @@ resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/exposure = 0.0
 shader_param/gamma_correction = 1.0
-shader_param/shadow_draw = 1.0
-shader_param/highlight_draw = 1.0
+shader_param/shadow_enable = 1.0
+shader_param/highlight_enable = 1.0
+shader_param/shadow_thld = 0.01
+shader_param/highlight_thld = 0.99
+shader_param/highlight_one_channel = 0.0

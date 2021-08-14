@@ -15,11 +15,13 @@ var scale_options = [
 ]
 
 var photo : Photo = null
-var gamma = 1.0
-var EV = 0
 var scale_index = 0
-var highlight_draw = 0.0
-var shadow_draw = 0.0
+
+# shader
+var EV = 0
+var gamma = 1.0
+var shadow_enable = false
+var highlight_enable = false
 
 func select():
   Util.log("frame_select")
@@ -50,20 +52,13 @@ func update_shader():
   if gamma < 0.0:
     gamma = 0.0
     
-  if shadow_draw < 0:
-    shadow_draw = 0
-  elif shadow_draw > 1.0:
-    shadow_draw = 1.0
-    
-  if highlight_draw < 0:
-    highlight_draw = 0
-  elif highlight_draw > 1.0:
-    highlight_draw = 1.0
-    
   $Photo.material.set_shader_param("exposure", EV)
   $Photo.material.set_shader_param("gamma_correction", gamma)
-  $Photo.material.set_shader_param("shadow_draw", shadow_draw)
-  $Photo.material.set_shader_param("highlight_draw", highlight_draw)
+  $Photo.material.set_shader_param("shadow_enable", 1.0 if shadow_enable else 0.0)
+  $Photo.material.set_shader_param("highlight_enable", 1.0 if highlight_enable else 0.0)
+  $Photo.material.set_shader_param("shadow_thld", Settings.shadow_thld / 100.0)
+  $Photo.material.set_shader_param("highlight_thld", Settings.highlight_thld / 100.0)
+  $Photo.material.set_shader_param("highlight_one_channel", Settings.highlight_one_channel)
   
   update_top_info()
   
@@ -236,10 +231,10 @@ func toggle_shadow():
   
 func _on_Highlight_toggled(button_pressed):
   Util.log("_on_Highlight_toggled", {"pressed": button_pressed})
-  highlight_draw = 1.0 if button_pressed else 0.0
+  highlight_enable = button_pressed
   update_shader()
 
 func _on_Shadow_toggled(button_pressed):
   Util.log("_on_Shadow_toggled", {"pressed": button_pressed})
-  shadow_draw = 1.0 if button_pressed else 0.0
+  shadow_enable = button_pressed
   update_shader()

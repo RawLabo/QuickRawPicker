@@ -110,7 +110,7 @@ func get_raw_image(args):
   
   var data = []
   Util.log("get_image_data_before", {"name": photo.file_name, "thread": args[1].get_id()}, false)
-  Util.Bridge.get_image_data(photo.file_path, data, Settings.bps, false, Settings.auto_bright, Settings.output_color)
+  Util.Bridge.get_image_data(photo.file_path, data, Settings.bps, false, false, Settings.output_color)
   
   var image = Image.new()
   image.create_from_data(photo.width, photo.height, false, Image.FORMAT_RGBH if Settings.bps == 16 else Image.FORMAT_RGB8, data)

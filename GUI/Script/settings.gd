@@ -1,19 +1,29 @@
 extends Node
 
-const auto_bright = false
+const BPS = 16
+const SHOW_THUMB_FIRST = true
+const CACHE_ROUND = 2
+var OUTPUT_COLOR = OutputColors.SRGB
+var RATING_TYPE = RatingType.AdobeXMP
+const RENDERER = "GLES3"
+const EXPORT_ASSOCIATED = ""
+const SHADOW_THLD = 4.5
+const HIGHLIGHT_THLD = 99.9
+const HIGHLIGHT_ONE_CHANNEL = true
 
-var bps = 16
-var show_thumb_first = true
-var cache_round = 2
-var output_color = OutputColors.SRGB
-var rating_type = RatingType.AdobeXMP
-onready var language = get_fixed_locale()
-var renderer = "GLES3"
-var export_associated = ""
+var bps = BPS
+var show_thumb_first = SHOW_THUMB_FIRST
+var cache_round = CACHE_ROUND
+var output_color = OUTPUT_COLOR
+var rating_type = RATING_TYPE
+var renderer = RENDERER
+var export_associated = EXPORT_ASSOCIATED
 var open_folder = ""
 var export_folder = ""
-var shadow_thld = 0.1
-var highlight_thld = 99.9
+var shadow_thld = SHADOW_THLD
+var highlight_thld = HIGHLIGHT_THLD
+var highlight_one_channel = HIGHLIGHT_ONE_CHANNEL
+onready var language = get_fixed_locale()
 
 var select_color = Color(1, 1, 1)
 var mark_color = Color(0.5, 1, 0.3)
@@ -83,16 +93,17 @@ func update_title():
   OS.set_window_title("%s %s / %s %s / %s %s" % [project_name, version, tr("display_bit:"), bps, tr("color_space:"), OutputColors.keys()[output_color]])
   
 func reset():
-  bps = 16
-  show_thumb_first = true
-  cache_round = 2
-  output_color = OutputColors.SRGB
-  rating_type = RatingType.AdobeXMP
+  bps = BPS
+  show_thumb_first = SHOW_THUMB_FIRST
+  cache_round = CACHE_ROUND
+  output_color = OUTPUT_COLOR
+  rating_type = RATING_TYPE
   language = get_fixed_locale()
-  renderer = "GLES3"
-  export_associated = ""
-  shadow_thld = 0.1
-  highlight_thld = 99.9
+  renderer = RENDERER
+  export_associated = EXPORT_ASSOCIATED
+  shadow_thld = SHADOW_THLD
+  highlight_thld = HIGHLIGHT_THLD
+  highlight_one_channel = HIGHLIGHT_ONE_CHANNEL
   save_settings()
   update_title()
   
@@ -118,7 +129,8 @@ func save_settings():
       OS.window_maximized
     ],
     "shadow_thld": shadow_thld,
-    "highlight_thld": highlight_thld
+    "highlight_thld": highlight_thld,
+    "highlight_one_channel": highlight_one_channel
   })
   TranslationServer.set_locale(language)
   
@@ -137,17 +149,18 @@ func load_settings():
     var content = file.get_as_text()
     var dict = JSON.parse(content).result
     
-    bps = dict.get("bps", 16)
-    show_thumb_first = dict.get("show_thumb_first", true)
-    cache_round = dict.get("cache_round", 2)
-    output_color = dict.get("output_color", OutputColors.SRGB)
-    rating_type = dict.get("rating_type", RatingType.AdobeXMP)
+    bps = dict.get("bps", BPS)
+    show_thumb_first = dict.get("show_thumb_first", SHOW_THUMB_FIRST)
+    cache_round = dict.get("cache_round", CACHE_ROUND)
+    output_color = dict.get("output_color", OUTPUT_COLOR)
+    rating_type = dict.get("rating_type", RATING_TYPE)
     language = dict.get("language", get_fixed_locale())
-    export_associated = dict.get("export_associated", "")
+    export_associated = dict.get("export_associated", EXPORT_ASSOCIATED)
     open_folder = dict.get("open_folder", "")
     export_folder = dict.get("export_folder", "")
-    shadow_thld = dict.get("shadow_thld", 0.1)
-    highlight_thld = dict.get("highlight_thld", 99.9)
+    shadow_thld = dict.get("shadow_thld", SHADOW_THLD)
+    highlight_thld = dict.get("highlight_thld", HIGHLIGHT_THLD)
+    highlight_one_channel = dict.get("highlight_one_channel", HIGHLIGHT_ONE_CHANNEL)
     
     # apply settings
     var window_props = dict.get("window_props", [])
@@ -163,11 +176,11 @@ func load_settings():
   file.close()
 
 func load_renderer():
-  renderer = "GLES3"
+  renderer = RENDERER
   var config = ConfigFile.new()
   var err = config.load("user://config.cfg")
   if err == OK:
-    renderer = config.get_value("rendering", "quality/driver/driver_name", "GLES3")
+    renderer = config.get_value("rendering", "quality/driver/driver_name", RENDERER)
   
 func save_renderer():
   var config = ConfigFile.new()
