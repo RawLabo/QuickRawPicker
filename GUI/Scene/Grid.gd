@@ -88,6 +88,9 @@ func frame_op(is_up, with_shift, with_alt, with_ctrl):
     
 func _input(event):
   if event is InputEventKey and event.pressed:
+    if Util.Nodes["Main"].is_settings_dialog_open():
+      return
+    
     var with_ctrl = event.control or event.command
     var with_alt = event.alt
     var with_shift = event.shift

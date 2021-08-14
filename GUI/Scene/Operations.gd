@@ -11,6 +11,9 @@ func _ready():
     $SettingsDialog/Tabs/general/DisplayColorSpaceOption.add_item(key)
   for key in Settings.RatingType.keys():
     $SettingsDialog/Tabs/general/RatingTypeOption.add_item(key)
+
+func is_settings_dialog_open():
+  return $SettingsDialog.visible
   
 func _on_Reset_pressed():
   Util.log("_on_Reset_pressed")

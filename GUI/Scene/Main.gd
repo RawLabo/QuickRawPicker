@@ -13,6 +13,9 @@ func show_fullscreen_photo(photo_frame):
     $PhotoFrame.update_shader()
     $PhotoFrame.set_deferred("visible", true)
   
+func is_settings_dialog_open():
+  return $LeftPanel/Operations.is_settings_dialog_open()
+  
 func _input(event):
   if event is InputEventMouseMotion:
     if event.position.x < 100 and $LeftPanel.rect_position.x <= -200:
