@@ -23,6 +23,7 @@ func _on_Reset_pressed():
 func update_settings_dialog():
   $SettingsDialog/Tabs/general/BpsOption.select(0 if Settings.bps == 16 else 1)
   $SettingsDialog/Tabs/general/ShowThumbFirstOption.select(0 if Settings.show_thumb_first else 1)
+  $SettingsDialog/Tabs/general/ZoomAtAFPointOption.select(0 if Settings.zoom_at_af_point else 1)
   $SettingsDialog/Tabs/general/CacheRoundSpinBox.value = Settings.cache_round
   $SettingsDialog/Tabs/general/DisplayColorSpaceOption.select(int(Settings.output_color))
   $SettingsDialog/Tabs/general/RatingTypeOption.select(int(Settings.rating_type))
@@ -117,6 +118,10 @@ func _on_ShowThumbFirstOption_item_selected(index):
   Settings.show_thumb_first = index == 0
   Settings.save_settings()
   
+func _on_ZoomAtAFPointOption_item_selected(index):
+  Settings.zoom_at_af_point = index == 0
+  Settings.save_settings()
+  
 func _on_CacheRoundSpinBox_value_changed(value):
   Settings.cache_round = value
   Settings.save_settings()
@@ -126,6 +131,7 @@ func _on_DisplayColorSpaceOption_item_selected(index):
   Settings.save_settings()
   Settings.update_title()
 
+  
 func _on_RatingTypeOption_item_selected(index):
   Settings.rating_type = index
   Settings.save_settings()
@@ -163,3 +169,4 @@ func _on_HighlightThldBox_focus_exited():
 func _on_OneChannel_toggled(button_pressed):
   Settings.highlight_one_channel = button_pressed
   Settings.save_settings()
+

@@ -75,7 +75,7 @@ func init(w, h, input_photo, is_overlay = false):
   # init frame size and scale params
   rect_min_size = Vector2(w, h)
   scale_options[0] = min(rect_min_size.x / photo.width, rect_min_size.y / photo.height)
-  
+
   # set $Photo properties
   $Photo.position = vec_int(rect_min_size / 2)
   $Photo.texture = photo.full_texture
@@ -136,7 +136,7 @@ func update_top_info():
 func reset_size():
   rescale(true, 1 if scale_index == 0 else 0)
 
-func rescale(is_scale_up, index = -1):
+func rescale(is_scale_up, index = -1, reposition_center = false):
   var prev_scale_index = scale_index
   if index > -1:
     scale_index = index
@@ -153,10 +153,11 @@ func rescale(is_scale_up, index = -1):
   var factor = scale_options[scale_index]
   
   $Photo.scale = Vector2(factor, factor)
-  if prev_scale_index == 0 and scale_index == 1 and $Photo/FocusPos.visible:
+  if Settings.zoom_at_af_point and prev_scale_index == 0 and scale_index == 1 and $Photo/FocusPos.visible:
     reposition((1 if $Photo.rotation_degrees == 180 else -1) * $Photo/FocusPos.position)
-  else:    
-    reposition(($Photo.position - rect_min_size / 2) * (factor / pre_factor - 1))
+  else:
+    var pos = rect_min_size / 2 if reposition_center else Util.Nodes["Grid"].cursor_pos_in_frame
+    reposition(($Photo.position - pos) * (factor / pre_factor) + rect_min_size / 2 - $Photo.position)
   
 
 func reposition(pos):
@@ -238,3 +239,7 @@ func _on_Shadow_toggled(button_pressed):
   Util.log("_on_Shadow_toggled", {"pressed": button_pressed})
   shadow_enable = button_pressed
   update_shader()
+
+func _on_PhotoFrame_gui_input(event):
+  if event is InputEventMouseMotion:
+    Util.Nodes["Grid"].cursor_pos_in_frame = event.position

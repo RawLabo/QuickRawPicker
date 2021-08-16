@@ -21,6 +21,8 @@ const pattern = {
   12: [4, 3]
 }
 
+var cursor_pos_in_frame = Vector2.ZERO
+
 func clear_photos():
   for item in get_children():
     item.queue_free()
@@ -83,7 +85,7 @@ func frame_op(is_up, with_shift, with_alt, with_ctrl):
       frame.update_shader()
       continue
       
-    frame.rescale(is_up)
+    frame.rescale(is_up, -1, not hovering_frame)
     
     
 func _input(event):

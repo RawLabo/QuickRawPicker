@@ -10,6 +10,7 @@ const EXPORT_ASSOCIATED = ""
 const SHADOW_THLD = 4.5
 const HIGHLIGHT_THLD = 99.9
 const HIGHLIGHT_ONE_CHANNEL = true
+const ZOOM_AT_AF_POINT = true
 
 var bps = BPS
 var show_thumb_first = SHOW_THUMB_FIRST
@@ -23,6 +24,7 @@ var export_folder = ""
 var shadow_thld = SHADOW_THLD
 var highlight_thld = HIGHLIGHT_THLD
 var highlight_one_channel = HIGHLIGHT_ONE_CHANNEL
+var zoom_at_af_point = ZOOM_AT_AF_POINT
 onready var language = get_fixed_locale()
 
 var select_color = Color(1, 1, 1)
@@ -104,6 +106,7 @@ func reset():
   shadow_thld = SHADOW_THLD
   highlight_thld = HIGHLIGHT_THLD
   highlight_one_channel = HIGHLIGHT_ONE_CHANNEL
+  zoom_at_af_point = ZOOM_AT_AF_POINT
   save_settings()
   update_title()
   
@@ -130,7 +133,8 @@ func save_settings():
     ],
     "shadow_thld": shadow_thld,
     "highlight_thld": highlight_thld,
-    "highlight_one_channel": highlight_one_channel
+    "highlight_one_channel": highlight_one_channel,
+    "zoom_at_af_point": zoom_at_af_point
   })
   TranslationServer.set_locale(language)
   
@@ -161,6 +165,7 @@ func load_settings():
     shadow_thld = dict.get("shadow_thld", SHADOW_THLD)
     highlight_thld = dict.get("highlight_thld", HIGHLIGHT_THLD)
     highlight_one_channel = dict.get("highlight_one_channel", HIGHLIGHT_ONE_CHANNEL)
+    zoom_at_af_point = dict.get("zoom_at_af_point", ZOOM_AT_AF_POINT)
     
     # apply settings
     var window_props = dict.get("window_props", [])
