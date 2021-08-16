@@ -18,7 +18,7 @@ var photo : Photo = null
 var scale_index = 0
 
 # shader
-var EV = 0
+var EV = Settings.ev
 var gamma = 1.0
 var shadow_enable = false
 var highlight_enable = false
@@ -82,7 +82,7 @@ func init(w, h, input_photo, is_overlay = false):
   $Photo.scale = Vector2(scale_options[0], scale_options[0])
   
   # set shader
-  gamma = 2.2 if photo.has_processed() else 1.0
+  gamma = Settings.gamma if photo.has_processed() else 1.0
   update_shader()
   
   # set Labels
@@ -111,7 +111,7 @@ func init(w, h, input_photo, is_overlay = false):
 func _on_PhotoFrame_image_parsed(_photo):
   $LoadingLabel.visible = false
   $TopContainer.visible = true
-  gamma = 2.2
+  gamma = Settings.gamma
   update_shader()
   
   call_deferred("update_focus")

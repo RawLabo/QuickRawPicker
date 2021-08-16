@@ -11,6 +11,8 @@ const SHADOW_THLD = 4.5
 const HIGHLIGHT_THLD = 99.9
 const HIGHLIGHT_ONE_CHANNEL = true
 const ZOOM_AT_AF_POINT = true
+const EV = 0.0
+const GAMMA = 2.2
 
 var bps = BPS
 var show_thumb_first = SHOW_THUMB_FIRST
@@ -25,6 +27,8 @@ var shadow_thld = SHADOW_THLD
 var highlight_thld = HIGHLIGHT_THLD
 var highlight_one_channel = HIGHLIGHT_ONE_CHANNEL
 var zoom_at_af_point = ZOOM_AT_AF_POINT
+var ev = EV
+var gamma = GAMMA
 onready var language = get_fixed_locale()
 
 var select_color = Color(1, 1, 1)
@@ -107,6 +111,8 @@ func reset():
   highlight_thld = HIGHLIGHT_THLD
   highlight_one_channel = HIGHLIGHT_ONE_CHANNEL
   zoom_at_af_point = ZOOM_AT_AF_POINT
+  ev = EV
+  gamma = GAMMA
   save_settings()
   update_title()
   
@@ -134,7 +140,9 @@ func save_settings():
     "shadow_thld": shadow_thld,
     "highlight_thld": highlight_thld,
     "highlight_one_channel": highlight_one_channel,
-    "zoom_at_af_point": zoom_at_af_point
+    "zoom_at_af_point": zoom_at_af_point,
+    "ev": ev,
+    "gamma": gamma
   })
   TranslationServer.set_locale(language)
   
@@ -166,6 +174,8 @@ func load_settings():
     highlight_thld = dict.get("highlight_thld", HIGHLIGHT_THLD)
     highlight_one_channel = dict.get("highlight_one_channel", HIGHLIGHT_ONE_CHANNEL)
     zoom_at_af_point = dict.get("zoom_at_af_point", ZOOM_AT_AF_POINT)
+    ev = dict.get("ev", EV)
+    gamma = dict.get("gamma", GAMMA)
     
     # apply settings
     var window_props = dict.get("window_props", [])

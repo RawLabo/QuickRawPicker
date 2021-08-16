@@ -29,3 +29,5 @@ shadow_thld:,Shadow Threshold:,阴影阈值:,シャドー閾値:
 highlight_thld:,Highlight Threshold:,高光阈值:,ハイライト閾値:
 one_channel,One channel,单通道,1チャンネル
 zoom_at_af_point:,Zoom at AF point:,缩放到自动对焦点:,AFポイントにズーム:
+default_ev:,Default EV:,默认曝光:,デフォルト露出値:
+default_gamma:,Default Gamma:,默认伽马值:,デフォルトガンマ:

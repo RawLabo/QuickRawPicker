@@ -279,6 +279,31 @@ size_flags_vertical = 4
 custom_constants/check_vadjust = 1
 text = "one_channel"
 
+[node name="DefaultEVLabel" type="Label" parent="SettingsDialog/Tabs/render"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "default_ev:"
+align = 2
+
+[node name="DefaultEVBox" type="SpinBox" parent="SettingsDialog/Tabs/render"]
+margin_right = 74.0
+margin_bottom = 24.0
+min_value = -12.0
+max_value = 12.0
+step = 0.1
+
+[node name="DefaultGammaLabel" type="Label" parent="SettingsDialog/Tabs/render"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "default_gamma:"
+align = 2
+
+[node name="DefaultGammaBox" type="SpinBox" parent="SettingsDialog/Tabs/render"]
+margin_right = 74.0
+margin_bottom = 24.0
+max_value = 10.0
+step = 0.1
+
 [node name="ExportProgress" type="PopupDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -348,9 +373,9 @@ items = [ "export_marked", null, 0, false, false, 100, 0, null, "", false, "sett
 [connection signal="text_changed" from="SettingsDialog/Tabs/general/ExportAssociatedLabelEdit" to="." method="_on_ExportAssociatedLabelEdit_text_changed"]
 [connection signal="pressed" from="SettingsDialog/Tabs/general/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="item_selected" from="SettingsDialog/Tabs/render/RendererOption" to="." method="_on_RendererOption_item_selected"]
-[connection signal="focus_exited" from="SettingsDialog/Tabs/render/ShadowThldBox" to="." method="_on_ShadowThldBox_focus_exited"]
 [connection signal="value_changed" from="SettingsDialog/Tabs/render/ShadowThldBox" to="." method="_on_ShadowThldBox_value_changed"]
-[connection signal="focus_exited" from="SettingsDialog/Tabs/render/HighlightBox/HighlightThldBox" to="." method="_on_HighlightThldBox_focus_exited"]
 [connection signal="value_changed" from="SettingsDialog/Tabs/render/HighlightBox/HighlightThldBox" to="." method="_on_HighlightThldBox_value_changed"]
 [connection signal="toggled" from="SettingsDialog/Tabs/render/HighlightBox/OneChannel" to="." method="_on_OneChannel_toggled"]
+[connection signal="value_changed" from="SettingsDialog/Tabs/render/DefaultEVBox" to="." method="_on_DefaultEVBox_value_changed"]
+[connection signal="value_changed" from="SettingsDialog/Tabs/render/DefaultGammaBox" to="." method="_on_DefaultGammaBox_value_changed"]
 [connection signal="pressed" from="Container/OpenFolder" to="." method="_on_OpenFolder_pressed"]

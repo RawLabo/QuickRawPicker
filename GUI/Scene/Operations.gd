@@ -33,6 +33,9 @@ func update_settings_dialog():
   $SettingsDialog/Tabs/render/ShadowThldBox.value = Settings.shadow_thld
   $SettingsDialog/Tabs/render/HighlightBox/HighlightThldBox.value = Settings.highlight_thld
   $SettingsDialog/Tabs/render/HighlightBox/OneChannel.pressed = Settings.highlight_one_channel
+  $SettingsDialog/Tabs/render/DefaultEVBox.value = Settings.ev
+  $SettingsDialog/Tabs/render/DefaultGammaBox.value = Settings.gamma
+  
   
 func popup_about_dialog():
   var about = AcceptDialog.new()
@@ -160,13 +163,14 @@ func _on_HighlightThldBox_value_changed(value):
   Settings.highlight_thld = value
   Settings.save_settings()
 
-func _on_ShadowThldBox_focus_exited():
-  $SettingsDialog/Tabs/render/ShadowThldBox.value = Settings.shadow_thld
-
-func _on_HighlightThldBox_focus_exited():
-  $SettingsDialog/Tabs/render/HighlightBox/HighlightThldBox.value = Settings.highlight_thld
-
 func _on_OneChannel_toggled(button_pressed):
   Settings.highlight_one_channel = button_pressed
   Settings.save_settings()
 
+func _on_DefaultEVBox_value_changed(value):
+  Settings.ev = value
+  Settings.save_settings()
+
+func _on_DefaultGammaBox_value_changed(value):
+  Settings.gamma = value
+  Settings.save_settings()
