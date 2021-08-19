@@ -33,43 +33,14 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 * Export marked photos and associated files(Like `.JPG` and `.xmp`) by copying.
 * Display AF point for different cameras' raw files, including Sony, Panasonic, Canon, Nikon, Olympus.
 
-## Shortcut list
+### Shortcuts
+**[👉 Go shortcuts doc page](./Doc/Shortcuts.md)**
 
-### Global
-|Key|Description|
-|---|-----------|
-|Key_C|Compare the selected photos|
-|Key_F11|Toggle the fullscreen mode|
-|Key_F12|Toggle the system info|
+### Settings
+**[👉 Go settings doc page](./Doc/Settings.md)**
 
-### In thumbnail list
-|Key|Description|
-|---|-----------|
-|Alt + LeftClick|**Toggle mark on the pointing photo**|
-|Shift + LeftClick|Select multiple photos from start to end to compare|
-|Command/Ctrl + LeftClick|Pick multiple photos to compare|
-
-### In photo area
-|Key|Description|
-|---|-----------|
-|MouseWheel / Key, Key. / Key- Key= / Key_Q Key_E|Resize all photos|
-|Command/Ctrl + Resize|Adjust all photos' EV|
-|Alt + Resize|Adjust all photos' Gamma|
-|Shift + **one of the above three**|Resize/adjust the pointing photo|
-|Alt + LeftClick|Toggle mark on the pointing photo|
-|Command/Ctrl + LeftClick|Toggle selection on the pointing photo|
-|Key_F|View the pointing photo at fullscreen|
-|Key_R|Rotate the pointing photo for 180 degree|
-|Key_A|Toggle the AF point on the pointing photo|
-|Key_H|Turn the highlight area on the pointing photo into red color|
-|Key_S|Turn the shadow area on the pointing photo into green color|
-|1,2,3,4,5|**Rate the pointing photo**|
-
-### Settings explanation
-|Item|Description|
-|----|-----------|
-|Renderer|For most cases, GLES3 is the best choice. However, if your graphics card is too old, you have black screens when opening photos or performance problems when opening too many photos at the same time, you can still choose to use GLES2.|
-|Export associated|The delimiter must be `/`<br>`$` means the raw file name without the extension(Like `DSC00032`)<br>`#` means the raw file name.(Like `DSC00032.ARW`)<br>For example:<br>`$.JPG` means also copy a file named `DSC00032.JPG`<br>`#.xmp` means also copy a file named `DSC00032.ARW.xmp`<br>`$.xmp` means also copy a file named `DSC00032.xmp`|
+### Compilation
+**[👉 Go compilation doc page](./Doc/Compilation.md)**
 
 ## Workflows
 1. **By rating**. By Rating your raw photos in QuickRawPicker, the rating score will be written into the sidecar file `xmp` or `pp3`. And then you can filter and edit them in Adobe Bridge, Lightroom, Darktable or Rawtherapee directly. [demo](https://github.com/qdwang/QuickRawPicker/discussions/4)
