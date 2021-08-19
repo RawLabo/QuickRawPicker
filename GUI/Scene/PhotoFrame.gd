@@ -153,11 +153,14 @@ func rescale(is_scale_up, index = -1, reposition_center = false):
   var factor = scale_options[scale_index]
   
   $Photo.scale = Vector2(factor, factor)
-  if Settings.zoom_at_af_point and prev_scale_index == 0 and scale_index == 1 and $Photo/FocusPos.visible:
-    reposition((1 if $Photo.rotation_degrees == 180 else -1) * $Photo/FocusPos.position)
+  if prev_scale_index == 0 and scale_index == 1:
+    if Settings.zoom_at_af_point and $Photo/FocusPos.visible:
+      reposition((1 if $Photo.rotation_degrees == 180 else -1) * $Photo/FocusPos.position)
+    else:
+      var pos = rect_min_size / 2 if reposition_center else Util.Nodes["Grid"].cursor_pos_in_frame
+      reposition(($Photo.position - pos) * (factor / pre_factor) + rect_min_size / 2 - $Photo.position)
   else:
-    var pos = rect_min_size / 2 if reposition_center else Util.Nodes["Grid"].cursor_pos_in_frame
-    reposition(($Photo.position - pos) * (factor / pre_factor) + rect_min_size / 2 - $Photo.position)
+    reposition(($Photo.position - rect_min_size / 2) * (factor / pre_factor - 1))
   
 
 func reposition(pos):
