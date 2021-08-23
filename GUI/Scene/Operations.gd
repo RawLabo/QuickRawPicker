@@ -11,7 +11,9 @@ func _ready():
     $SettingsDialog/Tabs/general/DisplayColorSpaceOption.add_item(key)
   for key in Settings.RatingType.keys():
     $SettingsDialog/Tabs/general/RatingTypeOption.add_item(key)
-
+  for key in Settings.SortMethod.keys():
+    $SettingsDialog/Tabs/general/SortMethodOption.add_item(key)
+    
 func is_settings_dialog_open():
   return $SettingsDialog.visible
   
@@ -27,6 +29,7 @@ func update_settings_dialog():
   $SettingsDialog/Tabs/general/CacheRoundSpinBox.value = Settings.cache_round
   $SettingsDialog/Tabs/general/DisplayColorSpaceOption.select(int(Settings.output_color))
   $SettingsDialog/Tabs/general/RatingTypeOption.select(int(Settings.rating_type))
+  $SettingsDialog/Tabs/general/SortMethodOption.select(int(Settings.sort_method))
   $SettingsDialog/Tabs/general/LanguageOption.select(Settings.Language[Settings.language])
   $SettingsDialog/Tabs/general/ExportAssociatedLabelEdit.text = Settings.export_associated
   $SettingsDialog/Tabs/render/RendererOption.select(0 if Settings.renderer == "GLES3" else 1)
@@ -134,6 +137,9 @@ func _on_DisplayColorSpaceOption_item_selected(index):
   Settings.save_settings()
   Settings.update_title()
 
+func _on_SortMethodOption_item_selected(index):
+  Settings.sort_method = index
+  Settings.save_settings()
   
 func _on_RatingTypeOption_item_selected(index):
   Settings.rating_type = index

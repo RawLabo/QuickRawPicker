@@ -5,6 +5,7 @@ signal photo_selection_changed(photo, selection)
 signal photo_mark_changed(photo, mark)
 
 var photos = []
+var parsed_photo_count = 0
 
 func show_folder_images(dir_path):
   Util.log("show_folder_images")
@@ -12,18 +13,26 @@ func show_folder_images(dir_path):
   $List.clear()
   update_dir(dir_path)
   
-  for photo in photos:
-    Threading.pending_jobs.append(["get_raw_thumb", photo, self])
+  parsed_photo_count = 0
+  for idx in range(photos.size()):
+    if Settings.sort_method < Settings.SortMethod.ExifDateAscending:
+      $List.add_item("")
+    Threading.pending_jobs.append(["get_raw_thumb", photos[idx], self, idx])
   
-func _on_PhotoList_thumb_parsed(photo):
-  $List.add_item(photo.get_list_info(), photo.thumb_texture)
-  if $List.get_item_count() == photos.size():
-    Util.log("_on_PhotoList_thumb_parsed_all")
-    
-    photos.sort_custom(Photo.PhotoSorter, "sort_descending")
-    for idx in range(photos.size()):
-      $List.set_item_text(idx, photos[idx].get_list_info())
-      $List.set_item_icon(idx, photos[idx].thumb_texture)
+func _on_PhotoList_thumb_parsed(idx):
+  parsed_photo_count += 1
+  
+  if Settings.sort_method >= Settings.SortMethod.ExifDateAscending:
+    if parsed_photo_count == photos.size():
+      Util.log("_on_PhotoList_thumb_parsed_all")
+      
+      photos.sort_custom(Photo.PhotoSorter, Settings.SortMethod.keys()[Settings.sort_method])
+      for photo in photos:
+        $List.add_item(photo.get_list_info(), photo.thumb_texture)
+  else:
+    $List.set_item_text(idx, photos[idx].get_list_info())
+    $List.set_item_icon(idx, photos[idx].thumb_texture)
+  
   
 func index_limit(index):
   if index < 0:
@@ -67,9 +76,10 @@ func update_dir(dir_path):
           photos.append(Photo.new(dir_path, file_name))
 
       file_name = dir.get_next()
-      
-  photos.sort_custom(Photo.PhotoSorter, "mod_time_sort_descending")
   
+  if Settings.sort_method < Settings.SortMethod.ExifDateAscending:
+    photos.sort_custom(Photo.PhotoSorter, Settings.SortMethod.keys()[Settings.sort_method])
+    
 func get_selected_photos():
   var result = []
   for index in $List.get_selected_items():

@@ -98,6 +98,7 @@ func get_raw_thumb(args):
   var k = size.x / 180
   image.resize(180, size.y / k, Image.INTERPOLATE_CUBIC)
   photo.thumb_texture.create_from_image(image, 0)
+  args[0] = args[3]
   call_deferred("thread_end", "thumb_parsed", args)
 
 func get_raw_image(args):

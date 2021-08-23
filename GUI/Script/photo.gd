@@ -45,15 +45,23 @@ Rank=0
 """
 
 class PhotoSorter:
-  static func sort_descending(a, b):
-    if a.timestamp > b.timestamp:
-      return true
-    return false
+  static func ExifDateDescending(a, b):
+    return a.timestamp > b.timestamp
     
-  static func mod_time_sort_descending(a, b):
-    if a.file_mod_time > b.file_mod_time:
-      return true
-    return false
+  static func ExifDateAscending(a, b):
+    return a.timestamp < b.timestamp
+    
+  static func ModifiedDateDescending(a, b):
+    return a.file_mod_time > b.file_mod_time
+    
+  static func ModifiedDateAscending(a, b):
+    return a.file_mod_time < b.file_mod_time
+    
+  static func NameDescending(a, b):
+    return a.file_name > b.file_name
+  
+  static func NameAscending(a, b):
+    return a.file_name < b.file_name
     
 func _init(dir_path, name):
   file_name = name

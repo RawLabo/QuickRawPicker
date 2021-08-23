@@ -5,6 +5,7 @@ const SHOW_THUMB_FIRST = true
 const CACHE_ROUND = 2
 var OUTPUT_COLOR = OutputColors.SRGB
 var RATING_TYPE = RatingType.AdobeXMP
+var SORT_METHOD = SortMethod.NameDescending
 const RENDERER = "GLES3"
 const EXPORT_ASSOCIATED = ""
 const SHADOW_THLD = 4.5
@@ -14,6 +15,7 @@ const ZOOM_AT_AF_POINT = true
 const EV = 0.0
 const GAMMA = 2.2
 
+
 var bps = BPS
 var show_thumb_first = SHOW_THUMB_FIRST
 var cache_round = CACHE_ROUND
@@ -21,15 +23,19 @@ var output_color = OUTPUT_COLOR
 var rating_type = RATING_TYPE
 var renderer = RENDERER
 var export_associated = EXPORT_ASSOCIATED
+var zoom_at_af_point = ZOOM_AT_AF_POINT
+var sort_method = SORT_METHOD
 var open_folder = ""
 var export_folder = ""
+
 var shadow_thld = SHADOW_THLD
 var highlight_thld = HIGHLIGHT_THLD
 var highlight_one_channel = HIGHLIGHT_ONE_CHANNEL
-var zoom_at_af_point = ZOOM_AT_AF_POINT
 var ev = EV
 var gamma = GAMMA
+
 onready var language = get_fixed_locale()
+
 
 var select_color = Color(1, 1, 1)
 var mark_color = Color(0.5, 1, 0.3)
@@ -87,6 +93,14 @@ enum OutputColors {
   XYZ = 5,
   ACES = 6
 }
+enum SortMethod {
+  NameAscending = 0,
+  NameDescending = 1,
+  ModifiedDateAscending = 2,
+  ModifiedDateDescending = 3,
+  ExifDateAscending = 4,
+  ExifDateDescending = 5
+}
 
 func _ready():
   load_settings()
@@ -104,6 +118,7 @@ func reset():
   cache_round = CACHE_ROUND
   output_color = OUTPUT_COLOR
   rating_type = RATING_TYPE
+  sort_method = SORT_METHOD
   language = get_fixed_locale()
   renderer = RENDERER
   export_associated = EXPORT_ASSOCIATED
@@ -126,6 +141,7 @@ func save_settings():
     "cache_round": cache_round,
     "output_color": output_color,
     "rating_type": rating_type,
+    "sort_method": sort_method,
     "language": language,
     "export_associated": export_associated,
     "open_folder": open_folder,
@@ -166,6 +182,7 @@ func load_settings():
     cache_round = dict.get("cache_round", CACHE_ROUND)
     output_color = dict.get("output_color", OUTPUT_COLOR)
     rating_type = dict.get("rating_type", RATING_TYPE)
+    sort_method = dict.get("sort_method", SORT_METHOD)
     language = dict.get("language", get_fixed_locale())
     export_associated = dict.get("export_associated", EXPORT_ASSOCIATED)
     open_folder = dict.get("open_folder", "")
