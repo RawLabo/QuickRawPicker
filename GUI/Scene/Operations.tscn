@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Asset/Font/NotoSansSC-Bold.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scene/Operations.gd" type="Script" id=2]
@@ -28,13 +28,6 @@ fallback/0 = ExtResource( 1 )
 
 [sub_resource type="StyleBoxEmpty" id=5]
 content_margin_top = 3.0
-
-[sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0.113725, 0.109804, 0.109804, 1 )
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
 
 [node name="Operations" type="Control"]
 anchor_right = 1.0
@@ -317,41 +310,6 @@ margin_bottom = 24.0
 max_value = 10.0
 step = 0.1
 
-[node name="ExportProgress" type="PopupDialog" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -158.0
-margin_top = -17.0
-margin_right = 202.0
-margin_bottom = 54.0
-custom_styles/panel = SubResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ExportLabel" type="Label" parent="ExportProgress"]
-margin_left = 17.3752
-margin_top = 5.08542
-margin_right = 120.375
-margin_bottom = 19.0854
-text = "Export progress:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ProgressBar" type="ProgressBar" parent="ExportProgress"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -138.558
-margin_top = -0.25293
-margin_right = 161.442
-margin_bottom = 19.7471
-step = 1.0
-
 [node name="Container" type="HBoxContainer" parent="."]
 anchor_right = 1.0
 margin_bottom = 20.0
@@ -375,7 +333,6 @@ text = "Fn"
 flat = false
 items = [ "export_marked", null, 0, false, false, 100, 0, null, "", false, "settings", null, 0, false, false, 200, 0, null, "", false, "", null, 0, false, true, 0, 0, null, "", true, "open_logs_folder", null, 0, false, false, 301, 0, null, "", false, "about", null, 0, false, false, 300, 0, null, "", false ]
 
-[connection signal="file_exported" from="." to="." method="_on_Operations_file_exported"]
 [connection signal="item_selected" from="SettingsDialog/Tabs/general/BpsOption" to="." method="_on_BpsOption_item_selected"]
 [connection signal="item_selected" from="SettingsDialog/Tabs/general/ShowThumbFirstOption" to="." method="_on_ShowThumbFirstOption_item_selected"]
 [connection signal="item_selected" from="SettingsDialog/Tabs/general/ZoomAtAFPointOption" to="." method="_on_ZoomAtAFPointOption_item_selected"]

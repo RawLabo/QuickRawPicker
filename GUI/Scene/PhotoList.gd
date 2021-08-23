@@ -14,6 +14,9 @@ func show_folder_images(dir_path):
   update_dir(dir_path)
   
   parsed_photo_count = 0
+  if Settings.sort_method >= Settings.SortMethod.ExifDateAscending:
+    Util.Nodes["Main"].progress_init(photos.size(), "reading_exif_thumb")
+    
   for idx in range(photos.size()):
     if Settings.sort_method < Settings.SortMethod.ExifDateAscending:
       $List.add_item("")
@@ -23,6 +26,8 @@ func _on_PhotoList_thumb_parsed(idx):
   parsed_photo_count += 1
   
   if Settings.sort_method >= Settings.SortMethod.ExifDateAscending:
+    Util.Nodes["Main"].progress_set(parsed_photo_count)
+    
     if parsed_photo_count == photos.size():
       Util.log("_on_PhotoList_thumb_parsed_all")
       

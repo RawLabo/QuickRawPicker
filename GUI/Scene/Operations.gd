@@ -107,13 +107,10 @@ func _on_Dialog_dir_selected(dir):
     Settings.export_folder = dir
     var photos = Util.Nodes["PhotoList"].get_marked_photos()
     var export_patterns = Settings.export_associated.split("/", false)
-    Threading.pending_jobs.append(["export_files", photos, self, [dir, export_patterns, $ExportProgress/ProgressBar]])
-    $ExportProgress.popup_centered()
+    Threading.pending_jobs.append(["export_files", photos, self, [dir, export_patterns]])
 
   Settings.save_settings()
 
-func _on_Operations_file_exported(_photos):
-  $ExportProgress.visible = false
 
 func _on_BpsOption_item_selected(index):
   Settings.bps = 16 if index == 0 else 8

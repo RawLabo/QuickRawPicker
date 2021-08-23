@@ -17,11 +17,10 @@ func export_files(args):
   var photos = args[0]
   var dir = args[3][0]
   var export_patterns = args[3][1]
-  var progress_bar = args[3][2]
   
-  progress_bar.max_value = photos.size()
+  Util.Nodes["Main"].progress_init(photos.size(), "exporting_files")
   for i in range(photos.size()):
-    progress_bar.value = i
+    Util.Nodes["Main"].progress_set(i + 1)
     # copy raw file
     Util.copy_file(photos[i].file_path, dir)
     
