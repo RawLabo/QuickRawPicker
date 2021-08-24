@@ -13,6 +13,8 @@
 |Alt + LeftClick|**Toggle mark on the pointing photo**|
 |Shift + LeftClick|Select multiple photos from start to end to compare|
 |Command/Ctrl + LeftClick|Pick multiple photos to compare|
+|Key_Up or Key_P|Show previous photos with the same amount as the currently displayed|
+|Key_Down or Key_N|Show next photos with the same amount as the currently displayed|
 
 ### In photo area
 |Key|Description|
