@@ -47,22 +47,32 @@ func index_limit(index):
   else:
     return index
     
-func show_next():
+func show_next(amount):
   Util.log("show_next")
-  
+  if amount == 0:
+    amount = 1
+    
   var selected_index_lst = $List.get_selected_items()
   var last_index = selected_index_lst[-1] if selected_index_lst.size() > 0 else -1
   var next_index = index_limit(last_index + 1)
-  $List.select(next_index)
+  for i in range(amount):
+    if next_index + i < photos.size():
+      $List.select(next_index + i, i == 0)
+    
   _on_Compare_pressed()
   
-func show_prev():
+func show_prev(amount = 1):
   Util.log("show_prev")
+  if amount == 0:
+    amount = 1
   
   var selected_index_lst = $List.get_selected_items()
   var first_index = selected_index_lst[0] if selected_index_lst.size() > 0 else 1
   var prev_index = index_limit(first_index - 1)
-  $List.select(prev_index)
+  for i in range(amount):
+    if prev_index - i >= 0:
+      $List.select(prev_index - i, i == 0)
+    
   _on_Compare_pressed()
   
 func update_dir(dir_path):

@@ -100,17 +100,19 @@ func _input(event):
     var with_c = event.scancode == KEY_C
     var with_up = event.scancode == KEY_UP
     var with_down = event.scancode == KEY_DOWN
+    var with_n = event.scancode == KEY_N
+    var with_p = event.scancode == KEY_P
     var with_zoom_in = [KEY_EQUAL, KEY_PERIOD, KEY_E].has(event.scancode)
     var with_zoom_out = [KEY_MINUS, KEY_COMMA, KEY_Q].has(event.scancode)
     
     if with_c:
       Util.Nodes["PhotoList"]._on_Compare_pressed()
       return
-    elif with_up:
-      Util.Nodes["PhotoList"].show_prev()
+    elif with_up or with_p:
+      Util.Nodes["PhotoList"].show_prev(get_child_count())
       return
-    elif with_down:
-      Util.Nodes["PhotoList"].show_next()
+    elif with_down or with_n:
+      Util.Nodes["PhotoList"].show_next(get_child_count())
       return
     
     if with_zoom_in or with_zoom_out:
