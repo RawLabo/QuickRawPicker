@@ -40,3 +40,5 @@ default_ev:,Default EV:,默认曝光:,デフォルト露出値:
 default_gamma:,Default Gamma:,默认伽马值:,デフォルトガンマ:
 reading_exif_thumb,Reading Exif and thumbnail in files,正在读取Exif和缩略图信息,Exifとサムネイルを読み込み中
 exporting_files,Exporting files,正在导出文件,ファイル出力中
+help,Help,帮助,ヘルプ
+shortcuts,Shortcuts,快捷键,ショートカット

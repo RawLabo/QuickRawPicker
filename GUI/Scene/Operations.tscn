@@ -209,10 +209,15 @@ custom_fonts/font = SubResource( 4 )
 placeholder_text = "$.JPG/#.xmp"
 placeholder_alpha = 0.3
 
-[node name="Control" type="Control" parent="SettingsDialog/Tabs/general"]
-margin_top = 274.0
-margin_right = 230.0
-margin_bottom = 294.0
+[node name="HelpBtn" type="Button" parent="SettingsDialog/Tabs/general"]
+modulate = Color( 1, 1, 1, 0.294118 )
+margin_right = 12.0
+margin_bottom = 20.0
+focus_mode = 0
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+text = "help"
+flat = true
+align = 2
 
 [node name="Reset" type="Button" parent="SettingsDialog/Tabs/general"]
 margin_left = 238.0
@@ -331,7 +336,7 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "Fn"
 flat = false
-items = [ "export_marked", null, 0, false, false, 100, 0, null, "", false, "settings", null, 0, false, false, 200, 0, null, "", false, "", null, 0, false, true, 0, 0, null, "", true, "open_logs_folder", null, 0, false, false, 301, 0, null, "", false, "about", null, 0, false, false, 300, 0, null, "", false ]
+items = [ "export_marked", null, 0, false, false, 100, 0, null, "", false, "settings", null, 0, false, false, 200, 0, null, "", false, "", null, 0, false, true, 0, 0, null, "", true, "shortcuts", null, 0, false, false, 302, 0, null, "", false, "open_logs_folder", null, 0, false, false, 301, 0, null, "", false, "about", null, 0, false, false, 300, 0, null, "", false ]
 
 [connection signal="item_selected" from="SettingsDialog/Tabs/general/BpsOption" to="." method="_on_BpsOption_item_selected"]
 [connection signal="item_selected" from="SettingsDialog/Tabs/general/ShowThumbFirstOption" to="." method="_on_ShowThumbFirstOption_item_selected"]
@@ -342,6 +347,7 @@ items = [ "export_marked", null, 0, false, false, 100, 0, null, "", false, "sett
 [connection signal="item_selected" from="SettingsDialog/Tabs/general/SortMethodOption" to="." method="_on_SortMethodOption_item_selected"]
 [connection signal="item_selected" from="SettingsDialog/Tabs/general/LanguageOption" to="." method="_on_LanguageOption_item_selected"]
 [connection signal="text_changed" from="SettingsDialog/Tabs/general/ExportAssociatedLabelEdit" to="." method="_on_ExportAssociatedLabelEdit_text_changed"]
+[connection signal="pressed" from="SettingsDialog/Tabs/general/HelpBtn" to="." method="_on_HelpBtn_pressed"]
 [connection signal="pressed" from="SettingsDialog/Tabs/general/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="item_selected" from="SettingsDialog/Tabs/render/RendererOption" to="." method="_on_RendererOption_item_selected"]
 [connection signal="value_changed" from="SettingsDialog/Tabs/render/ShadowThldBox" to="." method="_on_ShadowThldBox_value_changed"]

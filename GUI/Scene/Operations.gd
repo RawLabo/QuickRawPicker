@@ -90,6 +90,9 @@ func _on_Fn_id_pressed(id):
   
   elif id == 301:
     OS.shell_open(OS.get_user_data_dir())
+    
+  elif id == 302:
+    OS.shell_open("https://github.com/qdwang/QuickRawPicker/blob/main/Doc/Shortcuts.md")
   
   
 func _on_OpenFolder_pressed():
@@ -177,3 +180,6 @@ func _on_DefaultEVBox_value_changed(value):
 func _on_DefaultGammaBox_value_changed(value):
   Settings.gamma = value
   Settings.save_settings()
+
+func _on_HelpBtn_pressed():
+  OS.shell_open("https://github.com/qdwang/QuickRawPicker/blob/main/Doc/Settings.md")
