@@ -20,7 +20,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 **[🔽Download](https://github.com/qdwang/QuickRawPicker/releases/latest) the latest precompiled binaries.**
 > You may need to run `xattr -dr com.apple.quarantine QuickRawPicker.app` to fix the **"file is damaged"** issue under macOS.
 
-![QuickRawPicker-v0 1 7-Windows-x86_64](https://user-images.githubusercontent.com/403616/126796723-4b8fa0f6-8e29-429c-9dbc-6b59e4883d56.jpg)
+![Godot_v3 3 3-stable_win64_7Mg3iQ7wVj](https://user-images.githubusercontent.com/403616/131298037-5c28a4c6-b252-4fc2-ac5b-34cb4ac2f964.jpg)
 
 ## Features
 * Compare multiple (up to 100) photos of multiple scales at the same time.
