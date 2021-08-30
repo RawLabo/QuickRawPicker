@@ -33,6 +33,8 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 * Export marked photos and associated files(Like `.JPG` and `.xmp`) by copying.
 * Display AF point for different cameras' raw files, including Sony, Panasonic, Canon, Nikon, Olympus.
 
+**[👉 Go features GIFs page](./Doc/Features.md)**
+
 ### Shortcuts
 **[👉 Go shortcuts doc page](./Doc/Shortcuts.md)**
 
