@@ -1,4 +1,4 @@
-# Compilation
+# Building
 
 1. You need `git-lfs` installed. https://git-lfs.github.com/
 2. Clone the repo: https://github.com/qdwang/QuickRawPicker.git
@@ -6,7 +6,6 @@
 4. Download Godot Engine Standard Version. https://godotengine.org/download
 5. Import the project in Godot.
 6. Press F5 to run the project.
-
 
 ## Libraries
 
