@@ -52,7 +52,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 2. **By marking and exporting**. By marking your raw photos in QuickRawPicker, you can later export all the marked photo files to a desired folder. Usually this method can used to check the raw files on the SD card directly and export the marked ones to your hard drive on computer. [demo](https://github.com/qdwang/QuickRawPicker/discussions/2)
 
 ## Need any help, support or discussion
-**[👉 Go github discussions](https://github.com/qdwang/QuickRawPicker/discussions)**
+**[👉 Github discussions](https://github.com/qdwang/QuickRawPicker/discussions)**
 
 ## Credits
 1. [godot](https://github.com/godotengine/godot) Licensed MIT
