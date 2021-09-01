@@ -13,8 +13,8 @@ func show_fullscreen_photo(photo_frame):
     $PhotoFrame.update_shader()
     $PhotoFrame.set_deferred("visible", true)
   
-func is_settings_dialog_open():
-  return $LeftPanel/Operations.is_settings_dialog_open()
+func is_dialog_open():
+  return $LeftPanel/Operations.is_settings_dialog_open() or $LeftPanel/Operations.is_file_dialog_open()
 
 func progress_init(max_v, title = ""):
   if max_v > 0:

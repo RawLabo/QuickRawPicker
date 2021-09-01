@@ -17,6 +17,9 @@ func _ready():
 func is_settings_dialog_open():
   return $SettingsDialog.visible
   
+func is_file_dialog_open():
+  return has_node("FDialog") and $FDialog.visible
+  
 func _on_Reset_pressed():
   Util.log("_on_Reset_pressed")
   Settings.reset()
