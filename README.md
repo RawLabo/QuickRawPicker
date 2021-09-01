@@ -18,7 +18,9 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 * **Small size and ease of use.** The zip package is only about 30MB, no installation and no complicated setup.
 
 **[🔽Download](https://github.com/qdwang/QuickRawPicker/releases/latest) the latest precompiled binaries.**
-> You may need to run `xattr -dr com.apple.quarantine QuickRawPicker.app` to fix the **"file is damaged"** issue under macOS.
+> You may need to run `xattr -dr com.apple.quarantine QuickRawPicker.app` to fix the **"file is damaged"** issue under macOS. 
+> 
+> Please check https://disable-gatekeeper.github.io/ for more info.
 
 ![Godot_v3 3 3-stable_win64_7Mg3iQ7wVj](https://user-images.githubusercontent.com/403616/131298037-5c28a4c6-b252-4fc2-ac5b-34cb4ac2f964.jpg)
 
@@ -27,22 +29,23 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 * Read XMP rating score from the raw file, sidecar `.xmp` file or `.pp3` file.
 * Write XMP or PP3 rating score to sidecar `.xmp` or `.pp3` file.
 * Adjust EV and shift Gamma.
-* Draw highlight area and shadow area.
+* Draw highlight area and shadow clipping area.
 * Display as 16 bit texture on screen.
 * Color space setting available.
 * Export marked photos and associated files(Like `.JPG` and `.xmp`) by copying.
 * Display AF point for different cameras' raw files, including Sony, Panasonic, Canon, Nikon, Olympus.
+* 180 degree rotation.
 
-**[👉 Go features GIFs page](./Doc/Features.md)**
+**[👉 Features animations page](./Doc/Features.md)**
 
 ### Shortcuts
-**[👉 Go shortcuts doc page](./Doc/Shortcuts.md)**
+**[👉 Shortcuts doc page](./Doc/Shortcuts.md)**
 
 ### Settings
-**[👉 Go settings doc page](./Doc/Settings.md)**
+**[👉 Settings doc page](./Doc/Settings.md)**
 
 ### Compilation
-**[👉 Go compilation doc page](./Doc/Compilation.md)**
+**[👉 Compilation doc page](./Doc/Compilation.md)**
 
 ## Workflows
 1. **By rating**. By Rating your raw photos in QuickRawPicker, the rating score will be written into the sidecar file `xmp` or `pp3`. And then you can filter and edit them in Adobe Bridge, Lightroom, Darktable or Rawtherapee directly. [demo](https://github.com/qdwang/QuickRawPicker/discussions/4)
