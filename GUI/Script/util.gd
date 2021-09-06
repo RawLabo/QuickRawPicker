@@ -71,6 +71,6 @@ func path_fix(path):
 
 func copy_file(from, to):
   if is_windows:
-    return OS.execute("cmd", ["/C", "echo n | copy /-y %s %s" % [path_fix(from), path_fix(to)]])
+    return OS.execute("cmd", ["/C", "echo n | copy /-y \"%s\" \"%s\"" % [path_fix(from), path_fix(to)]])
   else:
     return OS.execute("cp", ["-n", from, to])
