@@ -12,6 +12,7 @@ const SHADOW_THLD = 4.5
 const HIGHLIGHT_THLD = 99.9
 const HIGHLIGHT_ONE_CHANNEL = true
 const ZOOM_AT_AF_POINT = true
+const DISPLAY_INFO = true
 const EV = 0.0
 const GAMMA = 2.2
 
@@ -27,6 +28,7 @@ var zoom_at_af_point = ZOOM_AT_AF_POINT
 var sort_method = SORT_METHOD
 var open_folder = ""
 var export_folder = ""
+var display_info = DISPLAY_INFO
 
 var shadow_thld = SHADOW_THLD
 var highlight_thld = HIGHLIGHT_THLD
@@ -126,12 +128,13 @@ func reset():
   highlight_thld = HIGHLIGHT_THLD
   highlight_one_channel = HIGHLIGHT_ONE_CHANNEL
   zoom_at_af_point = ZOOM_AT_AF_POINT
+  display_info = DISPLAY_INFO
   ev = EV
   gamma = GAMMA
   save_settings()
   update_title()
   
-func save_settings():
+func save_settings(clean_cache = true):
   save_renderer()
   
   var file = File.new()
@@ -146,6 +149,7 @@ func save_settings():
     "export_associated": export_associated,
     "open_folder": open_folder,
     "export_folder": export_folder,
+    "display_info": display_info,
     "window_props": [
       OS.window_position.x,
       OS.window_position.y,
@@ -166,7 +170,8 @@ func save_settings():
   file.store_string(content)
   file.close()
   
-  Util.Nodes["PhotoList"].clean_cache()
+  if clean_cache:
+    Util.Nodes["PhotoList"].clean_cache()
   
 func load_settings():
   load_renderer()
@@ -187,6 +192,7 @@ func load_settings():
     export_associated = dict.get("export_associated", EXPORT_ASSOCIATED)
     open_folder = dict.get("open_folder", "")
     export_folder = dict.get("export_folder", "")
+    display_info = dict.get("display_info", DISPLAY_INFO)
     shadow_thld = dict.get("shadow_thld", SHADOW_THLD)
     highlight_thld = dict.get("highlight_thld", HIGHLIGHT_THLD)
     highlight_one_channel = dict.get("highlight_one_channel", HIGHLIGHT_ONE_CHANNEL)

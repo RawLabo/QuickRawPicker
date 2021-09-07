@@ -87,6 +87,7 @@ func init(w, h, input_photo, is_overlay = false):
   
   # set Labels
   $InfoLabel.text = photo.get_bar_info()
+  set_info_visibility()
   
   # init AF location
   if photo.focus_loc.size():
@@ -100,7 +101,6 @@ func init(w, h, input_photo, is_overlay = false):
   else:
     call_deferred("update_focus")
     $LoadingLabel.visible = false
-    $TopContainer.visible = true
     
   # main scene overlay
   if is_overlay:
@@ -110,12 +110,16 @@ func init(w, h, input_photo, is_overlay = false):
   
 func _on_PhotoFrame_image_parsed(_photo):
   $LoadingLabel.visible = false
-  $TopContainer.visible = true
+  set_info_visibility()
   gamma = Settings.gamma
   update_shader()
   
   call_deferred("update_focus")
 
+func set_info_visibility():
+  $InfoLabel.visible = Settings.display_info
+  $TopContainer.visible = Settings.display_info
+  
 func toggle_180_rotation():
   $Photo.rotation_degrees += -180 if $Photo.rotation_degrees == 180 else 180
   update_focus()

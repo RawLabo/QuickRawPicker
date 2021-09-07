@@ -102,6 +102,7 @@ func _input(event):
     var with_down = event.scancode == KEY_DOWN
     var with_n = event.scancode == KEY_N
     var with_p = event.scancode == KEY_P
+    var with_i = event.scancode == KEY_I
     var with_zoom_in = [KEY_EQUAL, KEY_PERIOD, KEY_E].has(event.scancode)
     var with_zoom_out = [KEY_MINUS, KEY_COMMA, KEY_Q].has(event.scancode)
     
@@ -114,7 +115,14 @@ func _input(event):
     elif with_down or with_n:
       Util.Nodes["PhotoList"].show_next(get_child_count())
       return
-    
+    elif with_i:
+      Settings.display_info = not Settings.display_info
+      Settings.save_settings(false)
+      for item in get_children():
+        item.set_info_visibility()
+      return
+      
+      
     if with_zoom_in or with_zoom_out:
       var is_up = with_zoom_in
       frame_op(is_up, with_shift, with_alt, with_ctrl)
