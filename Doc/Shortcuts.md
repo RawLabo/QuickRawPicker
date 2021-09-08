@@ -25,6 +25,7 @@
 |Shift + **one of the above three**|Resize/adjust the pointing photo|
 |Alt + LeftClick|Toggle mark on the pointing photo|
 |Command/Ctrl + LeftClick|Toggle selection on the pointing photo|
+|Key_I|Toggle the top and bottom text info bar|
 |Key_F|View the pointing photo at fullscreen|
 |Key_R|Rotate the pointing photo for 180 degree|
 |Key_A|Toggle the AF point on the pointing photo|
