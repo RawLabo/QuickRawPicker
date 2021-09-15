@@ -39,10 +39,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 **[👉 Features animations page](./Doc/Features.md)**
 
 ## Q&A
-#### Why the screen shows black empty contents for my RAW files?
-The default renderer is based on GLES3 which may not be compatible with some legacy graphics card. 
-
-Try `Fn -> Settings -> Renderer Tab -> switch Renderer from GLES3 to GLES2 -> restart the QuickRawPicker` to fix the problem.
+1. **Why the screen shows black empty contents for my RAW files?** <br> The default renderer is based on GLES3 which may not be compatible with some legacy graphics card. <br>  Try `Fn -> Settings -> Renderer Tab -> switch Renderer from GLES3 to GLES2 -> restart the QuickRawPicker` to fix the problem.
 
 ### Shortcuts
 **[👉 Shortcuts doc page](./Doc/Shortcuts.md)**
