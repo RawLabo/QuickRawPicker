@@ -16,15 +16,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FPS" type="Label" parent="."]
-margin_left = 1152.0
-margin_top = 336.0
-margin_right = 1168.0
-margin_bottom = 363.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Driver" type="Label" parent="."]
 margin_left = 1168.0
 margin_top = 336.0
