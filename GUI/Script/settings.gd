@@ -234,10 +234,10 @@ func get_fixed_locale():
     "zh": "zh_CN",
     "ja": "ja_JP"  
   }
-  if fix_mapping.has(locale):
-    return fix_mapping[locale]
-  elif Language.has(locale):
-    return locale
-  else:
-    return "en_US"
+  
+  for key in fix_mapping:
+    if locale.begins_with(key):
+      return fix_mapping[key]
+      
+  return "en_US"
     
