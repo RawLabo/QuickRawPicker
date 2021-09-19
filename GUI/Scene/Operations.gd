@@ -92,7 +92,7 @@ func _on_Fn_id_pressed(id):
     popup_about_dialog()
   
   elif id == 301:
-    OS.shell_open(OS.get_user_data_dir())
+    OS.shell_open("%s%s" % ["file://" if Util.is_macos else "", OS.get_user_data_dir()])
     
   elif id == 302:
     OS.shell_open("https://github.com/qdwang/QuickRawPicker/blob/main/Doc/Shortcuts.md")

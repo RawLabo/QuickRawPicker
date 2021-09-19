@@ -2,6 +2,7 @@ extends Node
 
 onready var Bridge = preload("res://Asset/Lib/main_nativescript.gdns").new()
 onready var is_windows = true if OS.get_name() == "Windows" else false
+onready var is_macos = true if OS.get_name() == "OSX" else false
 onready var log_file = File.new()
 onready var Nodes = {
   "Main": get_node("/root/Main"),
