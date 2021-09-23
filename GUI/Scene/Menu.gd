@@ -8,11 +8,20 @@ enum DialogType { OpenDir, ExportByCopy }
 var dialog_type = DialogType.OpenDir
 
 func _ready():
-  pass
+  $HelpBtn.get_popup().connect("id_pressed", self, "_on_HelpBtn_id_pressed")
   
+func _on_HelpBtn_id_pressed(id):
+  match id:
+    1:
+      popup_about_dialog()
+    2:
+      OS.shell_open("%s%s" % ["file://" if Util.is_macos else "", OS.get_user_data_dir()])
+    3:
+      OS.shell_open("https://github.com/qdwang/QuickRawPicker/blob/main/Doc/Shortcuts.md")
+      
 func is_settings_dialog_open():
   return $SettingsBtn/SettingsDialog.visible
-  
+
 func is_file_dialog_open():
   return has_node("FDialog") and $FDialog.visible
   
@@ -21,7 +30,19 @@ func _on_SettingsBtn_pressed():
 
 func _on_Compare_pressed():
   Util.Nodes["PhotoList"]._on_Compare_pressed()
-
+  
+func popup_about_dialog():
+  var about = AcceptDialog.new()
+  about.name = "AboutDialog"
+  about.get_child(1).align = HALIGN_CENTER
+  about.dialog_text = "%s %s\nCopyright © 2021 qdwang.  All rights reserved.\nLicense: LGPL-2.1" % [Settings.project_name, Settings.version]
+  about.window_title = "about"
+  
+  if has_node("AboutDialog"):
+    remove_child($AboutDialog)
+    
+  add_child(about)
+  about.popup_centered()
 func gen_file_dialog():
   # workaround for FileDialog locale issue
   var dialog = FileDialog.new()
