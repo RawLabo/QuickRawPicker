@@ -1,39 +1,115 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scene/Main.gd" type="Script" id=1]
 [ext_resource path="res://Asset/Theme/default.tres" type="Theme" id=2]
 [ext_resource path="res://Scene/PhotoList.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scene/Operations.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scene/Grid.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scene/PhotoFrame.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scene/SysInfo.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scene/Menu.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Animation" id=1]
-resource_name = "Slide"
-length = 0.2
+resource_name = "FadeIn"
+length = 0.3
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 1
+tracks/0/path = NodePath("PhotoList:modulate")
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2 ),
+"times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -200, 0 ), Vector2( 0, 0 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
+tracks/1/path = NodePath("PhotoList:visible")
+tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MenuWrapper:modulate")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MenuWrapper:visible")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "FadeOut"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("MenuWrapper:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MenuWrapper:visible")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("PhotoList:modulate")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("PhotoList:visible")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 
 [node name="Main" type="Control"]
@@ -55,32 +131,27 @@ __meta__ = {
 
 [node name="Grid" parent="." instance=ExtResource( 5 )]
 
-[node name="LeftPanel" type="Control" parent="."]
+[node name="PhotoList" parent="." instance=ExtResource( 3 )]
+anchor_right = 0.0
+margin_left = 50.0
+margin_right = 250.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="MenuWrapper" type="ColorRect" parent="."]
 anchor_bottom = 1.0
-margin_right = 200.0
+rect_min_size = Vector2( 50, 0 )
+color = Color( 0.109804, 0.109804, 0.109804, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LeftPanelAni" type="AnimationPlayer" parent="LeftPanel"]
-anims/Slide = SubResource( 1 )
-
-[node name="PhotoList" parent="LeftPanel" instance=ExtResource( 3 )]
-margin_top = 30.0
-
-[node name="Operations" parent="LeftPanel" instance=ExtResource( 4 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 200.0
-margin_bottom = 30.0
+[node name="Menu" parent="MenuWrapper" instance=ExtResource( 8 )]
+anchor_bottom = 1.0
+margin_right = 50.0
+margin_bottom = 166.0
 
 [node name="PhotoFrame" parent="." instance=ExtResource( 6 )]
 visible = false
-
-[node name="SysInfo" parent="." instance=ExtResource( 7 )]
-visible = false
-anchor_bottom = 0.0
-margin_bottom = 27.0
 
 [node name="Progress" type="Panel" parent="."]
 visible = false
@@ -116,3 +187,13 @@ margin_top = -15.0
 margin_right = 150.0
 margin_bottom = 15.0
 rect_min_size = Vector2( 300, 30 )
+
+[node name="SysInfo" parent="." instance=ExtResource( 7 )]
+visible = false
+anchor_bottom = 0.0
+margin_bottom = 30.0
+
+[node name="PanelAni" type="AnimationPlayer" parent="."]
+method_call_mode = 1
+anims/FadeIn = SubResource( 1 )
+anims/FadeOut = SubResource( 2 )

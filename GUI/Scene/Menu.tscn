@@ -1,0 +1,116 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Asset/Theme/default.tres" type="Theme" id=1]
+[ext_resource path="res://Asset/Font/icon.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Asset/Font/Font Awesome 5 Free-Solid-900.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://Scene/Menu.gd" type="Script" id=4]
+[ext_resource path="res://Scene/SettingsDialog.tscn" type="PackedScene" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+size = 31
+font_data = ExtResource( 3 )
+
+[node name="Menu" type="VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 1 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpenFolderBtn" type="Button" parent="."]
+margin_right = 44.0
+margin_bottom = 38.0
+hint_tooltip = "open_folder"
+focus_mode = 0
+custom_fonts/font = SubResource( 1 )
+text = ""
+flat = true
+
+[node name="ExportBtn" type="Button" parent="."]
+margin_top = 42.0
+margin_right = 44.0
+margin_bottom = 80.0
+hint_tooltip = "export_marked"
+focus_mode = 0
+custom_fonts/font = ExtResource( 2 )
+text = ""
+flat = true
+
+[node name="SettingsBtn" type="Button" parent="."]
+margin_top = 84.0
+margin_right = 44.0
+margin_bottom = 122.0
+hint_tooltip = "settings"
+focus_mode = 0
+custom_fonts/font = ExtResource( 2 )
+text = ""
+flat = true
+
+[node name="SettingsDialog" parent="SettingsBtn" instance=ExtResource( 5 )]
+
+[node name="FullscreenBtn" type="Button" parent="."]
+margin_top = 126.0
+margin_right = 44.0
+margin_bottom = 164.0
+hint_tooltip = "fullscreen"
+focus_mode = 0
+custom_fonts/font = ExtResource( 2 )
+text = ""
+flat = true
+
+[node name="PinBtn" type="Button" parent="."]
+margin_top = 168.0
+margin_right = 44.0
+margin_bottom = 206.0
+hint_tooltip = "pin_menu"
+focus_mode = 0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.47451, 0.47451, 0.47451, 1 )
+custom_colors/font_color_hover = Color( 0.65098, 0.65098, 0.65098, 1 )
+custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
+toggle_mode = true
+text = ""
+flat = true
+
+[node name="HelpBtn" type="MenuButton" parent="."]
+margin_top = 210.0
+margin_right = 44.0
+margin_bottom = 248.0
+hint_tooltip = "help"
+custom_fonts/font = ExtResource( 2 )
+text = ""
+items = [ "shortcuts", null, 0, false, false, 3, 0, null, "", false, "open_logs_folder", null, 0, false, false, 2, 0, null, "", false, "about", null, 0, false, false, 1, 0, null, "", false ]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SubMenu" type="VBoxContainer" parent="."]
+visible = false
+margin_top = 210.0
+margin_right = 50.0
+margin_bottom = 254.0
+
+[node name="Seperator" type="ColorRect" parent="SubMenu"]
+margin_right = 50.0
+margin_bottom = 2.0
+rect_min_size = Vector2( 50, 2 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color( 1, 1, 1, 0.215686 )
+
+[node name="Compare" type="Button" parent="SubMenu"]
+margin_top = 6.0
+margin_right = 50.0
+margin_bottom = 44.0
+hint_tooltip = "compare"
+focus_mode = 0
+custom_fonts/font = ExtResource( 2 )
+text = ""
+flat = true
+
+[connection signal="pressed" from="OpenFolderBtn" to="." method="_on_OpenFolderBtn_pressed"]
+[connection signal="pressed" from="ExportBtn" to="." method="_on_ExportBtn_pressed"]
+[connection signal="pressed" from="SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
+[connection signal="pressed" from="SubMenu/Compare" to="." method="_on_Compare_pressed"]

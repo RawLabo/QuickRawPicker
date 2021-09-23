@@ -14,7 +14,7 @@ func show_fullscreen_photo(photo_frame):
     $PhotoFrame.set_deferred("visible", true)
   
 func is_dialog_open():
-  return $LeftPanel/Operations.is_settings_dialog_open() or $LeftPanel/Operations.is_file_dialog_open()
+  return $MenuWrapper/Menu.is_settings_dialog_open() or $MenuWrapper/Menu.is_file_dialog_open()
 
 func progress_init(max_v, title = ""):
   if max_v > 0:
@@ -30,10 +30,10 @@ func progress_set(v):
   
 func _input(event):
   if event is InputEventMouseMotion:
-    if event.position.x < 100 and $LeftPanel.rect_position.x <= -200:
-      $LeftPanel/LeftPanelAni.play("Slide")
-    elif event.position.x > 400 and $LeftPanel.rect_position.x == 0 and $Grid.get_child_count() > 0:
-      $LeftPanel/LeftPanelAni.play_backwards("Slide")
+    if event.position.x < 100 and not $PhotoList.visible:
+      $PanelAni.play("FadeIn")
+    elif event.position.x > 300 and $PhotoList.visible and $Grid.get_child_count() > 0:
+      $PanelAni.play("FadeOut")
       
   elif event is InputEventKey and event.pressed:
     if event.scancode == KEY_F:

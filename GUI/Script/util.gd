@@ -6,7 +6,7 @@ onready var is_macos = true if OS.get_name() == "OSX" else false
 onready var log_file = File.new()
 onready var Nodes = {
   "Main": get_node("/root/Main"),
-  "PhotoList": get_node("/root/Main/LeftPanel/PhotoList"),
+  "PhotoList": get_node("/root/Main/PhotoList"),
   "Grid": get_node("/root/Main/Grid")  
 }
 onready var _f = File.new()
