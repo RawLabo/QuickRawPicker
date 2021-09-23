@@ -9,6 +9,7 @@ var dialog_type = DialogType.OpenDir
 
 func _ready():
   $HelpBtn.get_popup().connect("id_pressed", self, "_on_HelpBtn_id_pressed")
+  $PinBtn.pressed = Settings.pin_menu
   
 func _on_HelpBtn_id_pressed(id):
   match id:
@@ -87,3 +88,20 @@ func _on_Dialog_dir_selected(dir):
     Threading.pending_jobs.append(["export_files", photos, self, [dir, export_patterns]])
 
   Settings.save_settings()
+
+func fullscreen_btn_press():
+  $FullscreenBtn.pressed = not $FullscreenBtn.pressed
+  _on_FullscreenBtn_toggled($FullscreenBtn.pressed)
+  
+func _on_FullscreenBtn_toggled(button_pressed):
+  if button_pressed:
+    $FullscreenBtn.text = ""
+    OS.window_fullscreen = true
+  else:
+    $FullscreenBtn.text = ""
+    OS.window_fullscreen = false
+
+func _on_PinBtn_toggled(button_pressed):
+  Settings.pin_menu = button_pressed
+  Settings.save_settings()
+  Util.Nodes["Main"].set_grid_left_margin(button_pressed)

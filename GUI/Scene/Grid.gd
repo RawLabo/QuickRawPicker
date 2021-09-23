@@ -52,7 +52,7 @@ func update_photos(photos):
         break
   
   columns = column_num 
-  var w = int(OS.window_size.x / columns)
+  var w = int((OS.window_size.x if rect_position.x == 0 else OS.window_size.x - rect_position.x) / columns)
   var h = int(OS.window_size.y / row_num)
   
   for photo in photos:

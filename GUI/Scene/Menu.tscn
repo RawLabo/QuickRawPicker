@@ -57,6 +57,10 @@ margin_bottom = 164.0
 hint_tooltip = "fullscreen"
 focus_mode = 0
 custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.47451, 0.47451, 0.47451, 1 )
+custom_colors/font_color_hover = Color( 0.65098, 0.65098, 0.65098, 1 )
+custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
+toggle_mode = true
 text = ""
 flat = true
 
@@ -113,4 +117,6 @@ flat = true
 [connection signal="pressed" from="OpenFolderBtn" to="." method="_on_OpenFolderBtn_pressed"]
 [connection signal="pressed" from="ExportBtn" to="." method="_on_ExportBtn_pressed"]
 [connection signal="pressed" from="SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
+[connection signal="toggled" from="FullscreenBtn" to="." method="_on_FullscreenBtn_toggled"]
+[connection signal="toggled" from="PinBtn" to="." method="_on_PinBtn_toggled"]
 [connection signal="pressed" from="SubMenu/Compare" to="." method="_on_Compare_pressed"]

@@ -2,6 +2,7 @@ extends Control
 
 func _ready():
   Util.log("program_started")
+  set_grid_left_margin(Settings.pin_menu)
 
 func show_fullscreen_photo(photo_frame):
   Util.log("show_fullscreen_photo")
@@ -16,6 +17,12 @@ func show_fullscreen_photo(photo_frame):
 func is_dialog_open():
   return $MenuWrapper/Menu.is_settings_dialog_open() or $MenuWrapper/Menu.is_file_dialog_open()
 
+func set_grid_left_margin(is_menu_pinned):
+  if is_menu_pinned:
+    $Grid.rect_position.x = $MenuWrapper.rect_size.x + $PhotoList.rect_size.x
+  else:
+    $Grid.rect_position.x = 0
+    
 func progress_init(max_v, title = ""):
   if max_v > 0:
     $Progress/Title.text = title
@@ -29,7 +36,7 @@ func progress_set(v):
     $Progress.visible = false
   
 func _input(event):
-  if event is InputEventMouseMotion:
+  if not Settings.pin_menu and event is InputEventMouseMotion:
     if event.position.x < 100 and not $PhotoList.visible:
       $PanelAni.play("FadeIn")
     elif event.position.x > 300 and $PhotoList.visible and $Grid.get_child_count() > 0:
@@ -41,7 +48,7 @@ func _input(event):
       $PhotoFrame.visible = false
     elif event.scancode == KEY_F11:
       Util.log("toggle_fullscreen_mode")
-      OS.window_fullscreen = not OS.window_fullscreen
+      $MenuWrapper/Menu.fullscreen_btn_press()
     elif event.scancode == KEY_F12:
       Util.log("toggle_sysinfo")
       $SysInfo.visible = not $SysInfo.visible

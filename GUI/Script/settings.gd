@@ -13,6 +13,7 @@ const HIGHLIGHT_THLD = 99.9
 const HIGHLIGHT_ONE_CHANNEL = true
 const ZOOM_AT_AF_POINT = true
 const DISPLAY_INFO = true
+const PIN_MENU = false
 const EV = 0.0
 const GAMMA = 2.2
 
@@ -29,6 +30,7 @@ var sort_method = SORT_METHOD
 var open_folder = ""
 var export_folder = ""
 var display_info = DISPLAY_INFO
+var pin_menu = PIN_MENU
 
 var shadow_thld = SHADOW_THLD
 var highlight_thld = HIGHLIGHT_THLD
@@ -129,6 +131,7 @@ func reset():
   highlight_one_channel = HIGHLIGHT_ONE_CHANNEL
   zoom_at_af_point = ZOOM_AT_AF_POINT
   display_info = DISPLAY_INFO
+  pin_menu = PIN_MENU
   ev = EV
   gamma = GAMMA
   save_settings()
@@ -150,6 +153,7 @@ func save_settings(clean_cache = true):
     "open_folder": open_folder,
     "export_folder": export_folder,
     "display_info": display_info,
+    "pin_menu": pin_menu,
     "window_props": [
       OS.window_position.x,
       OS.window_position.y,
@@ -193,6 +197,7 @@ func load_settings():
     open_folder = dict.get("open_folder", "")
     export_folder = dict.get("export_folder", "")
     display_info = dict.get("display_info", DISPLAY_INFO)
+    pin_menu = dict.get("pin_menu", PIN_MENU)
     shadow_thld = dict.get("shadow_thld", SHADOW_THLD)
     highlight_thld = dict.get("highlight_thld", HIGHLIGHT_THLD)
     highlight_one_channel = dict.get("highlight_one_channel", HIGHLIGHT_ONE_CHANNEL)
