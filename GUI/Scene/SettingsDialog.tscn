@@ -1,0 +1,326 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Asset/Font/NotoSansSC-Bold.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://Asset/Font/MplusCodeLatin50-SemiBold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Scene/SettingsDialog.gd" type="Script" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 16.0
+content_margin_right = 16.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=2]
+content_margin_left = 16.0
+content_margin_right = 16.0
+
+[sub_resource type="StyleBoxFlat" id=3]
+content_margin_top = 20.0
+bg_color = Color( 0.223529, 0.211765, 0.25098, 1 )
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_color = Color( 0, 0, 0, 0.392157 )
+shadow_size = 3
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 2 )
+fallback/0 = ExtResource( 1 )
+
+[sub_resource type="StyleBoxEmpty" id=5]
+content_margin_top = 3.0
+
+[node name="SettingsDialog" type="WindowDialog"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -250.0
+margin_top = -200.0
+margin_right = 150.0
+margin_bottom = 300.0
+window_title = "settings"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tabs" type="TabContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/tab_fg = SubResource( 1 )
+custom_styles/tab_bg = SubResource( 2 )
+custom_styles/panel = SubResource( 3 )
+tab_align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="general" type="GridContainer" parent="Tabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 44.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 8
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BpsLabel" type="Label" parent="Tabs/general"]
+margin_top = 3.0
+margin_right = 230.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 230, 0 )
+text = "display_bit:"
+align = 2
+
+[node name="BpsOption" type="OptionButton" parent="Tabs/general"]
+margin_left = 238.0
+margin_right = 344.0
+margin_bottom = 20.0
+text = "16"
+items = [ "16", null, false, 0, null, "8", null, false, 1, null ]
+selected = 0
+
+[node name="ShowThumbFirstLabel" type="Label" parent="Tabs/general"]
+margin_top = 35.0
+margin_right = 230.0
+margin_bottom = 49.0
+text = "loading_thumbnail:"
+align = 2
+
+[node name="ShowThumbFirstOption" type="OptionButton" parent="Tabs/general"]
+margin_left = 238.0
+margin_top = 32.0
+margin_right = 344.0
+margin_bottom = 52.0
+text = "true"
+items = [ "true", null, false, 0, null, "false", null, false, 1, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ZoomAtAFPointLabel" type="Label" parent="Tabs/general"]
+margin_top = 67.0
+margin_right = 230.0
+margin_bottom = 81.0
+text = "zoom_at_af_point:"
+align = 2
+
+[node name="ZoomAtAFPointOption" type="OptionButton" parent="Tabs/general"]
+margin_left = 238.0
+margin_top = 64.0
+margin_right = 344.0
+margin_bottom = 84.0
+text = "true"
+items = [ "true", null, false, 0, null, "false", null, false, 1, null ]
+selected = 0
+
+[node name="CacheRoundLabel" type="Label" parent="Tabs/general"]
+margin_top = 101.0
+margin_right = 230.0
+margin_bottom = 115.0
+text = "cache_round:"
+align = 2
+
+[node name="CacheRoundSpinBox" type="SpinBox" parent="Tabs/general"]
+margin_left = 238.0
+margin_top = 96.0
+margin_right = 344.0
+margin_bottom = 120.0
+min_value = 1.0
+max_value = 20.0
+value = 1.0
+rounded = true
+
+[node name="DisplayColorSpaceLabel" type="Label" parent="Tabs/general"]
+margin_top = 135.0
+margin_right = 230.0
+margin_bottom = 149.0
+text = "color_space:"
+align = 2
+
+[node name="DisplayColorSpaceOption" type="OptionButton" parent="Tabs/general"]
+margin_left = 238.0
+margin_top = 132.0
+margin_right = 344.0
+margin_bottom = 152.0
+
+[node name="RatingType" type="Label" parent="Tabs/general"]
+margin_top = 167.0
+margin_right = 230.0
+margin_bottom = 181.0
+text = "rating_type:"
+align = 2
+
+[node name="RatingTypeOption" type="OptionButton" parent="Tabs/general"]
+margin_left = 238.0
+margin_top = 164.0
+margin_right = 344.0
+margin_bottom = 184.0
+
+[node name="SortMethodLabel" type="Label" parent="Tabs/general"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "sorting_method:"
+align = 2
+
+[node name="SortMethodOption" type="OptionButton" parent="Tabs/general"]
+margin_right = 29.0
+margin_bottom = 20.0
+
+[node name="LanguageLabel" type="Label" parent="Tabs/general"]
+margin_top = 199.0
+margin_right = 230.0
+margin_bottom = 213.0
+text = "lang:"
+align = 2
+
+[node name="LanguageOption" type="OptionButton" parent="Tabs/general"]
+margin_left = 238.0
+margin_top = 196.0
+margin_right = 344.0
+margin_bottom = 216.0
+text = "English"
+items = [ "English", null, false, 0, null, "中文", null, false, 1, null, "日本語", null, false, 2, null ]
+selected = 0
+
+[node name="ExportAssociatedLabel" type="Label" parent="Tabs/general"]
+margin_top = 238.0
+margin_right = 230.0
+margin_bottom = 252.0
+text = "export_associated:"
+align = 2
+
+[node name="ExportAssociatedLabelEdit" type="LineEdit" parent="Tabs/general"]
+margin_left = 238.0
+margin_top = 228.0
+margin_right = 344.0
+margin_bottom = 262.0
+custom_fonts/font = SubResource( 4 )
+placeholder_text = "$.JPG/#.xmp"
+placeholder_alpha = 0.3
+
+[node name="HelpBtn" type="Button" parent="Tabs/general"]
+modulate = Color( 1, 1, 1, 0.294118 )
+margin_right = 12.0
+margin_bottom = 20.0
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+text = "help"
+flat = true
+align = 2
+
+[node name="Reset" type="Button" parent="Tabs/general"]
+margin_left = 238.0
+margin_top = 274.0
+margin_right = 344.0
+margin_bottom = 294.0
+text = "reset"
+
+[node name="render" type="GridContainer" parent="Tabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 44.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 8
+columns = 2
+
+[node name="RendererLabel" type="Label" parent="Tabs/render"]
+margin_top = 199.0
+margin_right = 240.0
+margin_bottom = 213.0
+rect_min_size = Vector2( 240, 0 )
+text = "renderer:"
+align = 2
+
+[node name="RendererOption" type="OptionButton" parent="Tabs/render"]
+margin_left = 228.0
+margin_top = 196.0
+margin_right = 334.0
+margin_bottom = 216.0
+text = "GLES3"
+items = [ "GLES3", null, false, 0, null, "GLES2", null, false, 1, null ]
+selected = 0
+
+[node name="ShadowThldLabel" type="Label" parent="Tabs/render"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "shadow_thld:"
+align = 2
+
+[node name="ShadowThldBox" type="SpinBox" parent="Tabs/render"]
+margin_right = 74.0
+margin_bottom = 24.0
+step = 0.1
+suffix = "%"
+
+[node name="HighlightThldLabel" type="Label" parent="Tabs/render"]
+margin_right = 40.0
+margin_bottom = 14.0
+size_flags_vertical = 0
+custom_styles/normal = SubResource( 5 )
+text = "highlight_thld:"
+align = 2
+
+[node name="HighlightBox" type="VBoxContainer" parent="Tabs/render"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="HighlightThldBox" type="SpinBox" parent="Tabs/render/HighlightBox"]
+margin_right = 74.0
+margin_bottom = 24.0
+step = 0.1
+suffix = "%"
+
+[node name="OneChannel" type="CheckBox" parent="Tabs/render/HighlightBox"]
+margin_right = 108.0
+margin_bottom = 24.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_constants/check_vadjust = 1
+text = "one_channel"
+
+[node name="DefaultEVLabel" type="Label" parent="Tabs/render"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "default_ev:"
+align = 2
+
+[node name="DefaultEVBox" type="SpinBox" parent="Tabs/render"]
+margin_right = 74.0
+margin_bottom = 24.0
+min_value = -12.0
+max_value = 12.0
+step = 0.1
+
+[node name="DefaultGammaLabel" type="Label" parent="Tabs/render"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "default_gamma:"
+align = 2
+
+[node name="DefaultGammaBox" type="SpinBox" parent="Tabs/render"]
+margin_right = 74.0
+margin_bottom = 24.0
+max_value = 10.0
+step = 0.1
+
+[connection signal="item_selected" from="Tabs/general/BpsOption" to="." method="_on_BpsOption_item_selected"]
+[connection signal="item_selected" from="Tabs/general/ShowThumbFirstOption" to="." method="_on_ShowThumbFirstOption_item_selected"]
+[connection signal="item_selected" from="Tabs/general/ZoomAtAFPointOption" to="." method="_on_ZoomAtAFPointOption_item_selected"]
+[connection signal="value_changed" from="Tabs/general/CacheRoundSpinBox" to="." method="_on_CacheRoundSpinBox_value_changed"]
+[connection signal="item_selected" from="Tabs/general/DisplayColorSpaceOption" to="." method="_on_DisplayColorSpaceOption_item_selected"]
+[connection signal="item_selected" from="Tabs/general/RatingTypeOption" to="." method="_on_RatingTypeOption_item_selected"]
+[connection signal="item_selected" from="Tabs/general/SortMethodOption" to="." method="_on_SortMethodOption_item_selected"]
+[connection signal="item_selected" from="Tabs/general/LanguageOption" to="." method="_on_LanguageOption_item_selected"]
+[connection signal="text_changed" from="Tabs/general/ExportAssociatedLabelEdit" to="." method="_on_ExportAssociatedLabelEdit_text_changed"]
+[connection signal="pressed" from="Tabs/general/HelpBtn" to="." method="_on_HelpBtn_pressed"]
+[connection signal="pressed" from="Tabs/general/Reset" to="." method="_on_Reset_pressed"]
+[connection signal="item_selected" from="Tabs/render/RendererOption" to="." method="_on_RendererOption_item_selected"]
+[connection signal="value_changed" from="Tabs/render/ShadowThldBox" to="." method="_on_ShadowThldBox_value_changed"]
+[connection signal="value_changed" from="Tabs/render/HighlightBox/HighlightThldBox" to="." method="_on_HighlightThldBox_value_changed"]
+[connection signal="toggled" from="Tabs/render/HighlightBox/OneChannel" to="." method="_on_OneChannel_toggled"]
+[connection signal="value_changed" from="Tabs/render/DefaultEVBox" to="." method="_on_DefaultEVBox_value_changed"]
+[connection signal="value_changed" from="Tabs/render/DefaultGammaBox" to="." method="_on_DefaultGammaBox_value_changed"]

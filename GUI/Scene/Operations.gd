@@ -7,40 +7,12 @@ var dialog_type = DialogType.OpenDir
 
 func _ready():
   $Container/Fn.get_popup().connect("id_pressed", self, "_on_Fn_id_pressed")
-  for key in Settings.OutputColors.keys():
-    $SettingsDialog/Tabs/general/DisplayColorSpaceOption.add_item(key)
-  for key in Settings.RatingType.keys():
-    $SettingsDialog/Tabs/general/RatingTypeOption.add_item(key)
-  for key in Settings.SortMethod.keys():
-    $SettingsDialog/Tabs/general/SortMethodOption.add_item(key)
     
 func is_settings_dialog_open():
   return $SettingsDialog.visible
   
 func is_file_dialog_open():
   return has_node("FDialog") and $FDialog.visible
-  
-func _on_Reset_pressed():
-  Util.log("_on_Reset_pressed")
-  Settings.reset()
-  update_settings_dialog()
-  
-func update_settings_dialog():
-  $SettingsDialog/Tabs/general/BpsOption.select(0 if Settings.bps == 16 else 1)
-  $SettingsDialog/Tabs/general/ShowThumbFirstOption.select(0 if Settings.show_thumb_first else 1)
-  $SettingsDialog/Tabs/general/ZoomAtAFPointOption.select(0 if Settings.zoom_at_af_point else 1)
-  $SettingsDialog/Tabs/general/CacheRoundSpinBox.value = Settings.cache_round
-  $SettingsDialog/Tabs/general/DisplayColorSpaceOption.select(int(Settings.output_color))
-  $SettingsDialog/Tabs/general/RatingTypeOption.select(int(Settings.rating_type))
-  $SettingsDialog/Tabs/general/SortMethodOption.select(int(Settings.sort_method))
-  $SettingsDialog/Tabs/general/LanguageOption.select(Settings.Language[Settings.language])
-  $SettingsDialog/Tabs/general/ExportAssociatedLabelEdit.text = Settings.export_associated
-  $SettingsDialog/Tabs/render/RendererOption.select(0 if Settings.renderer == "GLES3" else 1)
-  $SettingsDialog/Tabs/render/ShadowThldBox.value = Settings.shadow_thld
-  $SettingsDialog/Tabs/render/HighlightBox/HighlightThldBox.value = Settings.highlight_thld
-  $SettingsDialog/Tabs/render/HighlightBox/OneChannel.pressed = Settings.highlight_one_channel
-  $SettingsDialog/Tabs/render/DefaultEVBox.value = Settings.ev
-  $SettingsDialog/Tabs/render/DefaultGammaBox.value = Settings.gamma
   
   
 func popup_about_dialog():
@@ -84,8 +56,7 @@ func _on_Fn_id_pressed(id):
     
   elif id == 200:
     # settings
-    update_settings_dialog()
-    $SettingsDialog.popup_centered()
+    $SettingsDialog.show()
     
   elif id == 300:
     # about
@@ -116,73 +87,3 @@ func _on_Dialog_dir_selected(dir):
     Threading.pending_jobs.append(["export_files", photos, self, [dir, export_patterns]])
 
   Settings.save_settings()
-
-
-func _on_BpsOption_item_selected(index):
-  Settings.bps = 16 if index == 0 else 8
-  Settings.save_settings()
-  Settings.update_title()
-
-func _on_ShowThumbFirstOption_item_selected(index):
-  Settings.show_thumb_first = index == 0
-  Settings.save_settings()
-  
-func _on_ZoomAtAFPointOption_item_selected(index):
-  Settings.zoom_at_af_point = index == 0
-  Settings.save_settings()
-  
-func _on_CacheRoundSpinBox_value_changed(value):
-  Settings.cache_round = value
-  Settings.save_settings()
-
-func _on_DisplayColorSpaceOption_item_selected(index):
-  Settings.output_color = index
-  Settings.save_settings()
-  Settings.update_title()
-
-func _on_SortMethodOption_item_selected(index):
-  Settings.sort_method = index
-  Settings.save_settings()
-  
-func _on_RatingTypeOption_item_selected(index):
-  Settings.rating_type = index
-  Settings.save_settings()
-  
-func _on_OpenLogFolder_pressed():
-  OS.shell_open(OS.get_user_data_dir())
-
-func _on_LanguageOption_item_selected(index):
-  Settings.language = Settings.Language.keys()[index]
-  Settings.save_settings()
-  Settings.update_title()
-
-func _on_RendererOption_item_selected(index):
-  Settings.renderer = $SettingsDialog/Tabs/render/RendererOption.get_item_text(index)
-  Settings.save_settings()
-  
-func _on_ExportAssociatedLabelEdit_text_changed(new_text):
-  Settings.export_associated = new_text
-  Settings.save_settings()
-
-func _on_ShadowThldBox_value_changed(value):
-  Settings.shadow_thld = value
-  Settings.save_settings()
-
-func _on_HighlightThldBox_value_changed(value):
-  Settings.highlight_thld = value
-  Settings.save_settings()
-
-func _on_OneChannel_toggled(button_pressed):
-  Settings.highlight_one_channel = button_pressed
-  Settings.save_settings()
-
-func _on_DefaultEVBox_value_changed(value):
-  Settings.ev = value
-  Settings.save_settings()
-
-func _on_DefaultGammaBox_value_changed(value):
-  Settings.gamma = value
-  Settings.save_settings()
-
-func _on_HelpBtn_pressed():
-  OS.shell_open("https://github.com/qdwang/QuickRawPicker/blob/main/Doc/Settings.md")
