@@ -65,7 +65,7 @@ func update_shader():
 func vec_int(vec):
   return Vector2(int(vec.x), int(vec.y))
     
-func init(w, h, input_photo, is_overlay = false):
+func init(w, h, input_photo, is_overlay = false, bg_change = false):
   # set photo; update rating; set mark
   photo = input_photo
   photo.update_rating()
@@ -95,6 +95,10 @@ func init(w, h, input_photo, is_overlay = false):
   else:
     $Photo/FocusPos.visible = false
   
+  # change bg
+  if bg_change:
+    $Bg.color.a -= 0.2
+    
   # init raw image
   if not photo.has_processed():
     Threading.pending_jobs.append(["get_raw_image", photo, self])

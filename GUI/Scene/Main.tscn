@@ -124,7 +124,7 @@ __meta__ = {
 [node name="Bg" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.196078, 0.196078, 0.196078, 1 )
+color = Color( 0.109804, 0.109804, 0.109804, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

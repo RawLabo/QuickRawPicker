@@ -55,9 +55,10 @@ func update_photos(photos):
   var w = int((OS.window_size.x if rect_position.x == 0 else OS.window_size.x - rect_position.x) / columns)
   var h = int(OS.window_size.y / row_num)
   
-  for photo in photos:
+  for i in range(photos.size()):
+    var photo = photos[i]
     var photo_frame = PhotoFrameScene.instance()
-    photo_frame.init(w, h, photo)
+    photo_frame.init(w, h, photo, false, i % column_num % 2 == i / column_num % 2)
     add_child(photo_frame)
 
   
