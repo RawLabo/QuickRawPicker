@@ -22,7 +22,6 @@ var rating : int = 0
 var thumb_texture : ImageTexture
 var full_texture : ImageTexture
 
-var ui_round = 0
 var ui_selected := false
 var ui_marked := false
 

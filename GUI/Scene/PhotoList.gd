@@ -113,19 +113,21 @@ func get_marked_photos():
   return result
 
 var compare_round = 0
+var cache_mapping = {}
 func _on_Compare_pressed():
-  Util.log("_on_Compare_pressed")
-  
   compare_round += 1
+  
   var selected_photos = get_selected_photos()
-  for photo in photos:
-    if selected_photos.has(photo):
-      photo.ui_round = compare_round
-    elif photo.ui_round > 0 and photo.ui_round < compare_round - Settings.cache_round:
+  for photo in selected_photos:
+    cache_mapping[photo] = compare_round
+
+  for photo in cache_mapping.keys():
+    if cache_mapping[photo] < compare_round - Settings.cache_round:
       photo.full_texture = ImageTexture.new()
-      photo.ui_round = 0
+      cache_mapping.erase(photo)
       
   Util.Nodes["Grid"].update_photos(selected_photos)
+  
   
 var with_alt = false
 func _on_List_multi_selected(index, selected):
@@ -139,9 +141,10 @@ func _on_List_multi_selected(index, selected):
       photo.toggle_selection()
 
 func clean_cache():
+  compare_round = 0
+  cache_mapping = {}
   for photo in photos:
     photo.full_texture = ImageTexture.new()
-    photo.ui_round = 0
     
 func _on_List_gui_input(event):
   with_alt = event.alt

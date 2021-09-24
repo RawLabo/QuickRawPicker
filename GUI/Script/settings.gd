@@ -2,7 +2,7 @@ extends Node
 
 const BPS = 16
 const SHOW_THUMB_FIRST = true
-const CACHE_ROUND = 2
+const CACHE_ROUND = 1
 var OUTPUT_COLOR = OutputColors.SRGB
 var RATING_TYPE = RatingType.AdobeXMP
 var SORT_METHOD = SortMethod.NameDescending
