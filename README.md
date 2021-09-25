@@ -21,8 +21,8 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 > You may need to run `xattr -dr com.apple.quarantine QuickRawPicker.app` to fix the **"file is damaged"** issue under macOS. 
 > 
 > Please check https://disable-gatekeeper.github.io/ for more info.
-
-![Godot_v3 3 3-stable_win64_7Mg3iQ7wVj](https://user-images.githubusercontent.com/403616/131298037-5c28a4c6-b252-4fc2-ac5b-34cb4ac2f964.jpg)
+> 
+![QuickRawPicker-v0 2 0-win-x64](https://user-images.githubusercontent.com/403616/134761572-d35736b2-6af8-4c4e-88da-ef39cae62566.jpg)
 
 ## Features
 * Compare multiple (up to 100) photos of multiple scales at the same time.
