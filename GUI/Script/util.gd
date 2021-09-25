@@ -22,6 +22,17 @@ func _ready():
   log_file.store_string("%s %s\n" % [OS.get_name(), OS.get_system_time_msecs()])
   log_file.close()
   
+  var req = HTTPRequest.new()
+  add_child(req)
+  req.connect("request_completed", self, "latest_release_check")
+  req.request("https://api.github.com/repos/qdwang/QuickRawPicker/releases/latest")
+  
+func latest_release_check(_result, _response_code, _headers, body):
+  var content = parse_json(body.get_string_from_utf8())
+  if content is Dictionary:
+    Settings.latest_version = content.get("tag_name", Settings.version)
+    Settings.update_title()
+  
 func get_file_mod_time(path):
   return _f.get_modified_time(path)
   
