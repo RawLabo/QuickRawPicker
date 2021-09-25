@@ -133,19 +133,6 @@ max_value = 20.0
 value = 1.0
 rounded = true
 
-[node name="DisplayColorSpaceLabel" type="Label" parent="Tabs/general"]
-margin_top = 135.0
-margin_right = 230.0
-margin_bottom = 149.0
-text = "color_space:"
-align = 2
-
-[node name="DisplayColorSpaceOption" type="OptionButton" parent="Tabs/general"]
-margin_left = 238.0
-margin_top = 132.0
-margin_right = 344.0
-margin_bottom = 152.0
-
 [node name="RatingType" type="Label" parent="Tabs/general"]
 margin_top = 167.0
 margin_right = 230.0
@@ -158,6 +145,20 @@ margin_left = 238.0
 margin_top = 164.0
 margin_right = 344.0
 margin_bottom = 184.0
+
+[node name="UIScaleLabel" type="Label" parent="Tabs/general"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "ui_scale:"
+align = 2
+
+[node name="UIScaleSpinBox" type="SpinBox" parent="Tabs/general"]
+margin_right = 74.0
+margin_bottom = 24.0
+min_value = 1.0
+max_value = 3.0
+step = 0.1
+value = 1.0
 
 [node name="SortMethodLabel" type="Label" parent="Tabs/general"]
 margin_right = 40.0
@@ -225,6 +226,19 @@ margin_top = 44.0
 custom_constants/vseparation = 12
 custom_constants/hseparation = 8
 columns = 2
+
+[node name="DisplayColorSpaceLabel" type="Label" parent="Tabs/render"]
+margin_top = 135.0
+margin_right = 230.0
+margin_bottom = 149.0
+text = "color_space:"
+align = 2
+
+[node name="DisplayColorSpaceOption" type="OptionButton" parent="Tabs/render"]
+margin_left = 238.0
+margin_top = 132.0
+margin_right = 344.0
+margin_bottom = 152.0
 
 [node name="RendererLabel" type="Label" parent="Tabs/render"]
 margin_top = 199.0
@@ -310,13 +324,14 @@ step = 0.1
 [connection signal="item_selected" from="Tabs/general/ShowThumbFirstOption" to="." method="_on_ShowThumbFirstOption_item_selected"]
 [connection signal="item_selected" from="Tabs/general/ZoomAtAFPointOption" to="." method="_on_ZoomAtAFPointOption_item_selected"]
 [connection signal="value_changed" from="Tabs/general/CacheRoundSpinBox" to="." method="_on_CacheRoundSpinBox_value_changed"]
-[connection signal="item_selected" from="Tabs/general/DisplayColorSpaceOption" to="." method="_on_DisplayColorSpaceOption_item_selected"]
 [connection signal="item_selected" from="Tabs/general/RatingTypeOption" to="." method="_on_RatingTypeOption_item_selected"]
+[connection signal="value_changed" from="Tabs/general/UIScaleSpinBox" to="." method="_on_UIScaleSpinBox_value_changed"]
 [connection signal="item_selected" from="Tabs/general/SortMethodOption" to="." method="_on_SortMethodOption_item_selected"]
 [connection signal="item_selected" from="Tabs/general/LanguageOption" to="." method="_on_LanguageOption_item_selected"]
 [connection signal="text_changed" from="Tabs/general/ExportAssociatedLabelEdit" to="." method="_on_ExportAssociatedLabelEdit_text_changed"]
 [connection signal="pressed" from="Tabs/general/HelpBtn" to="." method="_on_HelpBtn_pressed"]
 [connection signal="pressed" from="Tabs/general/Reset" to="." method="_on_Reset_pressed"]
+[connection signal="item_selected" from="Tabs/render/DisplayColorSpaceOption" to="." method="_on_DisplayColorSpaceOption_item_selected"]
 [connection signal="item_selected" from="Tabs/render/RendererOption" to="." method="_on_RendererOption_item_selected"]
 [connection signal="value_changed" from="Tabs/render/ShadowThldBox" to="." method="_on_ShadowThldBox_value_changed"]
 [connection signal="value_changed" from="Tabs/render/HighlightBox/HighlightThldBox" to="." method="_on_HighlightThldBox_value_changed"]

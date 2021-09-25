@@ -18,6 +18,7 @@ loading_thumbnail:,Loading thumbnail:,读取中缩略图显示:,読み込み時�
 cache_round:,Cache round:,缓存轮数:,キャッシュ回数:
 color_space:,Color space:,色彩空间:,カラースペース:
 rating_type:,Rating type:,评分类型:,評価タイプ:
+ui_scale:,UI Scale(restart needed):,UI缩放(此项需要重启):,UIスケール(再起動が必要):
 sorting_method:,Sorting method:,排序方法:,並び順:
 NameAscending,FileName↑,文件名↑,ファイル名↑
 NameDescending,FileName↓,文件名↓,ファイル名↓

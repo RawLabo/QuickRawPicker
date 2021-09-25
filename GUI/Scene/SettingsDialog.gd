@@ -2,13 +2,14 @@ extends WindowDialog
 
 func _ready():
   for key in Settings.OutputColors.keys():
-    $Tabs/general/DisplayColorSpaceOption.add_item(key)
+    $Tabs/render/DisplayColorSpaceOption.add_item(key)
   for key in Settings.RatingType.keys():
     $Tabs/general/RatingTypeOption.add_item(key)
   for key in Settings.SortMethod.keys():
     $Tabs/general/SortMethodOption.add_item(key)
 
 func show():
+  rect_scale = Vector2(Settings.ui_scale, Settings.ui_scale)
   update_settings_dialog()
   popup_centered()
   
@@ -17,7 +18,8 @@ func update_settings_dialog():
   $Tabs/general/ShowThumbFirstOption.select(0 if Settings.show_thumb_first else 1)
   $Tabs/general/ZoomAtAFPointOption.select(0 if Settings.zoom_at_af_point else 1)
   $Tabs/general/CacheRoundSpinBox.value = Settings.cache_round
-  $Tabs/general/DisplayColorSpaceOption.select(int(Settings.output_color))
+  $Tabs/general/UIScaleSpinBox.value = Settings.ui_scale
+  $Tabs/render/DisplayColorSpaceOption.select(int(Settings.output_color))
   $Tabs/general/RatingTypeOption.select(int(Settings.rating_type))
   $Tabs/general/SortMethodOption.select(int(Settings.sort_method))
   $Tabs/general/LanguageOption.select(Settings.Language[Settings.language])
@@ -101,3 +103,7 @@ func _on_DefaultGammaBox_value_changed(value):
 
 func _on_HelpBtn_pressed():
   OS.shell_open("https://github.com/qdwang/QuickRawPicker/blob/main/Doc/Settings.md")
+
+func _on_UIScaleSpinBox_value_changed(value):
+  Settings.ui_scale = value
+  Settings.save_settings()

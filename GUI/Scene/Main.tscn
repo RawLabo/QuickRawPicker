@@ -131,12 +131,6 @@ __meta__ = {
 
 [node name="Grid" parent="." instance=ExtResource( 5 )]
 
-[node name="PhotoList" parent="." instance=ExtResource( 3 )]
-anchor_right = 0.0
-margin_left = 50.0
-margin_right = 250.0
-rect_min_size = Vector2( 200, 0 )
-
 [node name="MenuWrapper" type="ColorRect" parent="."]
 anchor_bottom = 1.0
 rect_min_size = Vector2( 50, 0 )
@@ -146,9 +140,16 @@ __meta__ = {
 }
 
 [node name="Menu" parent="MenuWrapper" instance=ExtResource( 8 )]
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 50.0
-margin_bottom = 166.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="PhotoList" parent="." instance=ExtResource( 3 )]
+anchor_right = 0.0
+margin_left = 50.0
+margin_right = 250.0
+rect_min_size = Vector2( 200, 0 )
 
 [node name="PhotoFrame" parent="." instance=ExtResource( 6 )]
 visible = false

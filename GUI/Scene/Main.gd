@@ -2,7 +2,14 @@ extends Control
 
 func _ready():
   set_grid_left_margin(Settings.pin_menu)
-
+  update_ui_scale()
+  
+func update_ui_scale():
+  var vec_scale = Vector2(Settings.ui_scale, Settings.ui_scale)
+  $MenuWrapper.rect_scale = vec_scale
+  $PhotoList.rect_scale = vec_scale
+  $PhotoList.rect_position.x = 50 * Settings.ui_scale
+  
 func show_fullscreen_photo(photo_frame):
   if not $PhotoFrame.visible:
     $PhotoFrame.init($PhotoFrame.rect_size.x, $PhotoFrame.rect_size.y, photo_frame.photo, true)
@@ -16,7 +23,7 @@ func is_dialog_open():
 
 func set_grid_left_margin(is_menu_pinned):
   if is_menu_pinned:
-    $Grid.rect_position.x = $MenuWrapper.rect_size.x + $PhotoList.rect_size.x
+    $Grid.rect_position.x = ($MenuWrapper.rect_size.x + $PhotoList.rect_size.x) * Settings.ui_scale
   else:
     $Grid.rect_position.x = 0
     

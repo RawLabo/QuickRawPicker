@@ -16,7 +16,7 @@ const DISPLAY_INFO = true
 const PIN_MENU = false
 const EV = 0.0
 const GAMMA = 2.2
-
+const UI_SCALE = 1.0
 
 var bps = BPS
 var show_thumb_first = SHOW_THUMB_FIRST
@@ -37,6 +37,7 @@ var highlight_thld = HIGHLIGHT_THLD
 var highlight_one_channel = HIGHLIGHT_ONE_CHANNEL
 var ev = EV
 var gamma = GAMMA
+var ui_scale = UI_SCALE
 
 onready var language = get_fixed_locale()
 
@@ -136,6 +137,7 @@ func reset():
   pin_menu = PIN_MENU
   ev = EV
   gamma = GAMMA
+  ui_scale = UI_SCALE
   save_settings()
   update_title()
   
@@ -168,7 +170,8 @@ func save_settings(clean_cache = true):
     "highlight_one_channel": highlight_one_channel,
     "zoom_at_af_point": zoom_at_af_point,
     "ev": ev,
-    "gamma": gamma
+    "gamma": gamma,
+    "ui_scale": ui_scale
   })
   TranslationServer.set_locale(language)
   
@@ -206,6 +209,7 @@ func load_settings():
     zoom_at_af_point = dict.get("zoom_at_af_point", ZOOM_AT_AF_POINT)
     ev = dict.get("ev", EV)
     gamma = dict.get("gamma", GAMMA)
+    ui_scale = dict.get("ui_scale", UI_SCALE)
     
     # apply settings
     var window_props = dict.get("window_props", [])

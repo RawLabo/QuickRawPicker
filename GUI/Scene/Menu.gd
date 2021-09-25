@@ -38,12 +38,14 @@ func popup_about_dialog():
   about.get_child(1).align = HALIGN_CENTER
   about.dialog_text = "%s %s\nCopyright © 2021 qdwang.  All rights reserved.\nLicense: LGPL-2.1" % [Settings.project_name, Settings.version]
   about.window_title = "about"
+  about.rect_scale = Vector2(Settings.ui_scale, Settings.ui_scale)
   
   if has_node("AboutDialog"):
     remove_child($AboutDialog)
     
   add_child(about)
   about.popup_centered()
+  
 func gen_file_dialog():
   # workaround for FileDialog locale issue
   var dialog = FileDialog.new()
@@ -52,6 +54,7 @@ func gen_file_dialog():
   dialog.mode = FileDialog.MODE_OPEN_DIR
   dialog.access = FileDialog.ACCESS_FILESYSTEM
   dialog.name = "FDialog"
+  dialog.rect_scale = Vector2(Settings.ui_scale, Settings.ui_scale)
   
   if has_node("FDialog"):
     $FDialog.disconnect("dir_selected", self, "_on_Dialog_dir_selected")
@@ -66,14 +69,14 @@ func _on_OpenFolderBtn_pressed():
   var dialog = gen_file_dialog()
   dialog.window_title = "open_folder_with_Raw_images"
   dialog.current_dir = Settings.open_folder
-  dialog.popup_centered_clamped(file_dialog_size, 0.9)
+  dialog.popup_centered_clamped(file_dialog_size, 0.9 / Settings.ui_scale)
 
 func _on_ExportBtn_pressed():
   dialog_type = DialogType.ExportByCopy
   var dialog = gen_file_dialog()
   dialog.window_title = "copy_marked_photos_to_folder"
   dialog.current_dir = Settings.export_folder
-  dialog.popup_centered_clamped(file_dialog_size, 0.9)
+  dialog.popup_centered_clamped(file_dialog_size, 0.9 / Settings.ui_scale)
 
 func _on_Dialog_dir_selected(dir):
   if dialog_type == DialogType.OpenDir:

@@ -94,7 +94,7 @@ func init(w, h, input_photo, is_overlay = false, bg_change = false):
   # change bg
   if bg_change:
     $Bg.color.a -= 0.3
-    
+  
   # init raw image
   if not photo.has_processed():
     Threading.pending_jobs.append(["get_raw_image", photo, self])
