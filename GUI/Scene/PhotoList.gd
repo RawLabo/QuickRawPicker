@@ -8,8 +8,6 @@ var photos = []
 var parsed_photo_count = 0
 
 func show_folder_images(dir_path):
-  Util.log("show_folder_images")
-  
   $List.clear()
   update_dir(dir_path)
   
@@ -29,8 +27,6 @@ func _on_PhotoList_thumb_parsed(idx):
     Util.Nodes["Main"].progress_set(parsed_photo_count)
     
     if parsed_photo_count == photos.size():
-      Util.log("_on_PhotoList_thumb_parsed_all")
-      
       photos.sort_custom(Photo.PhotoSorter, Settings.SortMethod.keys()[Settings.sort_method])
       for photo in photos:
         $List.add_item(photo.get_list_info(), photo.thumb_texture)
@@ -48,7 +44,6 @@ func index_limit(index):
     return index
     
 func show_next(amount):
-  Util.log("show_next")
   if amount == 0:
     amount = 1
     
@@ -62,7 +57,6 @@ func show_next(amount):
   _on_Compare_pressed()
   
 func show_prev(amount = 1):
-  Util.log("show_prev")
   if amount == 0:
     amount = 1
   
@@ -76,8 +70,6 @@ func show_prev(amount = 1):
   _on_Compare_pressed()
   
 func update_dir(dir_path):
-  Util.log("update_dir")
-  
   photos = []
   
   var dir = Directory.new()
@@ -103,8 +95,6 @@ func get_selected_photos():
   return result
   
 func get_marked_photos():
-  Util.log("get_marked_photos")
-  
   var result = []
   for photo in photos:
     if photo.ui_marked:

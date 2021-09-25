@@ -12,16 +12,7 @@ onready var Nodes = {
 onready var _f = File.new()
 onready var _d = Directory.new()
 
-const log_file_path = "user://logs/debug_info.log"
-
 func _ready():
-  if _d.file_exists(log_file_path):
-    _d.copy(log_file_path, log_file_path.replace(".log", "_prev.log"))
-  
-  log_file.open(log_file_path, File.WRITE)
-  log_file.store_string("%s %s\n" % [OS.get_name(), OS.get_system_time_msecs()])
-  log_file.close()
-  
   var req = HTTPRequest.new()
   add_child(req)
   req.connect("request_completed", self, "latest_release_check")
@@ -35,14 +26,6 @@ func latest_release_check(_result, _response_code, _headers, body):
   
 func get_file_mod_time(path):
   return _f.get_modified_time(path)
-  
-func log(mark, data = null, close_file = true):
-  if not log_file.is_open():
-    log_file.open(log_file_path, File.READ_WRITE)
-  log_file.seek_end()
-  log_file.store_string("%s %s\n" % [mark, JSON.print(data) if data else ""])
-  if close_file:
-    log_file.close()
 
 func float2frac(x):
   var right = x - floor(x)

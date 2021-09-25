@@ -30,7 +30,6 @@ func update_settings_dialog():
   $Tabs/render/DefaultGammaBox.value = Settings.gamma
   
 func _on_Reset_pressed():
-  Util.log("_on_Reset_pressed")
   Settings.reset()
   update_settings_dialog()
 

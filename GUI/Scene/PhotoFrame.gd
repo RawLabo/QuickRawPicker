@@ -24,21 +24,17 @@ var shadow_enable = false
 var highlight_enable = false
 
 func select():
-  Util.log("frame_select")
   $Selection.modulate.a = 1.0
   selection_style_udpate()
 func unselect():
-  Util.log("frame_unselect")
   $Selection.modulate.a = 0.5
   selection_style_udpate()
 func mark():
-  Util.log("frame_mark")
   var alpha = $Selection.modulate.a
   $Selection.modulate = Settings.mark_color
   $Selection.modulate.a = alpha
   selection_style_udpate()
 func unmark():
-  Util.log("frame_unmark")
   var alpha = $Selection.modulate.a
   $Selection.modulate = Settings.select_color
   $Selection.modulate.a = alpha
@@ -197,30 +193,24 @@ func reposition(pos):
 
 
 func _on_size_plus_pressed():
-  Util.log("_on_size_plus_pressed")
   rescale(true)
 
 func _on_size_minus_pressed():
-  Util.log("_on_size_minus_pressed")
   rescale(false)
 
 func _on_exposure_plus_pressed():
-  Util.log("_on_exposure_plus_pressed")
   EV += 0.1
   update_shader()
 
 func _on_exposure_minus_pressed():
-  Util.log("_on_exposure_minus_pressed")
   EV -= 0.1
   update_shader()
   
 func _on_gamma_plus_pressed():
-  Util.log("_on_gamma_plus_pressed")
   gamma += 0.1
   update_shader()
 
 func _on_gamma_minus_pressed():
-  Util.log("_on_gamma_minus_pressed")
   gamma -= 0.1
   update_shader()
 
@@ -229,7 +219,6 @@ func select_rating_combox(index):
   photo.set_rating(index)
   
 func _on_RatingCombox_item_selected(index):
-  Util.log("_on_RatingCombox_item_selected", {"index": index})
   photo.set_rating(index)
 
 func toggle_highlight():
@@ -239,12 +228,10 @@ func toggle_shadow():
   $TopContainer/Shadow.pressed = not $TopContainer/Shadow.pressed
   
 func _on_Highlight_toggled(button_pressed):
-  Util.log("_on_Highlight_toggled", {"pressed": button_pressed})
   highlight_enable = button_pressed
   update_shader()
 
 func _on_Shadow_toggled(button_pressed):
-  Util.log("_on_Shadow_toggled", {"pressed": button_pressed})
   shadow_enable = button_pressed
   update_shader()
 
