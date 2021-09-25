@@ -40,7 +40,7 @@ func update_photos(photos):
   else:
     column_num = 4
     row_num = 3
-    while column_num < 100 && row_num <100:
+    while column_num < 100 && row_num < 100:
       if row_num < column_num:
         row_num += 1
       else:

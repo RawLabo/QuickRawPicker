@@ -176,7 +176,7 @@ func set_rating(score):
     set_xmp_rating(score)
   
 func has_processed():
-  return full_texture.get_data() != null
+  return full_texture.get_format() != 0
 
 func select():
   ui_selected = true
