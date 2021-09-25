@@ -2,7 +2,7 @@ keys,en_US,zh_CN,ja_JP
 open_folder,Open folder,打开文件夹,フォルダーを開く
 open_folder_with_Raw_images,Open folder with Raw images,打开含有Raw文件的目录,Raw画像のあるフォルダを開く
 copy_marked_photos_to_folder,Copy marked photos to folder,复制已标记的照片到目录,マークした写真をフォルダにコピー
-loading...,Loading...,读取中...,読み込み中...
+loading..., Loading..., 读取中..., 読み込み中...
 true,True,是,有効
 false,False,否,無効
 ev:,EV:,曝光:,露出:

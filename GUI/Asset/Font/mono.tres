@@ -1,9 +1,11 @@
-[gd_resource type="DynamicFont" load_steps=3 format=2]
+[gd_resource type="DynamicFont" load_steps=4 format=2]
 
 [ext_resource path="res://Asset/Font/MplusCodeLatin50-SemiBold.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Asset/Font/NotoSansSC-Bold.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://Asset/Font/Font Awesome 5 Free-Solid-900.otf" type="DynamicFontData" id=3]
 
 [resource]
 size = 18
 font_data = ExtResource( 1 )
 fallback/0 = ExtResource( 2 )
+fallback/1 = ExtResource( 3 )
