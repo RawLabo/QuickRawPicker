@@ -44,7 +44,7 @@ onready var language = get_fixed_locale()
 
 var select_color = Color(1, 1, 1)
 var mark_color = Color(0.5, 1, 0.3)
-var version = "v0.2.0"
+var version = "v0.2.1"
 var latest_version = ""
 
 onready var project_name = ProjectSettings.get_setting("application/config/name")
@@ -116,7 +116,7 @@ func _exit_tree():
   save_settings()
   
 func update_title():
-  var new_version_mark = " => %s↑️" % latest_version if latest_version and latest_version != version else ""
+  var new_version_mark = " -> %s*" % latest_version if latest_version and latest_version != version else ""
   OS.set_window_title("%s %s%s / %s %s / %s %s" % [project_name, version, new_version_mark, tr("display_bit:"), bps, tr("color_space:"), OutputColors.keys()[output_color]])
   
 func reset():
