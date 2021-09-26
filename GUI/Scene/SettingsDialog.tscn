@@ -66,6 +66,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="LanguageLabel" type="Label" parent="Tabs/general"]
+margin_top = 199.0
+margin_right = 230.0
+margin_bottom = 213.0
+text = "lang:"
+align = 2
+
+[node name="LanguageOption" type="OptionButton" parent="Tabs/general"]
+margin_left = 238.0
+margin_top = 196.0
+margin_right = 344.0
+margin_bottom = 216.0
+text = "English"
+items = [ "English", null, false, 0, null, "中文", null, false, 1, null, "日本語", null, false, 2, null ]
+selected = 0
+
 [node name="BpsLabel" type="Label" parent="Tabs/general"]
 margin_top = 3.0
 margin_right = 230.0
@@ -146,20 +162,6 @@ margin_top = 164.0
 margin_right = 344.0
 margin_bottom = 184.0
 
-[node name="UIScaleLabel" type="Label" parent="Tabs/general"]
-margin_right = 40.0
-margin_bottom = 14.0
-text = "ui_scale:"
-align = 2
-
-[node name="UIScaleSpinBox" type="SpinBox" parent="Tabs/general"]
-margin_right = 74.0
-margin_bottom = 24.0
-min_value = 1.0
-max_value = 3.0
-step = 0.1
-value = 1.0
-
 [node name="SortMethodLabel" type="Label" parent="Tabs/general"]
 margin_right = 40.0
 margin_bottom = 14.0
@@ -169,22 +171,6 @@ align = 2
 [node name="SortMethodOption" type="OptionButton" parent="Tabs/general"]
 margin_right = 29.0
 margin_bottom = 20.0
-
-[node name="LanguageLabel" type="Label" parent="Tabs/general"]
-margin_top = 199.0
-margin_right = 230.0
-margin_bottom = 213.0
-text = "lang:"
-align = 2
-
-[node name="LanguageOption" type="OptionButton" parent="Tabs/general"]
-margin_left = 238.0
-margin_top = 196.0
-margin_right = 344.0
-margin_bottom = 216.0
-text = "English"
-items = [ "English", null, false, 0, null, "中文", null, false, 1, null, "日本語", null, false, 2, null ]
-selected = 0
 
 [node name="ExportAssociatedLabel" type="Label" parent="Tabs/general"]
 margin_top = 238.0
@@ -201,6 +187,20 @@ margin_bottom = 262.0
 custom_fonts/font = SubResource( 4 )
 placeholder_text = "$.JPG/#.xmp"
 placeholder_alpha = 0.3
+
+[node name="UIScaleLabel" type="Label" parent="Tabs/general"]
+margin_right = 55.0
+margin_bottom = 14.0
+text = "ui_scale:"
+align = 2
+
+[node name="UIScaleSpinBox" type="SpinBox" parent="Tabs/general"]
+margin_right = 74.0
+margin_bottom = 24.0
+min_value = 1.0
+max_value = 3.0
+step = 0.1
+value = 1.0
 
 [node name="HelpBtn" type="Button" parent="Tabs/general"]
 modulate = Color( 1, 1, 1, 0.294118 )
@@ -320,15 +320,15 @@ margin_bottom = 24.0
 max_value = 10.0
 step = 0.1
 
+[connection signal="item_selected" from="Tabs/general/LanguageOption" to="." method="_on_LanguageOption_item_selected"]
 [connection signal="item_selected" from="Tabs/general/BpsOption" to="." method="_on_BpsOption_item_selected"]
 [connection signal="item_selected" from="Tabs/general/ShowThumbFirstOption" to="." method="_on_ShowThumbFirstOption_item_selected"]
 [connection signal="item_selected" from="Tabs/general/ZoomAtAFPointOption" to="." method="_on_ZoomAtAFPointOption_item_selected"]
 [connection signal="value_changed" from="Tabs/general/CacheRoundSpinBox" to="." method="_on_CacheRoundSpinBox_value_changed"]
 [connection signal="item_selected" from="Tabs/general/RatingTypeOption" to="." method="_on_RatingTypeOption_item_selected"]
-[connection signal="value_changed" from="Tabs/general/UIScaleSpinBox" to="." method="_on_UIScaleSpinBox_value_changed"]
 [connection signal="item_selected" from="Tabs/general/SortMethodOption" to="." method="_on_SortMethodOption_item_selected"]
-[connection signal="item_selected" from="Tabs/general/LanguageOption" to="." method="_on_LanguageOption_item_selected"]
 [connection signal="text_changed" from="Tabs/general/ExportAssociatedLabelEdit" to="." method="_on_ExportAssociatedLabelEdit_text_changed"]
+[connection signal="value_changed" from="Tabs/general/UIScaleSpinBox" to="." method="_on_UIScaleSpinBox_value_changed"]
 [connection signal="pressed" from="Tabs/general/HelpBtn" to="." method="_on_HelpBtn_pressed"]
 [connection signal="pressed" from="Tabs/general/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="item_selected" from="Tabs/render/DisplayColorSpaceOption" to="." method="_on_DisplayColorSpaceOption_item_selected"]
