@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Asset/Font/NotoSansSC-Bold.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://Asset/Font/MplusCodeLatin50-SemiBold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Scene/SettingsDialog.gd" type="Script" id=3]
+[ext_resource path="res://Asset/Font/mono.tres" type="DynamicFont" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 16.0
@@ -148,19 +149,6 @@ margin_bottom = 120.0
 max_value = 20.0
 value = 1.0
 rounded = true
-
-[node name="RatingType" type="Label" parent="Tabs/general"]
-margin_top = 167.0
-margin_right = 230.0
-margin_bottom = 181.0
-text = "rating_type:"
-align = 2
-
-[node name="RatingTypeOption" type="OptionButton" parent="Tabs/general"]
-margin_left = 238.0
-margin_top = 164.0
-margin_right = 344.0
-margin_bottom = 184.0
 
 [node name="SortMethodLabel" type="Label" parent="Tabs/general"]
 margin_right = 40.0
@@ -320,12 +308,58 @@ margin_bottom = 24.0
 max_value = 10.0
 step = 0.1
 
+[node name="rating" type="GridContainer" parent="Tabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 44.0
+margin_right = -360.0
+margin_bottom = -416.0
+columns = 2
+
+[node name="RatingType" type="Label" parent="Tabs/rating"]
+margin_top = 167.0
+margin_right = 230.0
+margin_bottom = 181.0
+rect_min_size = Vector2( 150, 0 )
+text = "rating_type:"
+align = 2
+
+[node name="RatingTypeOption" type="OptionButton" parent="Tabs/rating"]
+margin_left = 238.0
+margin_top = 164.0
+margin_right = 344.0
+margin_bottom = 184.0
+
+[node name="XMPTemplateLabel" type="Label" parent="Tabs/rating"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "xmp_template:"
+align = 2
+
+[node name="XMPTemplateEdit" type="TextEdit" parent="Tabs/rating"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 220, 100 )
+custom_fonts/font = ExtResource( 4 )
+
+[node name="PP3TemplateLabel" type="Label" parent="Tabs/rating"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "pp3_template:"
+align = 2
+
+[node name="PP3TemplateEdit" type="TextEdit" parent="Tabs/rating"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 220, 100 )
+custom_fonts/font = ExtResource( 4 )
+
 [connection signal="item_selected" from="Tabs/general/LanguageOption" to="." method="_on_LanguageOption_item_selected"]
 [connection signal="item_selected" from="Tabs/general/BpsOption" to="." method="_on_BpsOption_item_selected"]
 [connection signal="item_selected" from="Tabs/general/ShowThumbFirstOption" to="." method="_on_ShowThumbFirstOption_item_selected"]
 [connection signal="item_selected" from="Tabs/general/ZoomAtAFPointOption" to="." method="_on_ZoomAtAFPointOption_item_selected"]
 [connection signal="value_changed" from="Tabs/general/CacheRoundSpinBox" to="." method="_on_CacheRoundSpinBox_value_changed"]
-[connection signal="item_selected" from="Tabs/general/RatingTypeOption" to="." method="_on_RatingTypeOption_item_selected"]
 [connection signal="item_selected" from="Tabs/general/SortMethodOption" to="." method="_on_SortMethodOption_item_selected"]
 [connection signal="text_changed" from="Tabs/general/ExportAssociatedLabelEdit" to="." method="_on_ExportAssociatedLabelEdit_text_changed"]
 [connection signal="value_changed" from="Tabs/general/UIScaleSpinBox" to="." method="_on_UIScaleSpinBox_value_changed"]
@@ -338,3 +372,6 @@ step = 0.1
 [connection signal="toggled" from="Tabs/render/HighlightBox/OneChannel" to="." method="_on_OneChannel_toggled"]
 [connection signal="value_changed" from="Tabs/render/DefaultEVBox" to="." method="_on_DefaultEVBox_value_changed"]
 [connection signal="value_changed" from="Tabs/render/DefaultGammaBox" to="." method="_on_DefaultGammaBox_value_changed"]
+[connection signal="item_selected" from="Tabs/rating/RatingTypeOption" to="." method="_on_RatingTypeOption_item_selected"]
+[connection signal="text_changed" from="Tabs/rating/XMPTemplateEdit" to="." method="_on_XMPTemplateEdit_text_changed"]
+[connection signal="text_changed" from="Tabs/rating/PP3TemplateEdit" to="." method="_on_PP3TemplateEdit_text_changed"]

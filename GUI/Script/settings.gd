@@ -17,6 +17,18 @@ const PIN_MENU = false
 const EV = 0.0
 const GAMMA = 2.2
 const UI_SCALE = 1.0
+const XMP_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="QuickRawPicker">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about=""
+    xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+    xmp:Rating="0">
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>"""
+const PP3_TEMPLATE = """[General]
+Rank=0
+"""
 
 var bps = BPS
 var show_thumb_first = SHOW_THUMB_FIRST
@@ -38,6 +50,8 @@ var highlight_one_channel = HIGHLIGHT_ONE_CHANNEL
 var ev = EV
 var gamma = GAMMA
 var ui_scale = UI_SCALE
+var xmp_template = XMP_TEMPLATE
+var pp3_template = PP3_TEMPLATE
 
 onready var language = get_fixed_locale()
 
@@ -138,6 +152,9 @@ func reset():
   ev = EV
   gamma = GAMMA
   ui_scale = UI_SCALE
+  xmp_template = XMP_TEMPLATE
+  pp3_template = PP3_TEMPLATE
+  
   save_settings()
   update_title()
   
@@ -171,7 +188,9 @@ func save_settings(clean_cache = true):
     "zoom_at_af_point": zoom_at_af_point,
     "ev": ev,
     "gamma": gamma,
-    "ui_scale": ui_scale
+    "ui_scale": ui_scale,
+    "xmp_template": xmp_template,
+    "pp3_template": pp3_template
   })
   TranslationServer.set_locale(language)
   
@@ -210,6 +229,8 @@ func load_settings():
     ev = dict.get("ev", EV)
     gamma = dict.get("gamma", GAMMA)
     ui_scale = dict.get("ui_scale", UI_SCALE)
+    xmp_template = dict.get("xmp_template", XMP_TEMPLATE)
+    pp3_template = dict.get("pp3_template", PP3_TEMPLATE)
     
     # apply settings
     var window_props = dict.get("window_props", [])

@@ -28,20 +28,7 @@ var ui_marked := false
 const old_xmp_rating_tag = "xmp:Rating>"
 const xmp_rating_tag = "xmp:Rating="
 const xmp_tag = "xmlns:xmp="
-const xmp_template = """<?xml version="1.0" encoding="UTF-8"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="QuickRawPicker">
- <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <rdf:Description rdf:about=""
-    xmlns:xmp="http://ns.adobe.com/xap/1.0/"
-    xmp:Rating="0">
-  </rdf:Description>
- </rdf:RDF>
-</x:xmpmeta>"""
 const pp3_rating_tag = "Rank="
-const pp3_template = """
-[General]
-Rank=0
-"""
 
 class PhotoSorter:
   static func ExifDateDescending(a, b):
@@ -121,7 +108,7 @@ func set_xmp_rating(score):
   if err != 0:
     file.open(xmp_path, File.WRITE)
   
-  var content = file.get_as_text() if err == 0 else xmp_template
+  var content = file.get_as_text() if err == 0 else Settings.xmp_template
   var score_str = "\"%d\"" % score
     
   var index1 = content.find(xmp_rating_tag)
@@ -160,7 +147,7 @@ func set_pp3_rating(score):
   if err != OK:
     file.open(pp3_path, File.WRITE)
     
-  var content = file.get_as_text() if err == OK else pp3_template
+  var content = file.get_as_text() if err == OK else Settings.pp3_template
       
   var index = content.find(pp3_rating_tag)
   if index > -1:

@@ -4,7 +4,7 @@ func _ready():
   for key in Settings.OutputColors.keys():
     $Tabs/render/DisplayColorSpaceOption.add_item(key)
   for key in Settings.RatingType.keys():
-    $Tabs/general/RatingTypeOption.add_item(key)
+    $Tabs/rating/RatingTypeOption.add_item(key)
   for key in Settings.SortMethod.keys():
     $Tabs/general/SortMethodOption.add_item(key)
 
@@ -20,7 +20,7 @@ func update_settings_dialog():
   $Tabs/general/CacheRoundSpinBox.value = Settings.cache_round
   $Tabs/general/UIScaleSpinBox.value = Settings.ui_scale
   $Tabs/render/DisplayColorSpaceOption.select(int(Settings.output_color))
-  $Tabs/general/RatingTypeOption.select(int(Settings.rating_type))
+  $Tabs/rating/RatingTypeOption.select(int(Settings.rating_type))
   $Tabs/general/SortMethodOption.select(int(Settings.sort_method))
   $Tabs/general/LanguageOption.select(Settings.Language[Settings.language])
   $Tabs/general/ExportAssociatedLabelEdit.text = Settings.export_associated
@@ -30,6 +30,8 @@ func update_settings_dialog():
   $Tabs/render/HighlightBox/OneChannel.pressed = Settings.highlight_one_channel
   $Tabs/render/DefaultEVBox.value = Settings.ev
   $Tabs/render/DefaultGammaBox.value = Settings.gamma
+  $Tabs/rating/XMPTemplateEdit.text = Settings.xmp_template
+  $Tabs/rating/PP3TemplateEdit.text = Settings.pp3_template
   
 func _on_Reset_pressed():
   Settings.reset()
@@ -106,4 +108,12 @@ func _on_HelpBtn_pressed():
 
 func _on_UIScaleSpinBox_value_changed(value):
   Settings.ui_scale = value
+  Settings.save_settings()
+
+func _on_XMPTemplateEdit_text_changed():
+  Settings.xmp_template = $Tabs/rating/XMPTemplateEdit.text
+  Settings.save_settings()
+
+func _on_PP3TemplateEdit_text_changed():
+  Settings.pp3_template = $Tabs/rating/PP3TemplateEdit.text
   Settings.save_settings()
