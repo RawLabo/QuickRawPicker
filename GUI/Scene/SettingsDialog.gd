@@ -32,6 +32,7 @@ func update_settings_dialog():
   $Tabs/render/DefaultGammaBox.value = Settings.gamma
   $Tabs/rating/XMPTemplateEdit.text = Settings.xmp_template
   $Tabs/rating/PP3TemplateEdit.text = Settings.pp3_template
+  $Tabs/general/ThreadsSpinBox.value = Settings.thread_num
   
 func _on_Reset_pressed():
   Settings.reset()
@@ -116,4 +117,8 @@ func _on_XMPTemplateEdit_text_changed():
 
 func _on_PP3TemplateEdit_text_changed():
   Settings.pp3_template = $Tabs/rating/PP3TemplateEdit.text
+  Settings.save_settings()
+
+func _on_ThreadsSpinBox_value_changed(value):
+  Settings.thread_num = value
   Settings.save_settings()

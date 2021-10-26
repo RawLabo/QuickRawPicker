@@ -52,6 +52,7 @@ var gamma = GAMMA
 var ui_scale = UI_SCALE
 var xmp_template = XMP_TEMPLATE
 var pp3_template = PP3_TEMPLATE
+var thread_num = OS.get_processor_count()
 
 onready var language = get_fixed_locale()
 
@@ -154,6 +155,7 @@ func reset():
   ui_scale = UI_SCALE
   xmp_template = XMP_TEMPLATE
   pp3_template = PP3_TEMPLATE
+  thread_num = OS.get_processor_count()
   
   save_settings()
   update_title()
@@ -190,7 +192,8 @@ func save_settings(clean_cache = true):
     "gamma": gamma,
     "ui_scale": ui_scale,
     "xmp_template": xmp_template,
-    "pp3_template": pp3_template
+    "pp3_template": pp3_template,
+    "thread_num": thread_num
   })
   TranslationServer.set_locale(language)
   
@@ -231,6 +234,7 @@ func load_settings():
     ui_scale = dict.get("ui_scale", UI_SCALE)
     xmp_template = dict.get("xmp_template", XMP_TEMPLATE)
     pp3_template = dict.get("pp3_template", PP3_TEMPLATE)
+    thread_num = dict.get("thread_num", OS.get_processor_count())
     
     # apply settings
     var window_props = dict.get("window_props", [])

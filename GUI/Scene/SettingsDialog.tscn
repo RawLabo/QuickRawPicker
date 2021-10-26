@@ -48,6 +48,7 @@ __meta__ = {
 [node name="Tabs" type="TabContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_bottom = 10.0
 custom_styles/tab_fg = SubResource( 1 )
 custom_styles/tab_bg = SubResource( 2 )
 custom_styles/panel = SubResource( 3 )
@@ -190,6 +191,19 @@ max_value = 3.0
 step = 0.1
 value = 1.0
 
+[node name="ThreadsLabel" type="Label" parent="Tabs/general"]
+margin_right = 52.0
+margin_bottom = 14.0
+text = "threads:"
+align = 2
+
+[node name="ThreadsSpinBox" type="SpinBox" parent="Tabs/general"]
+margin_right = 74.0
+margin_bottom = 24.0
+min_value = 1.0
+max_value = 512.0
+value = 1.0
+
 [node name="HelpBtn" type="Button" parent="Tabs/general"]
 modulate = Color( 1, 1, 1, 0.294118 )
 margin_right = 12.0
@@ -313,8 +327,8 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 44.0
-margin_right = -360.0
-margin_bottom = -416.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 8
 columns = 2
 
 [node name="RatingType" type="Label" parent="Tabs/rating"]
@@ -363,6 +377,7 @@ custom_fonts/font = ExtResource( 4 )
 [connection signal="item_selected" from="Tabs/general/SortMethodOption" to="." method="_on_SortMethodOption_item_selected"]
 [connection signal="text_changed" from="Tabs/general/ExportAssociatedLabelEdit" to="." method="_on_ExportAssociatedLabelEdit_text_changed"]
 [connection signal="value_changed" from="Tabs/general/UIScaleSpinBox" to="." method="_on_UIScaleSpinBox_value_changed"]
+[connection signal="value_changed" from="Tabs/general/ThreadsSpinBox" to="." method="_on_ThreadsSpinBox_value_changed"]
 [connection signal="pressed" from="Tabs/general/HelpBtn" to="." method="_on_HelpBtn_pressed"]
 [connection signal="pressed" from="Tabs/general/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="item_selected" from="Tabs/render/DisplayColorSpaceOption" to="." method="_on_DisplayColorSpaceOption_item_selected"]

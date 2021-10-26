@@ -1,12 +1,10 @@
 extends Node
 
-onready var core_num = OS.get_processor_count()
-
 var working_thread_count = 0
 var pending_jobs = []
 
 func _physics_process(_delta):
-  if working_thread_count < core_num and pending_jobs.size() > 0:
+  if working_thread_count < Settings.thread_num and pending_jobs.size() > 0:
     var job = pending_jobs.pop_front()
     
     working_thread_count += 1
