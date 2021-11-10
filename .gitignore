@@ -5,3 +5,5 @@ Build/
 Samples/
 .DS_Store
 *.translation
+Library/LibRaw/lib/
+GUI/Asset/Lib/Bin/
