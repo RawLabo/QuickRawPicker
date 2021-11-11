@@ -168,7 +168,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: nightly
-          release_name: Release nightly builds - \#${{ steps.vars.outputs.sha_short }}
+          release_name: Release nightly builds - ${{ steps.vars.outputs.sha_short }}
           prerelease: true
           body: Automated builds for nightly prereleases via Github Actions
 
