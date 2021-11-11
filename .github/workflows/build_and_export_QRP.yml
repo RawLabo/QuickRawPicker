@@ -1,0 +1,248 @@
+name: Build and export QuickRawPicker
+
+on:
+  push:
+    branches: [ main ]
+    
+  workflow_dispatch:
+
+jobs:
+  Build_Bridge_Linux:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out qdwang/QuickRawPicker
+        uses: actions/checkout@v2
+        with:
+          repository: qdwang/QuickRawPicker
+
+      - name: Using GCC-10
+        run: |
+          sudo rm /usr/bin/g++
+          sudo ln -s /usr/bin/g++-10 /usr/bin/g++
+
+      - name: Download nightly libraw_mod.linux.a
+        run: aria2c https://github.com/qdwang/LibRaw/releases/download/nightly/libraw_mod.linux.a -d Library/LibRaw/lib
+          
+      - name: Compile
+        run: |
+          cd Library/QRPBridge/
+          ./build.linux.sh
+
+      - name: Upload QRPBridge.so
+        uses: actions/upload-artifact@v2
+        with:
+          name: so.zip
+          path: GUI/Asset/Lib/Bin/QRPBridge.so
+
+  Build_Bridge_MacOS:
+    runs-on: macos-11
+    steps:
+      - name: Check out qdwang/QuickRawPicker
+        uses: actions/checkout@v2
+        with:
+          repository: qdwang/QuickRawPicker
+
+      - name: Download nightly libraw_mod.macos.a
+        run: aria2c https://github.com/qdwang/LibRaw/releases/download/nightly/libraw_mod.macos.a -d Library/LibRaw/lib
+          
+      - name: Compile
+        run: |
+          cd Library/QRPBridge/
+          ./build.macos.sh
+
+      - name: Upload QRPBridge.dylib
+        uses: actions/upload-artifact@v2
+        with:
+          name: dylib.zip
+          path: GUI/Asset/Lib/Bin/QRPBridge.dylib
+          
+  Build_Bridge_Win:
+    runs-on: windows-2019
+    steps:
+      - name: Check out qdwang/QuickRawPicker
+        uses: actions/checkout@v2
+        with:
+          repository: qdwang/QuickRawPicker
+
+      - name: Update compiler
+        run: choco upgrade mingw
+
+      - name: Download nightly libraw_mod.mingw.a
+        run: aria2c https://github.com/qdwang/LibRaw/releases/download/nightly/libraw_mod.mingw.a -d Library/LibRaw/lib
+       
+      - name: Compile
+        run: |
+          cd Library/QRPBridge/
+          .\build.mingw.bat
+
+      - name: Upload QRPBridge.dll
+        uses: actions/upload-artifact@v2
+        with:
+          name: dll.zip
+          path: GUI/Asset/Lib/Bin/QRPBridge.dll
+
+  Export:
+    needs: [Build_Bridge_Linux, Build_Bridge_MacOS, Build_Bridge_Win]
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out qdwang/QuickRawPicker
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          repository: qdwang/QuickRawPicker
+
+      - name: Download QRPBridge libs
+        uses: actions/download-artifact@v2
+        with:
+          path: GUI/Asset/Lib/Bin
+
+      - name: Extract artifacts
+        run: |
+          cd GUI/Asset/Lib/Bin
+          7z x *.zip
+          mv dll.zip/* ./
+          mv dylib.zip/* ./
+          mv so.zip/* ./
+
+      - name: Install wine
+        run: sudo apt install wine64
+
+      - name: Prepare godot
+        run: |
+          aria2c https://github.com/godotengine/godot/releases/download/3.4-stable/Godot_v3.4-stable_linux_headless.64.zip
+          aria2c https://github.com/godotengine/godot/releases/download/3.4-stable/Godot_v3.4-stable_export_templates.tpz
+          7z x Godot_v3.4-stable_linux_headless.64.zip
+          7z x Godot_v3.4-stable_export_templates.tpz -o/home/runner/.local/share/godot/templates
+          cd /home/runner/.local/share/godot/templates
+          mv templates 3.4.stable
+          
+      - name: Export the builds
+        run: |
+          cd GUI
+          ../Godot_v3.4-stable_linux_headless.64 --export "Windows Desktop"
+          ../Godot_v3.4-stable_linux_headless.64 --export "Linux/X11"
+          ../Godot_v3.4-stable_linux_headless.64 --export "Mac OSX"
+
+      - name: QRP rcedit
+        run: |
+          cd Script
+          npm i rcedit
+          node QRP-rcedit.js
+
+      - name: Prepare builds
+        id: builds
+        run: |
+          cd GUI/Build/linux
+          rm .keep
+          7z a -mm=Deflate -mfb=258 -mpass=15 "$(ls | grep x86_64 | sed -e 's/\.[^.]*$//')".zip *
+          echo "::set-output name=linux_build::$(ls | grep zip)"
+
+          cd ../win
+          rm .keep
+          7z a -mm=Deflate -mfb=258 -mpass=15 "$(ls | grep exe | sed -e 's/\.[^.]*$//')".zip *
+          echo "::set-output name=win_build::$(ls | grep zip)"
+
+          cd ..
+          echo "::set-output name=macos_build::$(ls | grep zip)"
+
+      # Publish builds
+      - name: Set variables
+        id: vars
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=tag::$(git describe --tags HEAD)"
+          
+      - name: Remove nightly tag
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          delete_release: true
+          tag_name: nightly
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+
+      # Create nightly release as prerelease
+      - name: Create nightly prerelease
+        id: nightly_prerelease
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: nightly
+          release_name: Release nightly builds - ${{ steps.vars.outputs.sha_short }}
+          prerelease: true
+          body: Automated builds for nightly prereleases via Github Actions
+
+      - name: Upload linux nightly build
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.nightly_prerelease.outputs.upload_url }}
+          asset_path: GUI/Build/linux/${{ steps.builds.outputs.linux_build }}
+          asset_name: ${{ steps.builds.outputs.linux_build }}
+          asset_content_type: application/zip
+
+      - name: Upload win nightly build
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.nightly_prerelease.outputs.upload_url }}
+          asset_path: GUI/Build/win/${{ steps.builds.outputs.win_build }}
+          asset_name: ${{ steps.builds.outputs.win_build }}
+          asset_content_type: application/zip
+
+      - name: Upload macos nightly build
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.nightly_prerelease.outputs.upload_url }}
+          asset_path: GUI/Build/${{ steps.builds.outputs.macos_build }}
+          asset_name: ${{ steps.builds.outputs.macos_build }}
+          asset_content_type: application/zip
+
+      # Create version release if there is a version tag
+      - name: Create tag release
+        if: ${{ !contains(steps.vars.outputs.tag, '-') }}
+        id: tag_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.vars.outputs.tag }}
+          release_name: Release ${{ steps.vars.outputs.tag }}
+          body: Automated builds for version releases via Github Actions
+          
+      - name: Upload linux version build
+        if: ${{ !contains(steps.vars.outputs.tag, '-') }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.tag_release.outputs.upload_url }}
+          asset_path: GUI/Build/linux/${{ steps.builds.outputs.linux_build }}
+          asset_name: ${{ steps.builds.outputs.linux_build }}
+          asset_content_type: application/zip
+
+      - name: Upload win version build
+        if: ${{ !contains(steps.vars.outputs.tag, '-') }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.tag_release.outputs.upload_url }}
+          asset_path: GUI/Build/win/${{ steps.builds.outputs.win_build }}
+          asset_name: ${{ steps.builds.outputs.win_build }}
+          asset_content_type: application/zip
+
+      - name: Upload macos version build
+        if: ${{ !contains(steps.vars.outputs.tag, '-') }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.tag_release.outputs.upload_url }}
+          asset_path: GUI/Build/${{ steps.builds.outputs.macos_build }}
+          asset_name: ${{ steps.builds.outputs.macos_build }}
+          asset_content_type: application/zip
