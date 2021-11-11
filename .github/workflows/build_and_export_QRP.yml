@@ -91,6 +91,12 @@ jobs:
           fetch-depth: 0
           repository: qdwang/QuickRawPicker
 
+      - name: Set variables
+        id: vars
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=tag::$(git describe --tags HEAD)"
+
       - name: Download QRPBridge libs
         uses: actions/download-artifact@v2
         with:
@@ -119,9 +125,9 @@ jobs:
       - name: Export the builds
         run: |
           cd GUI
-          ../Godot_v3.4-stable_linux_headless.64 --export "Windows Desktop"
-          ../Godot_v3.4-stable_linux_headless.64 --export "Linux/X11"
-          ../Godot_v3.4-stable_linux_headless.64 --export "Mac OSX"
+          ../Godot_v3.4-stable_linux_headless.64 --export "Windows Desktop" Build/win/QuickRawPicker-${{ steps.vars.outputs.tag }}-Windows.exe
+          ../Godot_v3.4-stable_linux_headless.64 --export "Linux/X11" Build/linux/QuickRawPicker-${{ steps.vars.outputs.tag }}-Linux.x86_64
+          ../Godot_v3.4-stable_linux_headless.64 --export "Mac OSX" Build/QuickRawPicker-${{ steps.vars.outputs.tag }}-macOS-Universal.zip
 
       - name: QRP rcedit
         run: |
@@ -146,12 +152,6 @@ jobs:
           echo "::set-output name=macos_build::$(ls | grep zip)"
 
       # Publish builds
-      - name: Set variables
-        id: vars
-        run: |
-          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-          echo "::set-output name=tag::$(git describe --tags HEAD)"
-          
       - name: Remove nightly tag
         uses: dev-drprasad/delete-tag-and-release@v0.2.0
         with:
@@ -168,7 +168,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: nightly
-          release_name: Release nightly builds - ${{ steps.vars.outputs.sha_short }}
+          release_name: Release nightly builds - \#${{ steps.vars.outputs.sha_short }}
           prerelease: true
           body: Automated builds for nightly prereleases via Github Actions
 
