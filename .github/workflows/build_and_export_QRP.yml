@@ -139,7 +139,7 @@ jobs:
         run: |
           cd Script
           npm i rcedit
-          node QRP-rcedit.js
+          node QRP-rcedit.js $(ls ../GUI/Build/win/ | grep exe)
 
       - name: Prepare builds
         id: builds
