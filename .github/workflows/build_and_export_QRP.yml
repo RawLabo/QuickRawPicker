@@ -91,6 +91,15 @@ jobs:
           fetch-depth: 0
           repository: qdwang/QuickRawPicker
 
+      # For better tag description
+      - name: Remove nightly tag 
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          delete_release: true
+          tag_name: nightly
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+
       - name: Set variables
         id: vars
         run: |
@@ -130,7 +139,7 @@ jobs:
           ../Godot_v3.4-stable_linux_headless.64 --export "Linux/X11" Build/linux/QuickRawPicker-${{ steps.vars.outputs.tag }}-Linux.x86_64
           ../Godot_v3.4-stable_linux_headless.64 --export "Mac OSX" Build/QuickRawPicker-${{ steps.vars.outputs.tag }}-macOS-Universal.zip
           ls Build/win/
-          
+
       - name: QRP rcedit
         run: |
           cd Script
@@ -154,14 +163,6 @@ jobs:
           echo "::set-output name=macos_build::$(ls | grep zip)"
 
       # Publish builds
-      - name: Remove nightly tag
-        uses: dev-drprasad/delete-tag-and-release@v0.2.0
-        with:
-          delete_release: true
-          tag_name: nightly
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-
       # Create nightly release as prerelease
       - name: Create nightly prerelease
         id: nightly_prerelease
