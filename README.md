@@ -17,11 +17,14 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 * **Cross platforms.** Most major desktop platforms are natively supported. **(Windows x64 | Linux x64 | macOS Intel / Apple silicon)**
 * **Small size and ease of use.** The zip package is only about 30MB, no installation and no complicated setup.
 
-**[🔽Download](https://github.com/qdwang/QuickRawPicker/releases/latest) the latest precompiled binaries.**
+**[🔽Download stable release](https://github.com/qdwang/QuickRawPicker/releases/latest) the latest stable binaries.**
 > You may need to run `xattr -dr com.apple.quarantine QuickRawPicker.app` to fix the **"file is damaged"** issue under macOS. 
 > 
 > Please check https://disable-gatekeeper.github.io/ for more info.
 > 
+
+**[🔽Download nightly release](https://github.com/qdwang/QuickRawPicker/releases/tag/nightly) the nightly binaries.**
+
 ![QuickRawPicker-v0 2 0-win-x64](https://user-images.githubusercontent.com/403616/134761572-d35736b2-6af8-4c4e-88da-ef39cae62566.jpg)
 
 ## Features
