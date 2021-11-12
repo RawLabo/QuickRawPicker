@@ -92,13 +92,8 @@ jobs:
           repository: qdwang/QuickRawPicker
 
       # For better tag description
-      - name: Remove nightly tag 
-        uses: dev-drprasad/delete-tag-and-release@v0.2.0
-        with:
-          delete_release: true
-          tag_name: nightly
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      - name: Remove local nightly tag
+        run: git tag -d nightly
 
       - name: Set variables
         id: vars
@@ -163,6 +158,14 @@ jobs:
           echo "::set-output name=macos_build::$(ls | grep zip)"
 
       # Publish builds
+      - name: Remove nightly tag 
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          delete_release: true
+          tag_name: nightly
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+
       # Create nightly release as prerelease
       - name: Create nightly prerelease
         id: nightly_prerelease
