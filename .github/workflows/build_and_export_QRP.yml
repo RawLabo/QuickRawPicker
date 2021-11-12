@@ -166,23 +166,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
 
-      # Create nightly release as release
-      - name: Create nightly release
-        id: nightly_release
+      # Create nightly release as prerelease
+      - name: Create nightly prerelease
+        id: nightly_prerelease
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: nightly
           release_name: Nightly builds - ${{ steps.vars.outputs.sha_short }}
-          body: Automated builds for nightly release via Github Actions
+          prerelease: true
+          body: Automated builds for nightly prerelease via Github Actions
 
       - name: Upload linux nightly build
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.nightly_release.outputs.upload_url }}
+          upload_url: ${{ steps.nightly_prerelease.outputs.upload_url }}
           asset_path: GUI/Build/linux/${{ steps.builds.outputs.linux_build }}
           asset_name: ${{ steps.builds.outputs.linux_build }}
           asset_content_type: application/zip
@@ -192,7 +193,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.nightly_release.outputs.upload_url }}
+          upload_url: ${{ steps.nightly_prerelease.outputs.upload_url }}
           asset_path: GUI/Build/win/${{ steps.builds.outputs.win_build }}
           asset_name: ${{ steps.builds.outputs.win_build }}
           asset_content_type: application/zip
@@ -202,7 +203,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.nightly_release.outputs.upload_url }}
+          upload_url: ${{ steps.nightly_prerelease.outputs.upload_url }}
           asset_path: GUI/Build/${{ steps.builds.outputs.macos_build }}
           asset_name: ${{ steps.builds.outputs.macos_build }}
           asset_content_type: application/zip
