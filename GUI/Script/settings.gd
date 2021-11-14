@@ -112,7 +112,9 @@ enum OutputColors {
   WIDE = 3,
   PROPHOTO = 4,
   XYZ = 5,
-  ACES = 6
+  ACES = 6,
+  DCI_P3 = 7,
+  Rec2020 = 8
 }
 enum SortMethod {
   NameAscending = 0,
