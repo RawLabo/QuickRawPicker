@@ -49,3 +49,4 @@ pin_menu,Pin Menu,固定菜单,固定メニュー
 xmp_template:,XMP template:,XMP 模板:,XMPテンプレート:
 pp3_template:,PP3 template:,PP3 模板:,PP3テンプレート:
 threads:,Threads:,线程数:,スレッド数:
+config_damaged,Config file is damaged,Config配置文件损坏,設定ファイル破損

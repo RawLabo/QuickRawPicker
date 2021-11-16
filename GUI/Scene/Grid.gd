@@ -115,7 +115,7 @@ func _input(event):
       return
     elif with_i:
       Settings.display_info = not Settings.display_info
-      Settings.save_settings(false)
+      Settings.save_config(false)
       for item in get_children():
         item.set_info_visibility()
       return

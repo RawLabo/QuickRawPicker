@@ -9,11 +9,21 @@ onready var Nodes = {
   "PhotoList": get_node("/root/Main/PhotoList"),
   "Grid": get_node("/root/Main/Grid")  
 }
+onready var project_name = ProjectSettings.get_setting("application/config/name")
 
 var _f = File.new()
 var _d = Directory.new()
 
+var version = "v0.2.1"
+var latest_version = ""
+
+func update_title():
+  var new_version_mark = " -> %s*" % latest_version if latest_version and latest_version != version else ""
+  OS.set_window_title("%s %s%s / %s %s / %s %s" % [project_name, version, new_version_mark, tr("display_bit:"), Settings.bps, tr("color_space:"), Settings.OutputColors.keys()[Settings.output_color]])
+  
 func _ready():
+  update_title()
+  
   var req = HTTPRequest.new()
   add_child(req)
   req.connect("request_completed", self, "latest_release_check")
@@ -22,8 +32,8 @@ func _ready():
 func latest_release_check(_result, _response_code, _headers, body):
   var content = parse_json(body.get_string_from_utf8())
   if content is Dictionary:
-    Settings.latest_version = content.get("tag_name", Settings.version)
-    Settings.update_title()
+    latest_version = content.get("tag_name", version)
+    update_title()
   
 func get_file_mod_time(path):
   return _f.get_modified_time(path)

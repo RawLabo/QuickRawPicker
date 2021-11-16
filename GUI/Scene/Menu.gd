@@ -36,7 +36,7 @@ func popup_about_dialog():
   var about = AcceptDialog.new()
   about.name = "AboutDialog"
   about.get_child(1).align = HALIGN_CENTER
-  about.dialog_text = "%s %s\nCopyright © 2021 qdwang.  All rights reserved.\nLicense: LGPL-2.1" % [Settings.project_name, Settings.version]
+  about.dialog_text = "%s %s\nCopyright © 2021 qdwang.  All rights reserved.\nLicense: LGPL-2.1" % [Util.project_name, Util.version]
   about.window_title = "about"
   about.rect_scale = Vector2(Settings.ui_scale, Settings.ui_scale)
   
@@ -90,7 +90,7 @@ func _on_Dialog_dir_selected(dir):
     var export_patterns = Settings.export_associated.split("/", false)
     Threading.pending_jobs.append(["export_files", photos, self, [dir, export_patterns]])
 
-  Settings.save_settings()
+  Settings.save_config()
 
 func fullscreen_btn_press():
   $FullscreenBtn.pressed = not $FullscreenBtn.pressed
@@ -106,5 +106,5 @@ func _on_FullscreenBtn_toggled(button_pressed):
 
 func _on_PinBtn_toggled(button_pressed):
   Settings.pin_menu = button_pressed
-  Settings.save_settings()
+  Settings.save_config()
   Util.Nodes["Main"].set_grid_left_margin(button_pressed)
