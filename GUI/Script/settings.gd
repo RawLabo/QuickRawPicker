@@ -62,6 +62,9 @@ var mark_color = Color(0.5, 1, 0.3)
 var version = "v0.2.1"
 var latest_version = ""
 
+onready var settings_cfg_loc = "%s://settings.cfg" % ("res" if Util.file_exists("res://settings.cfg") else "user")
+onready var config_cfg_loc = "%s://config.cfg" % ("res" if Util.file_exists("res://config.cfg") else "user")
+
 onready var project_name = ProjectSettings.get_setting("application/config/name")
 
 const Language = {
@@ -199,7 +202,7 @@ func save_settings(clean_cache = true):
   })
   TranslationServer.set_locale(language)
   
-  file.open("user://settings.cfg", File.WRITE_READ)
+  file.open(settings_cfg_loc, File.WRITE_READ)
   file.store_string(content)
   file.close()
   
@@ -210,7 +213,7 @@ func load_settings():
   load_renderer()
   
   var file = File.new()
-  var err = file.open("user://settings.cfg", File.READ)
+  var err = file.open(settings_cfg_loc, File.READ)
   if err == OK:
     var content = file.get_as_text()
     var dict = JSON.parse(content).result
@@ -254,15 +257,15 @@ func load_settings():
 func load_renderer():
   renderer = RENDERER
   var config = ConfigFile.new()
-  var err = config.load("user://config.cfg")
+  var err = config.load(config_cfg_loc)
   if err == OK:
     renderer = config.get_value("rendering", "quality/driver/driver_name", RENDERER)
   
 func save_renderer():
   var config = ConfigFile.new()
-  config.load("user://config.cfg")
+  config.load(config_cfg_loc)
   config.set_value("rendering", "quality/driver/driver_name", renderer)
-  config.save("user://config.cfg")
+  config.save(config_cfg_loc)
     
   
 func get_fixed_locale():

@@ -9,8 +9,9 @@ onready var Nodes = {
   "PhotoList": get_node("/root/Main/PhotoList"),
   "Grid": get_node("/root/Main/Grid")  
 }
-onready var _f = File.new()
-onready var _d = Directory.new()
+
+var _f = File.new()
+var _d = Directory.new()
 
 func _ready():
   var req = HTTPRequest.new()
@@ -26,6 +27,9 @@ func latest_release_check(_result, _response_code, _headers, body):
   
 func get_file_mod_time(path):
   return _f.get_modified_time(path)
+
+func file_exists(path):
+  return _f.file_exists(path)
 
 func float2frac(x):
   var right = x - floor(x)
