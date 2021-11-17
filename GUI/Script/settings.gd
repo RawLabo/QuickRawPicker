@@ -337,6 +337,8 @@ func save_config(clean_cache = true):
     Util.Nodes["PhotoList"].clean_cache()
     
 func legacy_settings_recovery():
+  renderer_set(renderer_get())
+  
   var legacy_path = "user://settings.cfg"
   if not Util.file_exists(legacy_path):
     return
