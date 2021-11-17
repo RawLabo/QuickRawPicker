@@ -214,7 +214,10 @@ func gamma_get():
 
 var renderer setget renderer_set, renderer_get
 func renderer_set(v):
-  config.set_value("rendering", "quality/driver/driver_name", v)
+  if v == RENDERER:
+    config.erase_section_key("rendering", "quality/driver/driver_name")
+  else:
+    config.set_value("rendering", "quality/driver/driver_name", v)
 func renderer_get():
   return config.get_value("rendering", "quality/driver/driver_name", RENDERER)
   
@@ -294,6 +297,7 @@ func apply_configs():
   
 func _ready():
   load_config()
+  legacy_settings_recovery()
   apply_configs()
 
 func _exit_tree():
@@ -332,3 +336,48 @@ func save_config(clean_cache = true):
   if clean_cache:
     Util.Nodes["PhotoList"].clean_cache()
     
+func legacy_settings_recovery():
+  var legacy_path = "user://settings.cfg"
+  if not Util.file_exists(legacy_path):
+    return
+    
+  var file = File.new()
+  var err = file.open(legacy_path, File.READ)
+  if err == OK:
+    var content = file.get_as_text()
+    var dict = JSON.parse(content).result
+    file.close()
+    
+    bps_set(dict.get("bps", BPS))
+    show_thumb_first_set(dict.get("show_thumb_first", SHOW_THUMB_FIRST))
+    cache_round_set(dict.get("cache_round", CACHE_ROUND))
+    output_color_set(dict.get("output_color", OUTPUT_COLOR))
+    rating_type_set(dict.get("rating_type", RATING_TYPE))
+    sort_method_set(dict.get("sort_method", SORT_METHOD))
+    language_set(dict.get("language", get_fixed_locale()))
+    export_associated_set(dict.get("export_associated", EXPORT_ASSOCIATED))
+    open_folder_set(dict.get("open_folder", ""))
+    export_folder_set(dict.get("export_folder", ""))
+    display_info_set(dict.get("display_info", DISPLAY_INFO))
+    pin_menu_set(dict.get("pin_menu", PIN_MENU))
+    shadow_thld_set(dict.get("shadow_thld", SHADOW_THLD))
+    highlight_thld_set(dict.get("highlight_thld", HIGHLIGHT_THLD))
+    highlight_one_channel_set(dict.get("highlight_one_channel", HIGHLIGHT_ONE_CHANNEL))
+    zoom_at_af_point_set(dict.get("zoom_at_af_point", ZOOM_AT_AF_POINT))
+    ev_set(dict.get("ev", EV))
+    gamma_set(dict.get("gamma", GAMMA))
+    ui_scale_set(dict.get("ui_scale", UI_SCALE))
+    xmp_template_set(dict.get("xmp_template", XMP_TEMPLATE))
+    pp3_template_set(dict.get("pp3_template", PP3_TEMPLATE))
+    thread_num_set(dict.get("thread_num", OS.get_processor_count()))
+    
+    var window_props = dict.get("window_props", [])
+    if window_props.size() >= 5:
+      if window_props[4]:
+        OS.window_maximized = true
+      else:
+        OS.window_position = Vector2(window_props[0], window_props[1])
+        OS.window_size = Vector2(window_props[2], window_props[3])
+        
+    save_config(false)
+    Util.file_remove(legacy_path)

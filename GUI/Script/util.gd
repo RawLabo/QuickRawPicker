@@ -41,6 +41,9 @@ func get_file_mod_time(path):
 func file_exists(path):
   return _f.file_exists(path)
 
+func file_remove(path):
+  _d.remove(path)
+  
 func float2frac(x):
   var right = x - floor(x)
   var count = 0
