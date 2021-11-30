@@ -216,6 +216,7 @@ jobs:
           tag_name: nightly
           release_name: Nightly builds - ${{ needs.Build_Bridge_Linux.outputs.sha_short }}
           prerelease: true
+          draft: false
           body: Automated builds for nightly prerelease via Github Actions
 
       - name: Upload linux nightly build
@@ -258,6 +259,8 @@ jobs:
         with:
           tag_name: ${{ needs.Build_Bridge_Linux.outputs.tag }}
           release_name: Release ${{ needs.Build_Bridge_Linux.outputs.tag }}
+          prerelease: false
+          draft: false
           body: Automated builds for version releases via Github Actions
           
       - name: Upload linux version build
