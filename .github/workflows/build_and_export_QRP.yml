@@ -7,55 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  Build_Bridge_Linux:
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Check out qdwang/QuickRawPicker
-        uses: actions/checkout@v2
-        with:
-          repository: qdwang/QuickRawPicker
-
-      - name: Using GCC-10
-        run: |
-          sudo rm /usr/bin/g++
-          sudo ln -s /usr/bin/g++-10 /usr/bin/g++
-
-      - name: Download nightly libraw_mod.linux.a
-        run: aria2c https://github.com/qdwang/LibRaw/releases/download/nightly/libraw_mod.linux.a -d Library/LibRaw/lib
-          
-      - name: Compile
-        run: |
-          cd Library/QRPBridge/
-          ./build.linux.sh
-
-      - name: Upload QRPBridge.so
-        uses: actions/upload-artifact@v2
-        with:
-          name: so.zip
-          path: GUI/Asset/Lib/Bin/QRPBridge.so
-
-  Build_Bridge_MacOS:
-    runs-on: macos-11
-    steps:
-      - name: Check out qdwang/QuickRawPicker
-        uses: actions/checkout@v2
-        with:
-          repository: qdwang/QuickRawPicker
-
-      - name: Download nightly libraw_mod.macos.a
-        run: aria2c https://github.com/qdwang/LibRaw/releases/download/nightly/libraw_mod.macos.a -d Library/LibRaw/lib
-          
-      - name: Compile
-        run: |
-          cd Library/QRPBridge/
-          ./build.macos.sh
-
-      - name: Upload QRPBridge.dylib
-        uses: actions/upload-artifact@v2
-        with:
-          name: dylib.zip
-          path: GUI/Asset/Lib/Bin/QRPBridge.dylib
-          
   Build_Bridge_Win:
     runs-on: windows-2019
     steps:
@@ -81,9 +32,35 @@ jobs:
           name: dll.zip
           path: GUI/Asset/Lib/Bin/QRPBridge.dll
 
-  Export:
-    needs: [Build_Bridge_Linux, Build_Bridge_MacOS, Build_Bridge_Win]
+  Build_Bridge_MacOS:
+    runs-on: macos-11
+    steps:
+      - name: Check out qdwang/QuickRawPicker
+        uses: actions/checkout@v2
+        with:
+          repository: qdwang/QuickRawPicker
+
+      - name: Download nightly libraw_mod.macos.a
+        run: aria2c https://github.com/qdwang/LibRaw/releases/download/nightly/libraw_mod.macos.a -d Library/LibRaw/lib
+          
+      - name: Compile
+        run: |
+          cd Library/QRPBridge/
+          ./build.macos.sh
+
+      - name: Upload QRPBridge.dylib
+        uses: actions/upload-artifact@v2
+        with:
+          name: dylib.zip
+          path: GUI/Asset/Lib/Bin/QRPBridge.dylib
+
+
+  Build_Bridge_Linux:
+    needs: [Build_Bridge_MacOS, Build_Bridge_Win]
     runs-on: ubuntu-18.04
+    outputs:
+      sha_short: ${{ steps.vars.outputs.sha_short }}
+      tag: ${{ steps.vars.outputs.tag }}
     steps:
       - name: Check out qdwang/QuickRawPicker
         uses: actions/checkout@v2
@@ -101,6 +78,19 @@ jobs:
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
           echo "::set-output name=tag::$(git describe --tags HEAD)"
 
+      - name: Using GCC-10
+        run: |
+          sudo rm /usr/bin/g++
+          sudo ln -s /usr/bin/g++-10 /usr/bin/g++
+
+      - name: Download nightly libraw_mod.linux.a
+        run: aria2c https://github.com/qdwang/LibRaw/releases/download/nightly/libraw_mod.linux.a -d Library/LibRaw/lib
+          
+      - name: Compile
+        run: |
+          cd Library/QRPBridge/
+          ./build.linux.sh
+
       - name: Download QRPBridge libs
         uses: actions/download-artifact@v2
         with:
@@ -112,7 +102,6 @@ jobs:
           7z x *.zip
           mv dll.zip/* ./
           mv dylib.zip/* ./
-          mv so.zip/* ./
 
       - name: Install wine
         run: sudo apt install wine64
@@ -133,7 +122,6 @@ jobs:
           ../Godot_v3.4-stable_linux_headless.64 --export "Windows Desktop" Build/win/QuickRawPicker-${{ steps.vars.outputs.tag }}-Windows.exe
           ../Godot_v3.4-stable_linux_headless.64 --export "Linux/X11" Build/linux/QuickRawPicker-${{ steps.vars.outputs.tag }}-Linux.x86_64
           ../Godot_v3.4-stable_linux_headless.64 --export "Mac OSX" Build/QuickRawPicker-${{ steps.vars.outputs.tag }}-macOS-Universal.zip
-          ls Build/win/
 
       - name: QRP rcedit
         run: |
@@ -141,21 +129,73 @@ jobs:
           npm i rcedit
           node QRP-rcedit.js $(ls ../GUI/Build/win/ | grep exe)
 
-      - name: Prepare builds
-        id: builds
+      - name: Pack and upload builds to macOS for app signing and notarization
         run: |
           cd GUI/Build/linux
           rm .keep
           7z a -mm=Deflate -mfb=258 -mpass=15 "$(ls | grep x86_64 | sed -e 's/\.[^.]*$//')".zip *
-          echo "::set-output name=linux_build::$(ls | grep zip)"
 
           cd ../win
           rm .keep
           7z a -mm=Deflate -mfb=258 -mpass=15 "$(ls | grep exe | sed -e 's/\.[^.]*$//')".zip *
-          echo "::set-output name=win_build::$(ls | grep zip)"
 
           cd ..
-          echo "::set-output name=macos_build::$(ls | grep zip)"
+          mkdir upload
+          cp QuickRawPicker-${{ steps.vars.outputs.tag }}-macOS-Universal.zip upload/
+          cp linux/*.zip upload/
+          cp win/*.zip upload/
+
+      - name: Upload exports
+        uses: actions/upload-artifact@v2
+        with:
+          name: exports
+          path: GUI/Build/upload/
+
+
+  Sign_Notary_Publish:
+    needs: [Build_Bridge_Linux]
+    runs-on: macos-11
+    steps:
+      - name: Download exports
+        uses: actions/download-artifact@v2
+        with:
+            name: exports
+
+      - name: Codesign for mac build
+        env: 
+          MACOS_CERT: ${{ secrets.MACOS_CERT }}
+          MACOS_CERT_PWD: ${{ secrets.MACOS_CERT_PWD }}
+          KEY_PWD: ${{ secrets.APPLEID_APP_PWD }}
+          APPLEID_APP_PWD: ${{ secrets.APPLEID_APP_PWD }}
+          WWDRTEAMID: ${{ secrets.WWDRTEAMID }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+        run: |
+          ls .
+
+          unzip $(ls . | grep macOS)
+          echo "$MACOS_CERT" | base64 -d > certificate.p12
+          security create-keychain -p "$KEY_PWD" build.keychain 
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$KEY_PWD" build.keychain
+          security import certificate.p12 -k build.keychain -P "$MACOS_CERT_PWD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEY_PWD" build.keychain
+          codesign --options runtime --force --deep --sign "$WWDRTEAMID" QuickRawPicker.app
+          
+          zip -9 -r QuickRawPicker.zip QuickRawPicker.app
+          xcrun notarytool store-credentials "QRP" --apple-id "$APPLE_ID" --team-id "$WWDRTEAMID" --password "$APPLEID_APP_PWD"
+          xcrun notarytool submit QuickRawPicker.zip --keychain-profile "QRP" --wait
+
+          export MACOS_ZIP_NAME="$(ls . | grep macOS)"
+          rm $(ls . | grep macOS)
+          mv QuickRawPicker.zip $MACOS_ZIP_NAME
+
+
+      - name: Get packages file name
+        id: names
+        run: |
+          echo "::set-output name=linux_build::$(ls | grep Linux)"
+          echo "::set-output name=win_build::$(ls | grep Windows)"
+          echo "::set-output name=macos_build::$(ls | grep macOS)"
 
       # Publish builds
       - name: Remove nightly tag 
@@ -174,7 +214,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: nightly
-          release_name: Nightly builds - ${{ steps.vars.outputs.sha_short }}
+          release_name: Nightly builds - ${{ needs.Build_Bridge_Linux.outputs.sha_short }}
           prerelease: true
           body: Automated builds for nightly prerelease via Github Actions
 
@@ -184,8 +224,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.nightly_prerelease.outputs.upload_url }}
-          asset_path: GUI/Build/linux/${{ steps.builds.outputs.linux_build }}
-          asset_name: ${{ steps.builds.outputs.linux_build }}
+          asset_path: ${{ steps.names.outputs.linux_build }}
+          asset_name: ${{ steps.names.outputs.linux_build }}
           asset_content_type: application/zip
 
       - name: Upload win nightly build
@@ -194,8 +234,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.nightly_prerelease.outputs.upload_url }}
-          asset_path: GUI/Build/win/${{ steps.builds.outputs.win_build }}
-          asset_name: ${{ steps.builds.outputs.win_build }}
+          asset_path: ${{ steps.names.outputs.win_build }}
+          asset_name: ${{ steps.names.outputs.win_build }}
           asset_content_type: application/zip
 
       - name: Upload macos nightly build
@@ -204,51 +244,51 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.nightly_prerelease.outputs.upload_url }}
-          asset_path: GUI/Build/${{ steps.builds.outputs.macos_build }}
-          asset_name: ${{ steps.builds.outputs.macos_build }}
+          asset_path: ${{ steps.names.outputs.macos_build }}
+          asset_name: ${{ steps.names.outputs.macos_build }}
           asset_content_type: application/zip
 
       # Create version release if there is a version tag
       - name: Create tag release
-        if: ${{ !contains(steps.vars.outputs.tag, '-') }}
+        if: ${{ !contains(needs.Build_Bridge_Linux.outputs.tag, '-') }}
         id: tag_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.vars.outputs.tag }}
-          release_name: Release ${{ steps.vars.outputs.tag }}
+          tag_name: ${{ needs.Build_Bridge_Linux.outputs.tag }}
+          release_name: Release ${{ needs.Build_Bridge_Linux.outputs.tag }}
           body: Automated builds for version releases via Github Actions
           
       - name: Upload linux version build
-        if: ${{ !contains(steps.vars.outputs.tag, '-') }}
+        if: ${{ !contains(needs.Build_Bridge_Linux.outputs.tag, '-') }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.tag_release.outputs.upload_url }}
-          asset_path: GUI/Build/linux/${{ steps.builds.outputs.linux_build }}
-          asset_name: ${{ steps.builds.outputs.linux_build }}
+          asset_path: ${{ steps.names.outputs.linux_build }}
+          asset_name: ${{ steps.names.outputs.linux_build }}
           asset_content_type: application/zip
 
       - name: Upload win version build
-        if: ${{ !contains(steps.vars.outputs.tag, '-') }}
+        if: ${{ !contains(needs.Build_Bridge_Linux.outputs.tag, '-') }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.tag_release.outputs.upload_url }}
-          asset_path: GUI/Build/win/${{ steps.builds.outputs.win_build }}
-          asset_name: ${{ steps.builds.outputs.win_build }}
+          asset_path: ${{ steps.names.outputs.win_build }}
+          asset_name: ${{ steps.names.outputs.win_build }}
           asset_content_type: application/zip
 
       - name: Upload macos version build
-        if: ${{ !contains(steps.vars.outputs.tag, '-') }}
+        if: ${{ !contains(needs.Build_Bridge_Linux.outputs.tag, '-') }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.tag_release.outputs.upload_url }}
-          asset_path: GUI/Build/${{ steps.builds.outputs.macos_build }}
-          asset_name: ${{ steps.builds.outputs.macos_build }}
+          asset_path: ${{ steps.names.outputs.macos_build }}
+          asset_name: ${{ steps.names.outputs.macos_build }}
           asset_content_type: application/zip
