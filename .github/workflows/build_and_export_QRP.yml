@@ -144,6 +144,7 @@ jobs:
           cp QuickRawPicker-${{ steps.vars.outputs.tag }}-macOS-Universal.zip upload/
           cp linux/*.zip upload/
           cp win/*.zip upload/
+          cp ../Asset/Texture/icon.icns upload/
 
       - name: Upload exports
         uses: actions/upload-artifact@v2
@@ -173,6 +174,8 @@ jobs:
           ls .
 
           unzip $(ls . | grep macOS)
+          cp icon.icns QuickRawPicker.app/Contents/Resources/
+
           echo "$MACOS_CERT" | base64 -d > certificate.p12
           security create-keychain -p "$KEY_PWD" build.keychain 
           security default-keychain -s build.keychain
