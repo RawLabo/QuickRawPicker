@@ -1,4 +1,4 @@
-# QuickRawPicker
+# QuickRawPicker<img src="https://github.com/qdwang/QuickRawPicker/raw/main/GUI/Asset/Texture/icon.png" width="32" alt="icon" />
 A free and open source program that lets you cull, pick or rate raw photos captured by your camera.
 
 [![CodeFactor](https://www.codefactor.io/repository/github/qdwang/quickrawpicker/badge)](https://www.codefactor.io/repository/github/qdwang/quickrawpicker)
