@@ -14,7 +14,7 @@ onready var project_name = ProjectSettings.get_setting("application/config/name"
 var _f = File.new()
 var _d = Directory.new()
 
-var version = "v0.2.1"
+var version = "v0.3.0"
 var latest_version = ""
 
 func update_title():

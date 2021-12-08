@@ -10,6 +10,6 @@ rcedit(`../GUI/Build/win/${process.argv[2]}`, {
     LegalCopyright: "qdwang",
     LegalTrademarks: "QuickRawPicker"
   },
-  "file-version": "0.2.1.0",
-  "product-version": "0.2.1.0"
+  "file-version": "0.3.0.0",
+  "product-version": "0.3.0.0"
 })
