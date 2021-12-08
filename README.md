@@ -28,6 +28,7 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 
 **🔽Download [stable](https://github.com/qdwang/QuickRawPicker/releases/latest) / [nightly](https://github.com/qdwang/QuickRawPicker/releases/tag/nightly) release.**
 
+![QuickRawPicker-v0 3 0-Windows_IEFY9m4wDy](https://user-images.githubusercontent.com/403616/145168400-655c0028-20d8-4bbb-9d07-0bb59552f0fd.jpg)
 
 ## Features
 * Compare multiple (up to 100) photos of multiple scales at the same time.
