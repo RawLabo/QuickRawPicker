@@ -17,15 +17,17 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 * **Cross platforms.** Most major desktop platforms are natively supported. **(Windows x64 | Linux x64 | macOS Intel / Apple silicon)**
 * **Small size and ease of use.** The zip package is only about 30MB, no installation and no complicated setup.
 
-**[🔽Download stable release](https://github.com/qdwang/QuickRawPicker/releases/latest) the latest stable binaries.**
-> You may need to run `xattr -dr com.apple.quarantine QuickRawPicker.app` to fix the **"file is damaged"** issue under macOS. 
-> 
-> Please check https://disable-gatekeeper.github.io/ for more info.
-> 
+## What's new in `v0.3.X`?
+* The macOS build has been signed and notarized.
+* Add XMP/PP3 template in settings for sidecar file creation.
+* Add thread number in settings.
+* Add DCI P3 and Rec2020 colorspace.
+* Enable local config file. (By adding an empty `override.cfg` file in the app folder.)
+* LibRaw is updated to support more cameras.
 
-**[🔽Download nightly release](https://github.com/qdwang/QuickRawPicker/releases/tag/nightly) the nightly binaries.**
 
-![QuickRawPicker-v0 2 0-win-x64](https://user-images.githubusercontent.com/403616/134761572-d35736b2-6af8-4c4e-88da-ef39cae62566.jpg)
+**🔽Download [stable](https://github.com/qdwang/QuickRawPicker/releases/latest) / [nightly](https://github.com/qdwang/QuickRawPicker/releases/tag/nightly) release.**
+
 
 ## Features
 * Compare multiple (up to 100) photos of multiple scales at the same time.
@@ -43,6 +45,9 @@ A free and open source program that lets you cull, pick or rate raw photos captu
 
 ## Q&A
 1. **Why does my RAW file show black empty content on the screen?** <br> The default renderer is based on GLES3 which may not be compatible with some legacy graphics card. <br>  Try `Fn -> Settings -> Renderer Tab -> switch Renderer from GLES3 to GLES2 -> restart the QuickRawPicker` to fix the problem.
+2. **Why does the app show "file is damaged" in macOS?**
+<br>The legacy versions of QuickRawPicker are not signed. You may need to run `xattr -dr com.apple.quarantine QuickRawPicker.app` to fix the **"file is damaged"** issue for legacy versions under macOS. Please check https://disable-gatekeeper.github.io/ for more info.
+
 
 ### Shortcuts
 **[👉 Shortcuts doc page](./Doc/Shortcuts.md)**
