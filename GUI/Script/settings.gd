@@ -77,6 +77,7 @@ const HIGHLIGHT_ONE_CHANNEL = true
 const ZOOM_AT_AF_POINT = true
 const DISPLAY_INFO = true
 const PIN_MENU = false
+const DISPLAY_JPEG = false
 const EV = 0.0
 const GAMMA = 2.2
 const UI_SCALE = 1.0
@@ -254,7 +255,11 @@ func pin_menu_set(v):
 func pin_menu_get():
   return config.get_value(default_section, "ui/pin_menu", PIN_MENU)
 
-
+var display_jpeg setget display_jpeg_set, display_jpeg_get
+func display_jpeg_set(v):
+  config.set_value(default_section, "ui/display_jpeg", v)
+func display_jpeg_get():
+  return config.get_value(default_section, "ui/display_jpeg", DISPLAY_JPEG)
 
 var open_folder setget open_folder_set, open_folder_get
 func open_folder_set(v):
@@ -320,6 +325,7 @@ func reset():
   zoom_at_af_point_set(ZOOM_AT_AF_POINT)
   display_info_set(DISPLAY_INFO)
   pin_menu_set(PIN_MENU)
+  display_jpeg_set(DISPLAY_JPEG)
   ev_set(EV)
   gamma_set(GAMMA)
   ui_scale_set(UI_SCALE)
@@ -362,6 +368,7 @@ func legacy_settings_recovery():
     export_folder_set(dict.get("export_folder", ""))
     display_info_set(dict.get("display_info", DISPLAY_INFO))
     pin_menu_set(dict.get("pin_menu", PIN_MENU))
+    display_jpeg_set(dict.get("display_jpeg", DISPLAY_JPEG))
     shadow_thld_set(dict.get("shadow_thld", SHADOW_THLD))
     highlight_thld_set(dict.get("highlight_thld", HIGHLIGHT_THLD))
     highlight_one_channel_set(dict.get("highlight_one_channel", HIGHLIGHT_ONE_CHANNEL))

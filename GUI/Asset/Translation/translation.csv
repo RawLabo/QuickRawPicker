@@ -15,6 +15,7 @@ settings,Settings,设置,設定
 open_logs_folder,Open logs folder,打开日志目录,ログフォルダを開く
 about,About,关于,バージョン情報
 display_bit:,Display bit:,显示位深度:,ディスプレイビット:
+display_jpeg:,Display JPEG files:,显示JPEG文件:,JPEGファイルを表示:
 loading_thumbnail:,Loading thumbnail:,读取中缩略图显示:,読み込み時にサムネイル:
 cache_round:,Cache round:,缓存轮数:,キャッシュ回数:
 color_space:,Color space:,色彩空间:,カラースペース:

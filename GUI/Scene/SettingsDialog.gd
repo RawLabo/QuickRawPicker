@@ -17,6 +17,7 @@ func update_settings_dialog():
   $Tabs/general/BpsOption.select(0 if Settings.bps == 16 else 1)
   $Tabs/general/ShowThumbFirstOption.select(0 if Settings.show_thumb_first else 1)
   $Tabs/general/ZoomAtAFPointOption.select(0 if Settings.zoom_at_af_point else 1)
+  $Tabs/general/DisplayJPEGOption.select(0 if Settings.display_jpeg else 1)
   $Tabs/general/CacheRoundSpinBox.value = Settings.cache_round
   $Tabs/general/UIScaleSpinBox.value = Settings.ui_scale
   $Tabs/render/DisplayColorSpaceOption.select(int(Settings.output_color))
@@ -118,4 +119,8 @@ func _on_PP3TemplateEdit_text_changed():
 
 func _on_ThreadsSpinBox_value_changed(value):
   Settings.thread_num = value
+  Settings.save_config()
+
+func _on_DisplayJPEGOption_item_selected(index):
+  Settings.display_jpeg = index == 0
   Settings.save_config()

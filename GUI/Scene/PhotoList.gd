@@ -72,6 +72,11 @@ func show_prev(amount = 1):
 func update_dir(dir_path):
   photos = []
   
+  var extension_filter = Settings.extension_filter.duplicate()
+  if Settings.display_jpeg:
+    extension_filter.push_front("jpg")
+    extension_filter.push_front("jpeg")
+  
   var dir = Directory.new()
   if dir.open(dir_path) == OK:
     dir.list_dir_begin(true)
@@ -79,7 +84,7 @@ func update_dir(dir_path):
     while file_name != "":
       if not dir.current_is_dir():
         var extension_name = ("." + file_name).rsplit(".", true, 1)[1]
-        if extension_name.to_lower() in Settings.extension_filter:
+        if extension_name.to_lower() in extension_filter:
           photos.append(Photo.new(dir_path, file_name))
 
       file_name = dir.get_next()

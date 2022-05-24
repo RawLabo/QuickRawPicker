@@ -44,43 +44,49 @@ func get_raw_thumb(args):
   var info = []
   var data_arr = []
   
-  Util.Bridge.get_info_with_thumb(photo.file_path, info, data_arr)
-  
   var image = Image.new()
-  if info.size() > 0:
-    photo.width = info[0]
-    photo.height = info[1]
-    photo.aperture = info[2]
-    photo.shutter_speed = info[3]
-    photo.shutter_speed_str = Util.float2frac(info[3])
-    photo.iso_speed = info[4]
-    photo.focal_len = info[5]
-    photo.timestamp = info[6]
-    photo.maker = info[7]
-    photo.model = info[8]
-    photo.lens_info = info[9]
-    photo.raw_xmp = info[10]
-    photo.focus_loc = info[11]
-    var is_thumb_jpeg = info[12] == 1
-    var is_thumb_bmp = info[12] == 2
-    
-    var need_half_raw = true
-    if data_arr.size() > 0:
-      if is_thumb_jpeg:
-        need_half_raw = image.load_jpg_from_buffer(data_arr) != OK
-      elif is_thumb_bmp:
-        need_half_raw = image.load_bmp_from_buffer(data_arr) != OK
-        
-    if need_half_raw:
-      var data = []
-      Util.Bridge.get_image_data(photo.file_path, data, 8, true, true, Settings.OutputColors.SRGB)
-      if data.size() > 0:
-        image.create_from_data(photo.width / 2, photo.height / 2, false, Image.FORMAT_RGB8, data)
-    else:
-      var size = image.get_size()
-      if size.y > size.x:
-        photo.width = info[1]
-        photo.height = info[0]
+  
+  if photo.file_name.ends_with(".jpg") or photo.file_name.ends_with(".jpeg"):
+    image.load(photo.file_path)
+    var size = image.get_size()
+    photo.width = size.x;
+    photo.height = size.y;
+  else:
+    Util.Bridge.get_info_with_thumb(photo.file_path, info, data_arr)
+    if info.size() > 0:
+      photo.width = info[0]
+      photo.height = info[1]
+      photo.aperture = info[2]
+      photo.shutter_speed = info[3]
+      photo.shutter_speed_str = Util.float2frac(info[3])
+      photo.iso_speed = info[4]
+      photo.focal_len = info[5]
+      photo.timestamp = info[6]
+      photo.maker = info[7]
+      photo.model = info[8]
+      photo.lens_info = info[9]
+      photo.raw_xmp = info[10]
+      photo.focus_loc = info[11]
+      var is_thumb_jpeg = info[12] == 1
+      var is_thumb_bmp = info[12] == 2
+      
+      var need_half_raw = true
+      if data_arr.size() > 0:
+        if is_thumb_jpeg:
+          need_half_raw = image.load_jpg_from_buffer(data_arr) != OK
+        elif is_thumb_bmp:
+          need_half_raw = image.load_bmp_from_buffer(data_arr) != OK
+          
+      if need_half_raw:
+        var data = []
+        Util.Bridge.get_image_data(photo.file_path, data, 8, true, true, Settings.OutputColors.SRGB)
+        if data.size() > 0:
+          image.create_from_data(photo.width / 2, photo.height / 2, false, Image.FORMAT_RGB8, data)
+      else:
+        var size = image.get_size()
+        if size.y > size.x:
+          photo.width = info[1]
+          photo.height = info[0]
         
   var size = image.get_size()
   if size.x == 0:
@@ -104,13 +110,15 @@ func get_raw_image(args):
     img.resize(photo.width, photo.height, Image.INTERPOLATE_NEAREST)
     photo.full_texture.create_from_image(img, 0)
   
-  var data = []
-  Util.Bridge.get_image_data(photo.file_path, data, Settings.bps, false, false, Settings.output_color)
-  
   var image = Image.new()
-  image.create_from_data(photo.width, photo.height, false, Image.FORMAT_RGBH if Settings.bps == 16 else Image.FORMAT_RGB8, data)
-  photo.full_texture.create_from_image(image, 0)
+  if photo.file_name.ends_with(".jpg") or photo.file_name.ends_with(".jpeg"):
+    image.load(photo.file_path)
+  else:  
+    var data = []
+    Util.Bridge.get_image_data(photo.file_path, data, Settings.bps, false, false, Settings.output_color)
+    image.create_from_data(photo.width, photo.height, false, Image.FORMAT_RGBH if Settings.bps == 16 else Image.FORMAT_RGB8, data)
   
+  photo.full_texture.create_from_image(image, 0)
   call_deferred("thread_end", "image_parsed", args)
 
 
