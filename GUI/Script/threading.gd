@@ -46,7 +46,8 @@ func get_raw_thumb(args):
   
   var image = Image.new()
   
-  if photo.file_name.ends_with(".jpg") or photo.file_name.ends_with(".jpeg"):
+  var file_name = photo.file_name.to_lower()
+  if file_name.ends_with(".jpg") or file_name.ends_with(".jpeg"):
     image.load(photo.file_path)
     var size = image.get_size()
     photo.width = size.x;
@@ -111,7 +112,8 @@ func get_raw_image(args):
     photo.full_texture.create_from_image(img, 0)
   
   var image = Image.new()
-  if photo.file_name.ends_with(".jpg") or photo.file_name.ends_with(".jpeg"):
+  var file_name = photo.file_name.to_lower()
+  if file_name.ends_with(".jpg") or file_name.ends_with(".jpeg"):
     image.load(photo.file_path)
   else:  
     var data = []
